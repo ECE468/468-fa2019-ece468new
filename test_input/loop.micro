@@ -1,0 +1,34 @@
+prog loop
+begin
+
+    str guess = "Guess a number: ";
+    str correct = "Correct!\n";
+    str wrong = "Wrong!\n";
+    str out1 = "It took you ";
+    str out2 = " guesses";
+
+    int i;
+    int j;
+
+    proto void main();
+
+    func void main()
+    begin
+        i = 17;
+        j = 0;
+        k = 0;
+        while(i != j)
+            write(guess);
+            read(j);
+            if (i == j)
+                write(correct);
+            else
+                write(wrong);
+            endif
+            k = k + 1;
+        endwhile
+
+        write (out1, k, out2);
+    end
+end
+

@@ -1,0 +1,39 @@
+prog sqrt
+begin
+
+    str dummy = "abcde";  # This is dummy to satisfy the grammar
+
+    float n;
+    float x1,x2;
+    float fx, dfx;
+    float error;
+    int i;
+
+    func void main()
+    begin
+        error = 0.001;
+        read (x1);
+        fx = x1*x1 - n;
+        dfx = 2.0*x1;
+        x2 = x1 - fx/dfx;
+
+        i = 0;
+        while(i < 2)
+            x1 = x2;
+            fx = x1*x1 - n;
+            dfx = 2.0*x1;
+            x2 = x1 - fx/dfx;
+            i = i + 1;
+        endwhile
+
+        while((x1 - x2) > error)
+            x1 = x2;
+            fx = x1*x1 - n;
+            dfx = 2.0*x1;
+            x2 = x1 - fx/dfx;
+        endwhile
+
+        write (x2);
+    end
+end
+

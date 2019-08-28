@@ -1,0 +1,13 @@
+if then A 7 asdf
+0, 123, 678
+3.141592 , .1414 , .0001 , 456.98,
+"Hello world!" , "***********" , "this is a string"
+# this is a comment
+# any thing after the "#" is ignored
+prog,begin,end,func,read,write,
+if,else,endif,while,endwhile,return,int,
+void,str,float,true,false
+= + - * / == != < > ( ) ; , <= >=
+4asd, "", #
+#
++asdf

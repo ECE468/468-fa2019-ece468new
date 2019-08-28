@@ -1,0 +1,160 @@
+Token Type: KEYWORD
+Value: if
+Token Type: IDENTIFIER
+Value: then
+Token Type: IDENTIFIER
+Value: A
+Token Type: INTLITERAL
+Value: 7
+Token Type: IDENTIFIER
+Value: asdf
+Token Type: INTLITERAL
+Value: 0
+Token Type: OPERATOR
+Value: ,
+Token Type: INTLITERAL
+Value: 123
+Token Type: OPERATOR
+Value: ,
+Token Type: INTLITERAL
+Value: 678
+Token Type: FLOATLITERAL
+Value: 3.141592
+Token Type: OPERATOR
+Value: ,
+Token Type: FLOATLITERAL
+Value: .1414
+Token Type: OPERATOR
+Value: ,
+Token Type: FLOATLITERAL
+Value: .0001
+Token Type: OPERATOR
+Value: ,
+Token Type: FLOATLITERAL
+Value: 456.98
+Token Type: OPERATOR
+Value: ,
+Token Type: STRINGLITERAL
+Value: "Hello world!"
+Token Type: OPERATOR
+Value: ,
+Token Type: STRINGLITERAL
+Value: "***********"
+Token Type: OPERATOR
+Value: ,
+Token Type: STRINGLITERAL
+Value: "this is a string"
+Token Type: KEYWORD
+Value: prog
+Token Type: OPERATOR
+Value: ,
+Token Type: KEYWORD
+Value: begin
+Token Type: OPERATOR
+Value: ,
+Token Type: KEYWORD
+Value: end
+Token Type: OPERATOR
+Value: ,
+Token Type: KEYWORD
+Value: func
+Token Type: OPERATOR
+Value: ,
+Token Type: KEYWORD
+Value: read
+Token Type: OPERATOR
+Value: ,
+Token Type: KEYWORD
+Value: write
+Token Type: OPERATOR
+Value: ,
+Token Type: KEYWORD
+Value: if
+Token Type: OPERATOR
+Value: ,
+Token Type: KEYWORD
+Value: else
+Token Type: OPERATOR
+Value: ,
+Token Type: KEYWORD
+Value: endif
+Token Type: OPERATOR
+Value: ,
+Token Type: KEYWORD
+Value: while
+Token Type: OPERATOR
+Value: ,
+Token Type: KEYWORD
+Value: endwhile
+Token Type: OPERATOR
+Value: ,
+Token Type: KEYWORD
+Value: return
+Token Type: OPERATOR
+Value: ,
+Token Type: KEYWORD
+Value: int
+Token Type: OPERATOR
+Value: ,
+Token Type: KEYWORD
+Value: void
+Token Type: OPERATOR
+Value: ,
+Token Type: KEYWORD
+Value: str
+Token Type: OPERATOR
+Value: ,
+Token Type: KEYWORD
+Value: float
+Token Type: OPERATOR
+Value: ,
+Token Type: KEYWORD
+Value: true
+Token Type: OPERATOR
+Value: ,
+Token Type: KEYWORD
+Value: false
+Token Type: OPERATOR
+Value: =
+Token Type: OPERATOR
+Value: +
+Token Type: OPERATOR
+Value: -
+Token Type: OPERATOR
+Value: *
+Token Type: OPERATOR
+Value: /
+Token Type: OPERATOR
+Value: ==
+Token Type: OPERATOR
+Value: !=
+Token Type: OPERATOR
+Value: <
+Token Type: OPERATOR
+Value: >
+Token Type: OPERATOR
+Value: (
+Token Type: OPERATOR
+Value: )
+Token Type: OPERATOR
+Value: ;
+Token Type: OPERATOR
+Value: ,
+Token Type: OPERATOR
+Value: <=
+Token Type: OPERATOR
+Value: >=
+Token Type: INTLITERAL
+Value: 4
+Token Type: IDENTIFIER
+Value: asd
+Token Type: OPERATOR
+Value: ,
+Token Type: STRINGLITERAL
+Value: ""
+Token Type: OPERATOR
+Value: ,
+Token Type: OPERATOR
+Value: +
+Token Type: IDENTIFIER
+Value: asdf

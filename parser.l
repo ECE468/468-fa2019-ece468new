@@ -9,26 +9,48 @@
 
 DIGIT [0-9]
 LETTER [A-Za-z]
+WHITESPACE [ \n\t\r\f]
 
-ID [a-z][a-z0-9]*
 
 %%
 
-if|then|begin|end|procedure|function {
-	printf("A keyword: %s\n", yytext);
+	/*ignore whitespace*/
+{WHITESPACE}+ {
 }
 
+for|in|range|end|for|continue|break|prog|begin|end|func|read|write|if|else|endif|while|endwhile|return|int|void|str|float|true|false {
+	printf("Token Type: KEYWORD\n");
+	printf("Value: %s\n", yytext);
+}
+
+"="|"+"|"-"|"*"|"/"|"=="|"!="|"<"|">"|"("|")"|";"|","|"<="|">=" {
+	printf("Token Type: OPERATOR\n");
+	printf("Value: %s\n", yytext);
+}
+
+
 {DIGIT}+ {
-	printf("An integer: %s (%d)\n", yytext, atoi(yytext));
+	printf("Token Type: INTLITERAL\n");
+	printf("Value: %s\n", yytext);
 }
 
 {DIGIT}*"."{DIGIT}+ {
-	printf("A float: %s (%g)\n", yytext, atof(yytext));
+	printf("Token Type: FLOATLITERAL\n");
+	printf("Value: %s\n", yytext);
 }
 
+	/*Comments are anything started with " follow by any character but a " repeated none or any number of time and end with a "*/
+\"([^\"])*\" {
+	printf("Token Type: STRINGLITERAL\n");
+	printf("Value: %s\n", yytext);
+}
 
-{ID} {
-	printf("An identifier: %s\n", yytext);
+	/*Ignore comments, comments are anything started with # follow by any character but a new line repeated none or any number of time and end with a new line*/
+#([^\n])*\n {
+}
+
+{LETTER}({DIGIT}|{LETTER})* {
+	printf("Token Type: IDENTIFIER\n");
+	printf("Value: %s\n", yytext);
 }
 %%
-
