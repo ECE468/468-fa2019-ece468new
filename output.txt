@@ -1,0 +1,16 @@
+Commit ID tagged for submission: 2eb15de66777f33e0de629e4aa9ab4e02db9dc63
+Submission graded at: 2019-09-04 15:47:30
+
+rm lex.yy.c
+rm: cannot remove 'lex.yy.c': No such file or directory
+make: *** [Makefile:11: clean] Error 1
+flex parser.l
+gcc -std=gnu99 parser_driver.c lex.yy.c -o parser
+Testing.....fibonacci.micro
+Test Passed
+Testing.....loop.micro
+Test Passed
+Testing.....nested.micro
+Test Passed
+Testing.....sqrt.micro
+Test Passed
