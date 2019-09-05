@@ -5,8 +5,8 @@ team:
 	@echo -e "Quang Nguyen"
 	@echo -e "baoquang98"
 compiler:
-	flex parser.l
-	gcc -std=gnu99 parser_driver.c lex.yy.c -o parser
+	flex lexer.l
+	gcc -std=gnu99 lexer_driver.c lex.yy.c -o parser
 clean:
 	rm lex.yy.c
 	rm parser
