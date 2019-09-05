@@ -4,6 +4,7 @@
 %{
 #include<stdlib.h>
 #include<stdio.h>
+#include<snazzle.tab.h>
 %}
 	/* Regex doc http://dinosaur.compilertools.net/flex/flex_7.html */
 
@@ -18,31 +19,98 @@ WHITESPACE [ \n\t\r\f]
 {WHITESPACE}+ {
 }
 
-for|in|range|end|for|continue|break|prog|begin|end|func|read|write|if|else|endif|while|endwhile|return|int|void|str|float|true|false {
-	printf("Token Type: KEYWORD\n");
-	printf("Value: %s\n", yytext);
+for {
+	return (_FOR);
+}
+in {
+	return (_IN);
+}
+range {
+	return (_RANGE);
+}
+end {
+	return (_END);
+}
+continue {
+	return (_CONTINUE);
 }
 
+break {
+	return (_BREAK);
+}
+
+prog {
+	return (_PROG);
+}
+begin {
+	return (_BEGIN);
+}
+
+
+
+
+func {
+	return (_FUNC);
+}
+read {
+	return (_READ);
+}
+write {
+	return (_WRITE);
+}
+if {
+	return (_IF);
+}
+else {
+	return (_ELSE);
+}
+endif {
+	return (_ENDIF);
+}
+while {
+	return (KEYWORD);
+}
+endwhile {
+	return (KEYWORD);
+}
+return {
+	return (KEYWORD);
+}
+int {
+	return (KEYWORD);
+}
+float {
+	return (KEYWORD);
+}
+true {
+	return (KEYWORD);
+}
+false {
+	return (KEYWORD);
+}
+void {
+	return (KEYWORD);
+}
+for|in|range|end|for|continue|break|prog|begin|end|func|read|write|if|else|endif|while|endwhile|return|int|void|str|float|true|false {
+	return (KEYWORD);
+}
 "="|"+"|"-"|"*"|"/"|"=="|"!="|"<"|">"|"("|")"|";"|","|"<="|">=" {
 	printf("Token Type: OPERATOR\n");
-	printf("Value: %s\n", yytext);
+	return (KEYWORD);
 }
 
 
 {DIGIT}+ {
-	printf("Token Type: INTLITERAL\n");
-	printf("Value: %s\n", yytext);
+	return (INTLITERAL);
 }
 
 {DIGIT}*"."{DIGIT}+ {
-	printf("Token Type: FLOATLITERAL\n");
-	printf("Value: %s\n", yytext);
+	return (FLOATLITERAL);
 }
 
 	/*Comments are anything started with " follow by any character but a " repeated none or any number of time and end with a "*/
 \"([^\"])*\" {
-	printf("Token Type: STRINGLITERAL\n");
-	printf("Value: %s\n", yytext);
+	return (STRINGLITERAL);
 }
 
 	/*Ignore comments, comments are anything started with # follow by any character but a new line repeated none or any number of time and end with a new line*/
@@ -50,7 +118,6 @@ for|in|range|end|for|continue|break|prog|begin|end|func|read|write|if|else|endif
 }
 
 {LETTER}({DIGIT}|{LETTER})* {
-	printf("Token Type: IDENTIFIER\n");
-	printf("Value: %s\n", yytext);
+	return (IDENTIFIER);
 }
 %%
