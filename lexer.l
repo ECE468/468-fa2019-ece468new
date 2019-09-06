@@ -4,7 +4,7 @@
 %{
 #include<stdlib.h>
 #include<stdio.h>
-#include<snazzle.tab.h>
+#include<resul_of_bison.tab.h>
 %}
 	/* Regex doc http://dinosaur.compilertools.net/flex/flex_7.html */
 
@@ -46,9 +46,6 @@ begin {
 	return (_BEGIN);
 }
 
-
-
-
 func {
 	return (_FUNC);
 }
@@ -68,37 +65,76 @@ endif {
 	return (_ENDIF);
 }
 while {
-	return (KEYWORD);
+	return (_WHILE);
 }
 endwhile {
-	return (KEYWORD);
+	return (_ENDWHILE);
 }
 return {
-	return (KEYWORD);
+	return (_RETURN);
 }
 int {
-	return (KEYWORD);
+	return (_INT);
 }
 float {
-	return (KEYWORD);
+	return(_FLOAT);
 }
 true {
-	return (KEYWORD);
+	return (_TRUE);
 }
 false {
-	return (KEYWORD);
+	return (_FALSE);
 }
 void {
-	return (KEYWORD);
-}
-for|in|range|end|for|continue|break|prog|begin|end|func|read|write|if|else|endif|while|endwhile|return|int|void|str|float|true|false {
-	return (KEYWORD);
-}
-"="|"+"|"-"|"*"|"/"|"=="|"!="|"<"|">"|"("|")"|";"|","|"<="|">=" {
-	printf("Token Type: OPERATOR\n");
-	return (KEYWORD);
+	return (_VOID);
 }
 
+"=" {
+	return (EQUAL);
+}
+
+"+" {
+	return (PLUS);
+}
+"-" {
+	return (MINUS);
+}
+"*" {
+	return (MULTIPLY);
+}
+"/" {
+	return (DIVIDE);
+}
+"==" {
+	return (EQUAL);
+}
+"!=" {
+	return (NOT_EQUAL);
+}
+"<" {
+	return (LESS_THAN);
+}
+">" {
+	return (GREATER_THAN);
+}
+"(" {
+	return (OPEN_BRACKET);
+}
+")" {
+	return (CLOSED_BRACKET);
+}
+";" {
+	return (SEMICOLON);
+}
+"," {
+	return (COLON);
+}
+"<=" {
+	return (LESS_THAN_EQUAL);
+}
+">=" {
+	return (GREATER_THAN_EQUAL);
+}
 
 {DIGIT}+ {
 	return (INTLITERAL);
