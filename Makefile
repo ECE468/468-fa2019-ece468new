@@ -6,7 +6,10 @@ team:
 	@echo -e "baoquang98"
 compiler:
 	flex lexer.l
-	gcc -std=gnu99 lexer_driver.c lex.yy.c -o parser
+	bison -d microparser.y
+	gcc -std=gnu99 lexer_driver.c microparser.tab.c lex.yy.c -o parser
 clean:
+	rm microparser.tab.c
+	rm microparser.tab.h
 	rm lex.yy.c
 	rm parser

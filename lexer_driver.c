@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "microparser.tab.h"
 extern int yylex();
+extern int yyparse();
 extern FILE * yyin;
 
 /*Doing in C because C++ don't have lots of example with flex/lex, we can also just drop this file and move the logic to the parser.l file*/
@@ -21,9 +22,9 @@ int main(int argc, char ** argv)
 	
 	//Read the file workd by word until the file is empty
 	yyin = input;
-	int count = yylex();
+	int count = yyparse();
 	while (count) {
-		count = yylex();
+		count = yyparse();
 	}
 	(void) count; //this is to stop the compiler from complaining count is unused
 	

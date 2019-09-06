@@ -4,7 +4,7 @@
 %{
 #include<stdlib.h>
 #include<stdio.h>
-#include<resul_of_bison.tab.h>
+#include"microparser.tab.h"
 %}
 	/* Regex doc http://dinosaur.compilertools.net/flex/flex_7.html */
 
@@ -34,7 +34,9 @@ end {
 continue {
 	return (_CONTINUE);
 }
-
+endif {
+	return (_ENDIF);
+}
 break {
 	return (_BREAK);
 }
