@@ -1,0 +1,22 @@
+prog test
+begin
+	int i;
+	float x,y;
+	str s1 = "string";
+
+	func int foo
+	begin
+		write (x);
+		read (y);
+		c==a+b;
+		b;
+		return i;
+  	end
+
+	func void main()
+	begin 
+	
+	end
+	
+end
+

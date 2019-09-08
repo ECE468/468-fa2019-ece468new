@@ -1,0 +1,13 @@
+prog test
+begin
+#	str string = "test";
+	int a,b,c,g,h,i,j,k,l,p,o,r,u,y;
+
+	func int main()
+	begin
+		c=a+b;
+		b=g*j+i*o+p*l+(a)+h*j+k;
+		c=(a*b+i)+p*p+h+j+k+i+y*u/r;
+		return a+b;
+	end
+end

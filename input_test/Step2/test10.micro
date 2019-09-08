@@ -1,0 +1,21 @@
+prog test
+begin
+	int a,b,c,x,y,z,h,j,k;
+	func void printout (int a,int b,int c)
+	begin
+		write (a);
+		write (b);
+		write (c);
+	end
+  	func int main()
+	begin
+		#This line should cause parse error
+		if (a + b)	
+			h=0;
+		else
+		
+			j=1;
+		endif
+		return a+b;
+	end
+end

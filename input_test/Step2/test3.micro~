@@ -1,0 +1,12 @@
+prog test begin
+	int a,b,c;
+	float x,y,z;
+	void h,j,k;
+     #This line should cause a parse error
+	func int main() begin
+		write (a);
+		read (b);
+	end
+	int o,p;
+end
+

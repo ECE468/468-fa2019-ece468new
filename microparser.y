@@ -3,6 +3,7 @@
 	#include <stdlib.h>
 
 	void yyerror(const char *s);
+	extern int yylex();
 %}
 
 %union {
@@ -111,6 +112,6 @@ loop_stmt: while_stmt;
 %%
 
 void yyerror(const char *s) {
-	printf("Not Accepted");
-	return;
+	printf("Not Accepted, %s", s);
+	exit(-1);
 }

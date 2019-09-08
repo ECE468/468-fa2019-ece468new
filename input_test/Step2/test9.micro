@@ -1,0 +1,13 @@
+prog test
+begin
+	str str = "test";
+	int a,b,c,g,h,i,j,k,l,p,o,r,u,y;
+
+	#PROTO int main();
+	func int main()
+	begin
+		#This line should cause parse error
+		a+b;
+		return a+b;
+	end
+end

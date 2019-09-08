@@ -10,8 +10,7 @@
 
 DIGIT [0-9]
 LETTER [A-Za-z]
-WHITESPACE [ \n\t\r\f]
-
+WHITESPACE [ \t\r\f\n]
 
 %%
 
@@ -80,6 +79,9 @@ int {
 }
 float {
 	return(_FLOAT);
+}
+str {
+	return(_STR);
 }
 true {
 	return (_TRUE);
