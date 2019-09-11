@@ -112,6 +112,6 @@ loop_stmt: while_stmt;
 %%
 
 void yyerror(const char *s) {
-	printf("Not Accepted, %s", s);
+	printf("Not Accepted");
 	exit(-1);
 }
