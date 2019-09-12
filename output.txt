@@ -1,0 +1,53 @@
+Commit ID tagged for submission: b1f7853346030c21c043fb1f6a2ab4b3985a4fa3
+Submission graded at: 2019-09-11 23:52:24
+
+rm microparser.tab.c
+rm: cannot remove 'microparser.tab.c': No such file or directory
+make: *** [Makefile:12: clean] Error 1
+flex lexer.l
+lexer.l:65: warning, rule cannot be matched
+bison -d microparser.y
+gcc -std=gnu99 lexer_driver.c microparser.tab.c lex.yy.c -o parser
+/home/hkj/grader/ece468-grader/repositories/468-fa2019-ece468new/grader_step2.sh: line 12: @rm: command not found
+Testing.....test10.micro
+Test Passed
+Testing.....test11.micro
+Test Passed
+Testing.....test12.micro
+Test Passed
+Testing.....test13.micro
+Test Passed
+Testing.....test14.micro
+Test Passed
+Testing.....test15.micro
+Test Passed
+Testing.....test16.micro
+Test Passed
+Testing.....test17.micro
+Test Passed
+Testing.....test18.micro
+Test Passed
+Testing.....test19.micro
+Test Passed
+Testing.....test1.micro
+Test Passed
+Testing.....test20.micro
+Test Passed
+Testing.....test21.micro
+Test Passed
+Testing.....test2.micro
+Test Passed
+Testing.....test3.micro
+Test Passed
+Testing.....test4.micro
+Test Passed
+Testing.....test5.micro
+Test Passed
+Testing.....test6.micro
+Test Passed
+Testing.....test7.micro
+Test Passed
+Testing.....test8.micro
+Test Passed
+Testing.....test9.micro
+Test Passed
