@@ -2,7 +2,7 @@
 	#include <stdio.h>
 	#include <stdlib.h>
 
-	void yyerror(const char *s);
+	int yyerror(const char *s);
 	extern int yylex();
 %}
 
@@ -111,7 +111,7 @@ loop_stmt: while_stmt;
 
 %%
 
-void yyerror(const char *s) {
+int yyerror(const char *s) {
 	printf("Not Accepted");
-	exit(-1);
+	exit(0);
 }
