@@ -1,16 +1,20 @@
 %{
 	#include <stdio.h>
+	#include <string.h>
 	#include <stdlib.h>
-
+	#include "node.h"
 	int yyerror(const char *s);
 	extern int yylex();
 %}
 
 %union {
 	char *strv;
+	int int_val;
+	float float_val;
+	Sym_node * sym_node;
 }
-%token <strv> INTLITERAL
-%token <strv> FLOATLITERAL
+%token <int_val> INTLITERAL
+%token <float_val> FLOATLITERAL
 %token <strv> STRINGLITERAL
 %token <strv> IDENTIFIER
 %token <strv> _PROG
@@ -52,20 +56,24 @@
 %token <strv> LESS_THAN_EQUAL
 %token <strv> GREATER_THAN_EQUAL
 
+%type <sym_node> var_decl
+%type <sym_node> string_decl
 %%
 
 program: _PROG id _BEGIN pgm_body _END {
 		printf("Accepted");
 	};
-id : IDENTIFIER; 
+id : IDENTIFIER {$$ = $1}; 
 pgm_body: decl func_declarations;
 decl: string_decl decl | var_decl decl | ;
 
 string_decl: _STR id EQUAL str_literal SEMICOLON;
-str_literal: STRINGLITERAL;
+str_literal: STRINGLITERAL {$$ = STRINGLITERAL };
 
-var_decl: var_type id_list SEMICOLON;
-var_type: _FLOAT | _INT;
+var_decl: var_type id_list SEMICOLON {
+	
+};
+var_type: _FLOAT {$$ = _FLOAT} | _INT {$$= _INT};
 any_type: var_type | _VOID;
 id_list: id id_tail;
 id_tail: COLON id id_tail | ;
