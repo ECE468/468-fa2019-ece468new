@@ -1,0 +1,29 @@
+prog nested
+begin
+
+    str dummy = "abcde";  #This is dummy to satisfy the grammar
+
+    int i, j, k;
+     
+    func void main()
+    begin
+        i = 0;
+        j = 0;
+        k = 0;
+        result = 0;
+
+        while ( i <= 99)
+            while ( j <= 99 )
+                while ( k < 100 )
+                    result = result + 1;
+                    k = k + 1;
+                endwhile
+                j = j + 1;
+            endwhile
+            i = i + 1;
+        endwhile
+
+        write (result);
+    end
+end
+

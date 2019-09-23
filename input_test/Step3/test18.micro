@@ -1,0 +1,24 @@
+prog test
+begin
+	str string = "test";
+	int a,b,c,g,h,i,j,k,l,p,o,r,u,y;
+
+	func int main(int a)
+	begin
+        i = 10;
+        j = 10;
+    	b = 1;
+        while( b <= (i - 1)) 
+        	a = 1;           
+            while ( a <= (j - 1) )
+            	a = a + 1;
+            endwhile
+            b = b + 1;
+        endwhile
+
+        write(a);
+
+    	return a+b;
+	end
+end
+
