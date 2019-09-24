@@ -18,7 +18,7 @@ Sym_node * put_int(Sym_node * head, char* var_name, int int_val);
 Sym_node * put_float(Sym_node * head, char * var_name, float float_val);
 Sym_node * put_string(Sym_node * head, char * var_name, char * string_val);
 Sym_node * duplicate_check(Sym_node * head, char * name);
-
+Sym_node * put_var(Sym_node * head, char* var_name, int type);
 void print_var_list(Sym_node * head);
 void vardec(Sym_node * sym_table, int var_type, Sym_node * id_list);
 void free_list(Sym_node * head);
@@ -62,6 +62,7 @@ Sym_node * put_float(Sym_node * head, char* var_name, float float_val) {
 	ptr->next = head;
 	return(ptr);
 }
+
 Sym_node * put_string(Sym_node * head, char* var_name, char* string_val) {
 	
 	Sym_node * check = duplicate_check(head, var_name);
@@ -125,4 +126,17 @@ void vardec(Sym_node * sym_table, int var_type, Sym_node * id_list) {
 	if (head->next != NULL) {
 		vardec(ptr, var_type, id_list->next);
 	}
+}
+
+Sym_node * put_var(Sym_node * head, char* var_name, int type) {
+	Sym_node * check = duplicate_check(head, var_name);
+	if (check != NULL) {
+		return(head);
+	}
+	Sym_node * ptr = (Sym_node*) malloc(sizeof(Sym_node));
+	ptr->name = (char *) malloc(strlen(var_name) + 1);
+	strcpy(ptr->name, var_name);
+	ptr->type = type;
+	ptr->next = head;
+	return(ptr);
 }
