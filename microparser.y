@@ -11,7 +11,7 @@
 	char *strv;
 	int int_val;
 	float float_val;
-	Sym_node * sym_node;
+	struct Sym_node * sym_node;
 }
 %token <int_val> INTLITERAL
 %token <float_val> FLOATLITERAL
@@ -58,22 +58,31 @@
 
 %type <sym_node> var_decl
 %type <sym_node> string_decl
+%type <strv> var_type
+%type <strv> str_literal
+%type <strv> id
 %%
 
 program: _PROG id _BEGIN pgm_body _END {
-		printf("Accepted");
-	};
-id : IDENTIFIER {$$ = $1}; 
+		print_var_list(sym_table);
+};
+id : IDENTIFIER {$$ = $1;}; 
 pgm_body: decl func_declarations;
 decl: string_decl decl | var_decl decl | ;
 
-string_decl: _STR id EQUAL str_literal SEMICOLON;
-str_literal: STRINGLITERAL {$$ = STRINGLITERAL };
+string_decl: _STR id EQUAL str_literal SEMICOLON {
+	printf("About to go to put_string");
+	sym_table = put_string(sym_table, $2, $4);
+	printf("$2: %s\n $4: %s\n", $2, $4); 
+	printf("%p", (void *) sym_table);
+	$$ = sym_table;
+};
+str_literal: STRINGLITERAL {$$ = $1; };
 
 var_decl: var_type id_list SEMICOLON {
 	
 };
-var_type: _FLOAT {$$ = _FLOAT} | _INT {$$= _INT};
+var_type: _FLOAT {$$ = $1;} | _INT {$$= $1;};
 any_type: var_type | _VOID;
 id_list: id id_tail;
 id_tail: COLON id id_tail | ;
