@@ -58,7 +58,8 @@
 
 %type <sym_node> var_decl
 %type <sym_node> string_decl
-%type <strv> var_type
+%type <sym_node> id_list
+%type <int_val> var_type
 %type <strv> str_literal
 %type <strv> id
 %%
@@ -77,7 +78,7 @@ string_decl: _STR id EQUAL str_literal SEMICOLON {
 str_literal: STRINGLITERAL {$$ = $1; };
 
 var_decl: var_type id_list SEMICOLON {
-	
+	vardec(sym_table, $1, $2);	
 };
 var_type: _FLOAT {$$ = $1;} | _INT {$$= $1;};
 any_type: var_type | _VOID;

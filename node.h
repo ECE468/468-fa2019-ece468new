@@ -20,7 +20,7 @@ Sym_node * put_string(Sym_node * head, char * var_name, char * string_val);
 Sym_node * duplicate_check(Sym_node * head, char * name);
 
 void print_var_list(Sym_node * head);
-
+void vardec(Sym_node * sym_table, int var_type, Sym_node * id_list);
 void free_list(Sym_node * head);
 
 Sym_node * duplicate_check(Sym_node * head, char * name) {
@@ -107,4 +107,22 @@ void free_list(Sym_node * head) {
 	}
 }
 
-
+void vardec(Sym_node * sym_table, int var_type, Sym_node * id_list) {
+	Sym_node * head = id_list;
+	char * namechk = head->name;
+	Sym_node * ptr = NULL;
+	if (duplicate_check(head, namechk) == 0) {
+		if (var_type == 1) {
+			ptr = put_int(head, head->name, head->int_val);
+		}
+		else if (var_type == 2) {
+			ptr = put_float(head, head->name, head->float_val);
+		}
+		else if (var_type == 3) {
+			ptr = put_string(head, head->name, head->string_val);
+		}
+	}
+	if (head->next != NULL) {
+		vardec(ptr, var_type, id_list->next);
+	}
+}
