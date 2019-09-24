@@ -21,6 +21,8 @@ Sym_node * duplicate_check(Sym_node * head, char * name);
 
 void print_var_list(Sym_node * head);
 
+void free_list(Sym_node * head);
+
 Sym_node * duplicate_check(Sym_node * head, char * name) {
 	Sym_node * ptr = head;
 	while (ptr != NULL) {
@@ -94,3 +96,15 @@ void print_var_list(Sym_node * head) {
 		ptr = ptr->next;
 	}
 }
+
+void free_list(Sym_node * head) {
+	Sym_node * ptr = head;
+	if (ptr != NULL) {
+		if (ptr->next != NULL) {
+			free_list(ptr->next);
+		}
+		free(ptr);
+	}
+}
+
+
