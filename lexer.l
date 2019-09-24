@@ -150,6 +150,7 @@ void {
 
 	/*Comments are anything started with " follow by any character but a " repeated none or any number of time and end with a "*/
 \"([^\"])*\" {
+	yylval.strv = strdup(yytext);
 	return (STRINGLITERAL);
 }
 
@@ -158,6 +159,7 @@ void {
 }
 
 {LETTER}({DIGIT}|{LETTER})* {
+	yylval.strv = strdup(yytext);
 	return (IDENTIFIER);
 }
 %%

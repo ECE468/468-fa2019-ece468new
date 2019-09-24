@@ -71,10 +71,7 @@ pgm_body: decl func_declarations;
 decl: string_decl decl | var_decl decl | ;
 
 string_decl: _STR id EQUAL str_literal SEMICOLON {
-	printf("About to go to put_string");
 	sym_table = put_string(sym_table, $2, $4);
-	printf("$2: %s\n $4: %s\n", $2, $4); 
-	printf("%p", (void *) sym_table);
 	$$ = sym_table;
 };
 str_literal: STRINGLITERAL {$$ = $1; };
