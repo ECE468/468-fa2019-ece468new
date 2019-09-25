@@ -22,8 +22,8 @@
 %token <strv> _END
 %token <strv> _ENDIF
 %token <strv> _STR
-%token <strv> _FLOAT
-%token <strv> _INT
+%token <int_val> _FLOAT
+%token <float_val> _INT
 %token <strv> _VOID
 %token <strv> _FUNC
 %token <strv> _READ
@@ -59,18 +59,18 @@
 %type <sym_node> var_decl
 %type <sym_node> string_decl
 %type <sym_node> id_list
+%type <sym_node> id_tail
 %type <int_val> var_type
 %type <strv> str_literal
 %type <strv> id
 %%
 
 program: _PROG id _BEGIN pgm_body _END {
-		print_var_list(sym_table);
+	print_var_list(sym_table);
 };
 id : IDENTIFIER {$$ = $1;}; 
 pgm_body: decl func_declarations;
 decl: string_decl decl | var_decl decl | ;
-
 string_decl: _STR id EQUAL str_literal SEMICOLON {
 	sym_table = put_string(sym_table, $2, $4);
 	$$ = sym_table;
@@ -78,13 +78,22 @@ string_decl: _STR id EQUAL str_literal SEMICOLON {
 str_literal: STRINGLITERAL {$$ = $1; };
 
 var_decl: var_type id_list SEMICOLON {
-	vardec(sym_table, $1, $2);	
+	sym_table = vartype_decl(sym_table, $1, $2);
+	$$ = sym_table;
 };
-var_type: _FLOAT {$$ = $1;} | _INT {$$= $1;};
+var_type: _FLOAT {$$ = FLOAT_TYPE;} | _INT {$$= INT_TYPE;};
 any_type: var_type | _VOID;
-id_list: id id_tail;
-id_tail: COLON id id_tail | ;
-
+id_list: id id_tail {
+	list_head = put_var($2, $1, 0);
+	$$ = list_head;
+};
+id_tail: COLON id id_tail {
+	list_head = put_var($3, $2, 0); 
+	$$ = list_head;
+}
+| {
+	list_head = NULL;
+};
 param_decl_list: param_decl param_decl_tail | ;
 param_decl: var_type id;
 param_decl_tail: COLON param_decl param_decl_tail | ;

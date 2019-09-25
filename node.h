@@ -20,7 +20,7 @@ Sym_node * put_string(Sym_node * head, char * var_name, char * string_val);
 Sym_node * duplicate_check(Sym_node * head, char * name);
 
 void print_var_list(Sym_node * head);
-void vardec(Sym_node * sym_table, int var_type, Sym_node * id_list);
+void vartype_decl(Sym_node * sym_table, int var_type, Sym_node * id_list);
 void free_list(Sym_node * head);
 
 Sym_node * duplicate_check(Sym_node * head, char * name) {
@@ -107,22 +107,21 @@ void free_list(Sym_node * head) {
 	}
 }
 
-void vardec(Sym_node * sym_table, int var_type, Sym_node * id_list) {
-	Sym_node * head = id_list;
-	char * namechk = head->name;
-	Sym_node * ptr = NULL;
-	if (duplicate_check(head, namechk) == 0) {
-		if (var_type == 1) {
-			ptr = put_int(head, head->name, head->int_val);
-		}
-		else if (var_type == 2) {
-			ptr = put_float(head, head->name, head->float_val);
-		}
-		else if (var_type == 3) {
-			ptr = put_string(head, head->name, head->string_val);
+/*
+ * vartype_decl takes in the main sym_table list, the incomplete id_list and the type of the variable
+ *
+ */
+Sym_node * vartype_decl(Sym_node * sym_table, int var_type, Sym_node * id_list) {
+	while (id_list != NULL) {
+		Sym_node * new_node = id_list;
+		id_list = id_list->next
+		
+		Sym_node * check = duplicate_check(sym_table, new_node->name);
+		if (check == NULL) {
+			new_node->next = sym_table;
+			new_node->type = var_type;
+			sym_table = new_node
 		}
 	}
-	if (head->next != NULL) {
-		vardec(ptr, var_type, id_list->next);
-	}
+	return(sym_table);
 }
