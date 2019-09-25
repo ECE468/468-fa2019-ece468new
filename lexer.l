@@ -141,10 +141,12 @@ void {
 }
 
 {DIGIT}+ {
+	yylval.int_val = atoi(yytext);
 	return (INTLITERAL);
 }
 
 {DIGIT}*"."{DIGIT}+ {
+	yylval.int_val = atof(yytext);
 	return (FLOATLITERAL);
 }
 

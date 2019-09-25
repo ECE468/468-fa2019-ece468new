@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#define UNDEFINED_TYPE 0
 #define INT_TYPE 1
 #define FLOAT_TYPE 2
 #define STRING_TYPE 3
@@ -14,13 +15,14 @@ typedef struct Sym_node {
 } Sym_node;
 
 Sym_node * sym_table = NULL;
+Sym_node * list_head = NULL;
 Sym_node * put_int(Sym_node * head, char* var_name, int int_val);
 Sym_node * put_float(Sym_node * head, char * var_name, float float_val);
 Sym_node * put_string(Sym_node * head, char * var_name, char * string_val);
 Sym_node * duplicate_check(Sym_node * head, char * name);
 Sym_node * put_var(Sym_node * head, char* var_name, int type);
 void print_var_list(Sym_node * head);
-void vartype_decl(Sym_node * sym_table, int var_type, Sym_node * id_list);
+Sym_node * vartype_decl(Sym_node * sym_table, int var_type, Sym_node * id_list);
 void free_list(Sym_node * head);
 
 Sym_node * duplicate_check(Sym_node * head, char * name) {
@@ -115,23 +117,19 @@ void free_list(Sym_node * head) {
 Sym_node * vartype_decl(Sym_node * sym_table, int var_type, Sym_node * id_list) {
 	while (id_list != NULL) {
 		Sym_node * new_node = id_list;
-		id_list = id_list->next
+		id_list = id_list->next;
 		
 		Sym_node * check = duplicate_check(sym_table, new_node->name);
 		if (check == NULL) {
 			new_node->next = sym_table;
 			new_node->type = var_type;
-			sym_table = new_node
+			sym_table = new_node;
 		}
 	}
 	return(sym_table);
 }
 
 Sym_node * put_var(Sym_node * head, char* var_name, int type) {
-	Sym_node * check = duplicate_check(head, var_name);
-	if (check != NULL) {
-		return(head);
-	}
 	Sym_node * ptr = (Sym_node*) malloc(sizeof(Sym_node));
 	ptr->name = (char *) malloc(strlen(var_name) + 1);
 	strcpy(ptr->name, var_name);
