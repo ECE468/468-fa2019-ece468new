@@ -7,7 +7,7 @@ team:
 compiler:
 	flex lexer.l
 	bison -d microparser.y
-	gcc -std=gnu99 lexer_driver.c microparser.tab.c lex.yy.c -o parser
+	gcc -g -std=gnu99 lexer_driver.c microparser.tab.c lex.yy.c -o parser
 clean:
 	rm microparser.tab.c
 	rm microparser.tab.h
