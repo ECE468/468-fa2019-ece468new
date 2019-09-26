@@ -70,7 +70,14 @@ program: _PROG id _BEGIN pgm_body _END {
 };
 id : IDENTIFIER {$$ = $1;}; 
 pgm_body: decl func_declarations;
-decl: string_decl decl | var_decl decl | ;
+decl: string_decl decl {
+
+}| var_decl decl {
+
+}
+| {
+
+};
 string_decl: _STR id EQUAL str_literal SEMICOLON {
 	sym_table = put_string(sym_table, $2, $4);
 	$$ = sym_table;
@@ -93,6 +100,7 @@ id_tail: COLON id id_tail {
 }
 | {
 	list_head = NULL;
+	$$ = list_head;
 };
 param_decl_list: param_decl param_decl_tail | ;
 param_decl: var_type id;
