@@ -5,6 +5,7 @@
 #define INT_TYPE 1
 #define FLOAT_TYPE 2
 #define STRING_TYPE 3
+
 typedef struct Sym_node {
 	char * name;
 	int int_val;
@@ -19,7 +20,7 @@ typedef struct Stack {
 	Sym_node * node;
 	struct Stack * next;
 } Stack;
-
+Stack * stack_head = NULL;
 Sym_node * sym_table = NULL;
 Sym_node * put_int(Sym_node * head, char* var_name, int int_val);
 Sym_node * put_float(Sym_node * head, char * var_name, float float_val);
@@ -32,6 +33,8 @@ void print_var_list(Sym_node * head);
 Sym_node * vartype_decl(Sym_node * head, int var_type);
 void free_list(Sym_node * head);
 Sym_node * new_var(char * var_name, int type);
+Stack * build_stack(Stack * head, Sym_node * table, char * name);
+void print_stack(Stack * head);
 
 Sym_node * duplicate_check(Sym_node * head, char * name) {
 	Sym_node * ptr = head;
@@ -193,4 +196,30 @@ Sym_node * new_var(char * var_name, int type) {
 	ptr->type = type;
 	ptr->next = NULL;
 	return(ptr);
+}
+Stack * build_stack(Stack * head, Sym_node * table, char * name) {
+	Stack * ptr = head;
+	if (head == NULL) {
+		Stack * ptr = (Stack *) malloc(sizeof(Stack));
+		ptr->name = (char *) malloc(sizeof(name) + 1);
+		strcpy(ptr->name, name);
+		ptr->node = table;
+		return(ptr);
+	}
+	else {
+		while (ptr->next != NULL) {
+			ptr = ptr->next;
+		}
+		ptr->next = build_stack(NULL, table, name);
+	}
+	//return(ptr);
+}
+
+void print_stack(Stack * head) {
+	Stack * ptr = head;
+	while (ptr != NULL) {
+		printf("%s\n", ptr->name);
+		print_var_list(ptr->node);
+		ptr = ptr->next;
+	}
 }
