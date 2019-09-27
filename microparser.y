@@ -72,6 +72,7 @@ program: _PROG id _BEGIN pgm_body _END {
 id : IDENTIFIER {$$ = $1;}; 
 pgm_body: decl func_declarations {
 	/*Handles global declaration here */
+	printf("Global statement block\n");
 	print_var_list($1);
 };
 decl: string_decl decl {	
@@ -113,6 +114,7 @@ param_decl_tail: COLON param_decl param_decl_tail | ;
 func_declarations: func_decl func_declarations | ;
 func_decl: _FUNC any_type id OPEN_BRACKET param_decl_list CLOSED_BRACKET _BEGIN func_body _END;
 func_body: decl stmt_list{
+	printf("Func statement block\n");
 	print_var_list($1);
 };
 
@@ -139,12 +141,14 @@ addop: PLUS | MINUS;
 mulop: MULTIPLY | DIVIDE;
 
 if_stmt: _IF OPEN_BRACKET cond CLOSED_BRACKET decl stmt_list else_part _ENDIF{
+	printf("If statement decl\n");
 	print_var_list($5);
 };
-else_part: _ELSE decl stmt_list {print_var_list($2); }| ;
+else_part: _ELSE decl stmt_list {printf("Else statement block\n"); print_var_list($2); }| ;
 cond: expr compop expr | _TRUE | _FALSE;
 compop: LESS_THAN | GREATER_THAN | EQUAL | NOT_EQUAL | LESS_THAN_EQUAL | GREATER_THAN_EQUAL;
 while_stmt: _WHILE OPEN_BRACKET cond CLOSED_BRACKET decl stmt_list _ENDWHILE {
+	printf("While statement block\n");
 	print_var_list($5);
 };
 
