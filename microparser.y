@@ -58,6 +58,8 @@
 
 %type <sym_node> var_decl
 %type <sym_node> string_decl
+%type <sym_node> decl
+%type <sym_node> pgm_body
 %type <sym_node> id_list
 %type <sym_node> id_tail
 %type <int_val> var_type
@@ -66,41 +68,43 @@
 %%
 
 program: _PROG id _BEGIN pgm_body _END {
-	print_var_list(sym_table);
 };
 id : IDENTIFIER {$$ = $1;}; 
-pgm_body: decl func_declarations;
-decl: string_decl decl {
-
+pgm_body: decl func_declarations {
+	/*Handles global declaration here */
+	print_var_list($1);
+};
+decl: string_decl decl {	
+	/*Append string_decl to the current symbol table pointer*/
+	$$ = append_list($2, $1);
 }| var_decl decl {
-
+	/*Append var_decl to the current symbol table pointer*/
+	$$ = append_list($2, $1);
 }
 | {
-
+	/*clear out the current symbol table */
+	$$ = NULL;
 };
 string_decl: _STR id EQUAL str_literal SEMICOLON {
-	sym_table = put_string(sym_table, $2, $4);
-	$$ = sym_table;
+	/*Need rewriting, just return 1 Sym_table pointer that points to the Sym_table object populated with strings and type*/
+	$$ = put_string($2, $4);
 };
 str_literal: STRINGLITERAL {$$ = $1; };
 
 var_decl: var_type id_list SEMICOLON {
-	sym_table = vartype_decl(sym_table, $1, $2);
-	$$ = sym_table;
+	/*Need rewritting, return 1 sym_table pointer that points to a list of Sym_table populated with types and names*/
+	$$ = vartype_decl($2, $1);
 };
 var_type: _FLOAT {$$ = FLOAT_TYPE;} | _INT {$$= INT_TYPE;};
 any_type: var_type | _VOID;
 id_list: id id_tail {
-	list_head = put_var($2, $1, 0);
-	$$ = list_head;
+	$$ = put_var($2, $1, 0);
 };
 id_tail: COLON id id_tail {
-	list_head = put_var($3, $2, 0); 
-	$$ = list_head;
+	$$ = put_var($3, $2, 0); 
 }
 | {
-	list_head = NULL;
-	$$ = list_head;
+	$$ = NULL;
 };
 param_decl_list: param_decl param_decl_tail | ;
 param_decl: var_type id;
@@ -108,7 +112,9 @@ param_decl_tail: COLON param_decl param_decl_tail | ;
 
 func_declarations: func_decl func_declarations | ;
 func_decl: _FUNC any_type id OPEN_BRACKET param_decl_list CLOSED_BRACKET _BEGIN func_body _END;
-func_body: decl stmt_list;
+func_body: decl stmt_list{
+	print_var_list($1);
+};
 
 stmt_list: stmt stmt_list | ;
 stmt: base_stmt | if_stmt | loop_stmt;
@@ -132,11 +138,15 @@ primary: OPEN_BRACKET expr CLOSED_BRACKET | id | INTLITERAL | FLOATLITERAL;
 addop: PLUS | MINUS;
 mulop: MULTIPLY | DIVIDE;
 
-if_stmt: _IF OPEN_BRACKET cond CLOSED_BRACKET decl stmt_list else_part _ENDIF;
-else_part: _ELSE decl stmt_list | ;
+if_stmt: _IF OPEN_BRACKET cond CLOSED_BRACKET decl stmt_list else_part _ENDIF{
+	print_var_list($5);
+};
+else_part: _ELSE decl stmt_list {print_var_list($2); }| ;
 cond: expr compop expr | _TRUE | _FALSE;
 compop: LESS_THAN | GREATER_THAN | EQUAL | NOT_EQUAL | LESS_THAN_EQUAL | GREATER_THAN_EQUAL;
-while_stmt: _WHILE OPEN_BRACKET cond CLOSED_BRACKET decl stmt_list _ENDWHILE;
+while_stmt: _WHILE OPEN_BRACKET cond CLOSED_BRACKET decl stmt_list _ENDWHILE {
+	print_var_list($5);
+};
 
 control_stmt: return_stmt;
 loop_stmt: while_stmt;
