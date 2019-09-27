@@ -31,6 +31,7 @@ void print_var_list(Sym_node * head);
 //Sym_node * vartype_decl(Sym_node * sym_table, int var_type, Sym_node * id_list);
 Sym_node * vartype_decl(Sym_node * head, int var_type);
 void free_list(Sym_node * head);
+Sym_node * new_var(char * var_name, int type);
 
 Sym_node * duplicate_check(Sym_node * head, char * name) {
 	Sym_node * ptr = head;
@@ -110,8 +111,11 @@ void print_var_list(Sym_node * head) {
 		else if (ptr->type == FLOAT_TYPE) {
 			printf(" Float value: %f \n", ptr->float_val);
 		}
-		else{
+		else if (ptr->type == STRING_TYPE){
 			printf(" String value: %s \n", ptr->string_val);
+		}
+		else {
+			printf("Undefined type no value \n");
 		}
 		printf("--------------------------------------\n");
 		printf("v\n");
@@ -179,5 +183,14 @@ Sym_node * put_var(Sym_node * head, char* var_name, int type) {
 	strcpy(ptr->name, var_name);
 	ptr->type = type;
 	ptr->next = head;
+	return(ptr);
+}
+
+Sym_node * new_var(char * var_name, int type) {
+	Sym_node * ptr = (Sym_node*) malloc(sizeof(Sym_node));
+	ptr->name = (char *) malloc(strlen(var_name) + 1);
+	strcpy(ptr->name, var_name);
+	ptr->type = type;
+	ptr->next = NULL;
 	return(ptr);
 }

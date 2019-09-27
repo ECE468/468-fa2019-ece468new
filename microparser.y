@@ -62,6 +62,11 @@
 %type <sym_node> pgm_body
 %type <sym_node> id_list
 %type <sym_node> id_tail
+%type <sym_node> func_body
+%type <sym_node> func_decl
+%type <sym_node> param_decl_list
+%type <sym_node> param_decl
+%type <sym_node> param_decl_tail
 %type <int_val> var_type
 %type <strv> str_literal
 %type <strv> id
@@ -72,7 +77,7 @@ program: _PROG id _BEGIN pgm_body _END {
 id : IDENTIFIER {$$ = $1;}; 
 pgm_body: decl func_declarations {
 	/*Handles global declaration here */
-	printf("Global statement block\n");
+	printf("Global decl\n");
 	print_var_list($1);
 };
 decl: string_decl decl {	
@@ -107,15 +112,29 @@ id_tail: COLON id id_tail {
 | {
 	$$ = NULL;
 };
-param_decl_list: param_decl param_decl_tail | ;
-param_decl: var_type id;
-param_decl_tail: COLON param_decl param_decl_tail | ;
+param_decl_list: param_decl param_decl_tail {
+	$$ = append_list($2, $1);
+}| {
+	$$ = NULL;
+};
+param_decl: var_type id {
+	$$ = new_var($2, $1);
+};
+param_decl_tail: COLON param_decl param_decl_tail { 
+	$$ = append_list($2, $3);
+}| {
+	$$ = NULL;
+};
 
-func_declarations: func_decl func_declarations | ;
-func_decl: _FUNC any_type id OPEN_BRACKET param_decl_list CLOSED_BRACKET _BEGIN func_body _END;
-func_body: decl stmt_list{
-	printf("Func statement block\n");
+func_declarations: func_decl func_declarations {
+	printf("Func Declaration block\n");
 	print_var_list($1);
+}| ;
+func_decl: _FUNC any_type id OPEN_BRACKET param_decl_list CLOSED_BRACKET _BEGIN func_body _END{
+	$$ = append_list($5, $8);	
+};
+func_body: decl stmt_list{
+	$$ = $1;
 };
 
 stmt_list: stmt stmt_list | ;
@@ -144,11 +163,11 @@ if_stmt: _IF OPEN_BRACKET cond CLOSED_BRACKET decl stmt_list else_part _ENDIF{
 	printf("If statement decl\n");
 	print_var_list($5);
 };
-else_part: _ELSE decl stmt_list {printf("Else statement block\n"); print_var_list($2); }| ;
+else_part: _ELSE decl stmt_list {printf("Else decl\n"); print_var_list($2); }| ;
 cond: expr compop expr | _TRUE | _FALSE;
 compop: LESS_THAN | GREATER_THAN | EQUAL | NOT_EQUAL | LESS_THAN_EQUAL | GREATER_THAN_EQUAL;
 while_stmt: _WHILE OPEN_BRACKET cond CLOSED_BRACKET decl stmt_list _ENDWHILE {
-	printf("While statement block\n");
+	printf("While decl\n");
 	print_var_list($5);
 };
 
