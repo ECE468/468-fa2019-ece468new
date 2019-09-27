@@ -12,6 +12,7 @@
 	int int_val;
 	float float_val;
 	struct Sym_node * sym_node;
+	struct Stack * stack;
 }
 %token <int_val> INTLITERAL
 %token <float_val> FLOATLITERAL
@@ -73,7 +74,9 @@ id : IDENTIFIER {$$ = $1;};
 pgm_body: decl func_declarations {
 	/*Handles global declaration here */
 	printf("Global statement block\n");
-	print_var_list($1);
+	stack_head = build_stack(stack_head, $1, "global");
+	print_stack(stack_head);
+	//print_var_list($1);
 };
 decl: string_decl decl {	
 	/*Append string_decl to the current symbol table pointer*/
