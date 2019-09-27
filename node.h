@@ -14,6 +14,12 @@ typedef struct Sym_node {
 	struct Sym_node * next;
 } Sym_node;
 
+typedef struct Stack {
+	char * name;
+	Sym_node * node;
+	struct Stack * next;
+} Stack;
+
 Sym_node * sym_table = NULL;
 Sym_node * put_int(Sym_node * head, char* var_name, int int_val);
 Sym_node * put_float(Sym_node * head, char * var_name, float float_val);
