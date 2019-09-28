@@ -105,26 +105,26 @@ Sym_node * put_string(char * var_name, char * string_val) {
 void print_var_list(Sym_node * head) {
 	Sym_node * ptr = head;
 	while (ptr != NULL) {
-		printf("------------------------------------\n");
-		printf(" Name: %s |", ptr->name);
-		printf(" Type: %d |", ptr->type);
+		//printf("------------------------------------\n");
+		//printf(" Name: %s |", ptr->name);
+		//printf(" Type: %d |", ptr->type);
 		if (ptr->type == INT_TYPE) {
-			printf(" Int value: %d \n", ptr->int_val);
+			printf("name %s type INT\n", ptr-> name);
 		}
 		else if (ptr->type == FLOAT_TYPE) {
-			printf(" Float value: %f \n", ptr->float_val);
+			printf("name %s type FLOAT\n", ptr->name);
 		}
 		else if (ptr->type == STRING_TYPE){
-			printf(" String value: %s \n", ptr->string_val);
+			printf("name %s type STRING value %s\n", ptr-> name, ptr->string_val);
 		}
 		else {
 			printf("Undefined type no value \n");
 		}
-		printf("--------------------------------------\n");
-		printf("v\n");
+		//printf("--------------------------------------\n");
+		//printf("\n");
 		ptr = ptr->next;
 	}
-	printf("NULL\n");
+	//printf("NULL\n");
 }
 
 void free_list(Sym_node * head) {
@@ -217,9 +217,11 @@ Stack * build_stack(Stack * head, Sym_node * table, char * name) {
 
 void print_stack(Stack * head) {
 	Stack * ptr = head;
+	int track = 1;
 	while (ptr != NULL) {
 		printf("%s\n", ptr->name);
 		print_var_list(ptr->node);
+		printf("\n");
 		ptr = ptr->next;
 	}
 }
