@@ -85,10 +85,10 @@ pgm_body: decl func_declarations {
 };
 decl: string_decl decl {	
 	/*Append string_decl to the current symbol table pointer*/
-	$$ = append_list($2, $1);
+	$$ = append_list($1, $2);
 }| var_decl decl {
 	/*Append var_decl to the current symbol table pointer*/
-	$$ = append_list($2, $1);
+	$$ = append_list($1, $2);
 }
 | {
 	/*clear out the current symbol table */

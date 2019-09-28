@@ -164,18 +164,24 @@ Sym_node * vartype_decl(Sym_node * head, int var_type) {
 	return(head);
 }
 
-Sym_node * append_list(Sym_node * base, Sym_node * to_append) {
-	while (to_append != NULL) {
-		Sym_node * new_node = to_append;
-		to_append = to_append->next;
-		
-		Sym_node * check = duplicate_check(base, new_node->name);
-		if (check == NULL) {
-			new_node->next = base;
-			base = new_node;
-		}
+Sym_node * append_list(Sym_node * head, Sym_node * tail) {
+	Sym_node * ptr = head;
+	if (ptr == NULL) {
+		return(tail);
 	}
-	return(base);
+	while (ptr != NULL) {
+		Sym_node * check = duplicate_check(tail, ptr->name);
+		if (check != NULL) {
+			printf("Duplication error\n");
+		}
+		ptr = ptr->next;
+	}
+	ptr = head;
+	while (ptr->next != NULL) {
+		ptr = ptr->next;
+	}
+	ptr->next = tail;
+	return(head);
 }
 
 Sym_node * put_var(Sym_node * head, char* var_name, int type) {
