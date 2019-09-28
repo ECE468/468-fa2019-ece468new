@@ -6,7 +6,8 @@ def main():
     #results = inputs
     for input in inputs:
         sub.call(['./runme', 'input_test/Step3/test'+str(input)+'.micro', 'outputtest'])
-	sub.call(['diff', 'output_test/Step3/test'+str(input)+'.out', 'outputtest'])
+        print("------------------test" + str(input)+".out-------------------")
+        sub.call(['diff', 'output_test/Step3/test'+str(input)+'.out', 'outputtest'])
         #path = os.path.join()
         #with open('outputtest') as file:
         #    line = file.readline()

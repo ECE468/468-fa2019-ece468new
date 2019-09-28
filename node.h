@@ -5,7 +5,7 @@
 #define INT_TYPE 1
 #define FLOAT_TYPE 2
 #define STRING_TYPE 3
-
+#define MAX_STRING_LENGTH 20 
 typedef struct Sym_node {
 	char * name;
 	int int_val;
@@ -23,6 +23,7 @@ typedef struct Stack {
 Stack * stack_head = NULL;
 Sym_node * sym_table = NULL;
 Stack * temp_head = NULL;
+int count = 0;
 Sym_node * put_int(Sym_node * head, char* var_name, int int_val);
 Sym_node * put_float(Sym_node * head, char * var_name, float float_val);
 //Sym_node * put_string(Sym_node * head, char * var_name, char * string_val);
@@ -108,9 +109,6 @@ Sym_node * put_string(char * var_name, char * string_val) {
 void print_var_list(Sym_node * head) {
 	Sym_node * ptr = head;
 	while (ptr != NULL) {
-		//printf("------------------------------------\n");
-		//printf(" Name: %s |", ptr->name);
-		//printf(" Type: %d |", ptr->type);
 		if (ptr->type == INT_TYPE) {
 			printf("name %s type INT\n", ptr-> name);
 		}
@@ -123,11 +121,8 @@ void print_var_list(Sym_node * head) {
 		else {
 			printf("Undefined type no value \n");
 		}
-		//printf("--------------------------------------\n");
-		//printf("\n");
 		ptr = ptr->next;
 	}
-	//printf("NULL\n");
 }
 
 void free_list(Sym_node * head) {
@@ -243,8 +238,14 @@ Stack * connect(Stack * head, Stack * temphead) {
 void print_stack(Stack * head) {
 	Stack * ptr = head;
 	int track = 1;
+	int count = 0;
 	while (ptr != NULL) {
-		printf("%s\n", ptr->name);
+		if (strcmp(ptr->name, "GENERIC_BLOCK") == 0) {
+			char str[MAX_STRING_LENGTH];
+			sprintf(str, "BLOCK %d", ++count);
+			ptr->name = str;
+		}
+		printf("Symbol table %s\n", ptr->name);
 		print_var_list(ptr->node);
 		printf("\n");
 		ptr = ptr->next;
