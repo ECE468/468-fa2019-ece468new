@@ -22,6 +22,7 @@ typedef struct Stack {
 } Stack;
 Stack * stack_head = NULL;
 Sym_node * sym_table = NULL;
+Stack * temp_head = NULL;
 Sym_node * put_int(Sym_node * head, char* var_name, int int_val);
 Sym_node * put_float(Sym_node * head, char * var_name, float float_val);
 //Sym_node * put_string(Sym_node * head, char * var_name, char * string_val);
