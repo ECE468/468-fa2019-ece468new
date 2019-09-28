@@ -79,7 +79,11 @@ program: _PROG id _BEGIN pgm_body _END {
 id : IDENTIFIER {$$ = $1;}; 
 pgm_body: decl func_declarations {
 	/*Handles global declaration here */
+<<<<<<< HEAD
 	stack_head = build_stack(stack_head, $1, "GLOBAL");
+=======
+	stack_head = build_stack(stack_head, $1, "Symbol table GLOBAL");
+>>>>>>> master
 	//print_stack(stack_head);
 	//print_var_list($1);
 };

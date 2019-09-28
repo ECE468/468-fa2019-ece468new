@@ -22,6 +22,7 @@ typedef struct Stack {
 } Stack;
 Stack * stack_head = NULL;
 Sym_node * sym_table = NULL;
+Stack * temp_head = NULL;
 Sym_node * put_int(Sym_node * head, char* var_name, int int_val);
 Sym_node * put_float(Sym_node * head, char * var_name, float float_val);
 //Sym_node * put_string(Sym_node * head, char * var_name, char * string_val);
@@ -35,6 +36,8 @@ void free_list(Sym_node * head);
 Sym_node * new_var(char * var_name, int type);
 Stack * build_stack(Stack * head, Sym_node * table, char * name);
 void print_stack(Stack * head);
+Stack * head_stack(Stack * head, Sym_node * table, char * name);
+Stack * connect(Stack * head, Stack * temphead);
 
 Sym_node * duplicate_check(Sym_node * head, char * name) {
 	Sym_node * ptr = head;
@@ -215,6 +218,28 @@ Stack * build_stack(Stack * head, Sym_node * table, char * name) {
 	return(head);
 }
 
+Stack * head_stack(Stack * head, Sym_node * table, char * name) {
+	Stack * ptr = (Stack *) malloc(sizeof(Stack));
+	ptr->name = (char *) malloc(sizeof(name) + 1);
+	strcpy(ptr->name, name);
+	ptr->node = table;
+	ptr->next = head;
+	return(ptr);
+}
+
+Stack * connect(Stack * head, Stack * temphead) {
+	Stack * ptr = head;
+	if (ptr == NULL) {
+		return(temphead);
+	}
+	else {
+		while (ptr->next != NULL) {
+			ptr = ptr->next;
+		}
+		ptr->next = temphead;
+		return(head);
+	}
+}
 void print_stack(Stack * head) {
 	Stack * ptr = head;
 	int track = 1;
