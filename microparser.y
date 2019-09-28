@@ -74,13 +74,14 @@
 %%
 
 program: _PROG id _BEGIN pgm_body _END {
+	printf("Stack_head adr: %p\n", (void *) stack_head);
+	print_stack(stack_head);
 };
 id : IDENTIFIER {$$ = $1;}; 
 pgm_body: decl func_declarations {
 	/*Handles global declaration here */
-	printf("Global decl\n");
 	stack_head = build_stack(stack_head, $1, "global");
-	print_stack(stack_head);
+	//print_stack(stack_head);
 	//print_var_list($1);
 };
 decl: string_decl decl {	
@@ -130,11 +131,15 @@ param_decl_tail: COLON param_decl param_decl_tail {
 };
 
 func_declarations: func_decl func_declarations {
-	printf("Func Declaration block\n");
-	print_var_list($1);
+
+	//print_stack(stack_head);
 }| ;
 func_decl: _FUNC any_type id OPEN_BRACKET param_decl_list CLOSED_BRACKET _BEGIN func_body _END{
-	$$ = append_list($5, $8);	
+	$$ = append_list($5, $8);
+	stack_head = build_stack(stack_head, $$, $3);
+	//printf("Func Declaration block\n");
+	//print_var_list($$);
+		
 };
 func_body: decl stmt_list{
 	$$ = $1;

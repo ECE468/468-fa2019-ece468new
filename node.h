@@ -212,7 +212,7 @@ Stack * build_stack(Stack * head, Sym_node * table, char * name) {
 		}
 		ptr->next = build_stack(NULL, table, name);
 	}
-	//return(ptr);
+	return(head);
 }
 
 void print_stack(Stack * head) {
