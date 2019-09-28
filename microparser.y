@@ -79,7 +79,7 @@ program: _PROG id _BEGIN pgm_body _END {
 id : IDENTIFIER {$$ = $1;}; 
 pgm_body: decl func_declarations {
 	/*Handles global declaration here */
-	stack_head = build_stack(stack_head, $1, "global");
+	stack_head = build_stack(stack_head, $1, "GLOBAL");
 	//print_stack(stack_head);
 	//print_var_list($1);
 };
@@ -134,11 +134,10 @@ func_declarations: func_decl func_declarations {
 	//print_stack(stack_head);
 }| ;
 func_decl: _FUNC any_type id OPEN_BRACKET param_decl_list CLOSED_BRACKET _BEGIN func_body _END{
-	$$ = append_list($5, $8);
-	stack_head = build_stack(stack_head, $$, $3);
-	//printf("Func Declaration block\n");
-	//print_var_list($$);
-		
+	Sym_node * table = append_list($5, $8);
+	//stack_head = build_stack(stack_head, $$, $3);
+	temp_stack = head_stack(temp_stack, table, $3);
+	stack_head = connect(stack_head, temp_stack);
 };
 func_body: decl stmt_list{
 	$$ = $1;
@@ -169,18 +168,20 @@ mulop: MULTIPLY | DIVIDE;
 if_stmt: _IF OPEN_BRACKET cond CLOSED_BRACKET decl stmt_list else_part _ENDIF{
 	//printf("If statement decl\n");
 	//print_var_list($5);
-	stack_head = build_stack(stack_head, $5, "BLOCK IF");
+	temp_stack = head_stack(temp_stack, $5, "BLOCK IF");
 };
 else_part: _ELSE decl stmt_list {
-	stack_head = build_stack(stack_head, $2, "BLOCK ELSE");
+	temp_stack = head_stack(temp_stack, $2, "BLOCK ELSE");
 	//printf("Else decl\n"); print_var_list($2); 
-}| ;
+}| {
+	temp_stack = NULL;
+};
 cond: expr compop expr | _TRUE | _FALSE;
 compop: LESS_THAN | GREATER_THAN | EQUAL | NOT_EQUAL | LESS_THAN_EQUAL | GREATER_THAN_EQUAL;
 while_stmt: _WHILE OPEN_BRACKET cond CLOSED_BRACKET decl stmt_list _ENDWHILE {
 	//printf("While decl\n");
 	//print_var_list($5);
-	stack_head = build_stack(stack_head, $5, "BLOCK WHILE");
+	temp_stack = head_stack(temp_stack, $5, "BLOCK WHILE");
 };
 
 control_stmt: return_stmt;
