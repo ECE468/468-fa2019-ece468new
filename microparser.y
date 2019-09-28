@@ -79,7 +79,7 @@ program: _PROG id _BEGIN pgm_body _END {
 id : IDENTIFIER {$$ = $1;}; 
 pgm_body: decl func_declarations {
 	/*Handles global declaration here */
-	stack_head = build_stack(stack_head, $1, "global");
+	stack_head = build_stack(stack_head, $1, "Symbol table GLOBAL");
 	//print_stack(stack_head);
 	//print_var_list($1);
 };
@@ -135,7 +135,11 @@ func_declarations: func_decl func_declarations {
 }| ;
 func_decl: _FUNC any_type id OPEN_BRACKET param_decl_list CLOSED_BRACKET _BEGIN func_body _END{
 	$$ = append_list($5, $8);
-	stack_head = build_stack(stack_head, $$, $3);
+	char str[20];
+	strcpy(str, "Symbol table ");
+	strcat(str, $3);
+	//strcat(str, "\n");
+	stack_head = build_stack(stack_head, $$, str);
 	//printf("Func Declaration block\n");
 	//print_var_list($$);
 		
