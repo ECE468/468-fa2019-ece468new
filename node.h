@@ -24,6 +24,7 @@ Stack * stack_head = NULL;
 Sym_node * sym_table = NULL;
 Stack * temp_head = NULL;
 int count = 0;
+char * err_var = NULL;
 Sym_node * put_int(Sym_node * head, char* var_name, int int_val);
 Sym_node * put_float(Sym_node * head, char * var_name, float float_val);
 //Sym_node * put_string(Sym_node * head, char * var_name, char * string_val);
@@ -44,8 +45,8 @@ Sym_node * duplicate_check(Sym_node * head, char * name) {
 	Sym_node * ptr = head;
 	while (ptr != NULL) {
 		if (strcmp(ptr->name, name) == 0) {
-			printf("DECLARATION ERROR %s \n", name);
-			return(ptr);
+			err_var = malloc(strlen(name) + 1);
+			strcpy(err_var, name);	
 		}
 		ptr = ptr->next;
 	}
@@ -101,7 +102,7 @@ Sym_node * put_string(char * var_name, char * string_val) {
 	ptr->name = (char *) malloc(strlen(var_name) + 1);
 	strcpy(ptr->name, var_name);
 	ptr->type = STRING_TYPE;
-	ptr->string_val = (char *) malloc(sizeof(string_val) + 1);
+	ptr->string_val = (char *) malloc(strlen(string_val) + 1);
 	strcpy(ptr->string_val, string_val);
 	return (ptr);
 }
@@ -172,7 +173,7 @@ Sym_node * append_list(Sym_node * head, Sym_node * tail) {
 	while (ptr != NULL) {
 		Sym_node * check = duplicate_check(tail, ptr->name);
 		if (check != NULL) {
-			printf("Duplication error\n");
+			return NULL;
 		}
 		ptr = ptr->next;
 	}
@@ -242,6 +243,10 @@ Stack * connect(Stack * head, Stack * temphead) {
 	}
 }
 void print_stack(Stack * head) {
+	if (err_var != NULL) {
+		printf("DECLARATION ERROR %s\n", err_var);
+		return;		
+	}
 	Stack * ptr = head;
 	int track = 1;
 	int count = 0;

@@ -116,7 +116,7 @@ id_tail: COLON id id_tail {
 	$$ = NULL;
 };
 param_decl_list: param_decl param_decl_tail {
-	$$ = append_list($2, $1);
+	$$ = append_list($1, $2);
 }| {
 	$$ = NULL;
 };
