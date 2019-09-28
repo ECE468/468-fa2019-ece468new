@@ -74,7 +74,6 @@
 %%
 
 program: _PROG id _BEGIN pgm_body _END {
-	printf("Stack_head adr: %p\n", (void *) stack_head);
 	print_stack(stack_head);
 };
 id : IDENTIFIER {$$ = $1;}; 
@@ -168,15 +167,20 @@ addop: PLUS | MINUS;
 mulop: MULTIPLY | DIVIDE;
 
 if_stmt: _IF OPEN_BRACKET cond CLOSED_BRACKET decl stmt_list else_part _ENDIF{
-	printf("If statement decl\n");
-	print_var_list($5);
+	//printf("If statement decl\n");
+	//print_var_list($5);
+	stack_head = build_stack(stack_head, $5, "BLOCK IF");
 };
-else_part: _ELSE decl stmt_list {printf("Else decl\n"); print_var_list($2); }| ;
+else_part: _ELSE decl stmt_list {
+	stack_head = build_stack(stack_head, $2, "BLOCK ELSE");
+	//printf("Else decl\n"); print_var_list($2); 
+}| ;
 cond: expr compop expr | _TRUE | _FALSE;
 compop: LESS_THAN | GREATER_THAN | EQUAL | NOT_EQUAL | LESS_THAN_EQUAL | GREATER_THAN_EQUAL;
 while_stmt: _WHILE OPEN_BRACKET cond CLOSED_BRACKET decl stmt_list _ENDWHILE {
-	printf("While decl\n");
-	print_var_list($5);
+	//printf("While decl\n");
+	//print_var_list($5);
+	stack_head = build_stack(stack_head, $5, "BLOCK WHILE");
 };
 
 control_stmt: return_stmt;
