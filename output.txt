@@ -1,0 +1,38 @@
+Commit ID tagged for submission: f57083da139d07d820e18b0b75f853946d20b3c0
+Submission graded at: 2019-09-28 18:19:28
+
+rm microparser.tab.c
+rm: cannot remove 'microparser.tab.c': No such file or directory
+make: *** [Makefile:12: clean] Error 1
+flex lexer.l
+lexer.l:65: warning, rule cannot be matched
+bison -d microparser.y
+gcc -g -std=gnu99 lexer_driver.c microparser.tab.c lex.yy.c -o parser
+Testing.....test11.micro
+Test Passed
+Testing.....test13.micro
+Test Passed
+Testing.....test14.micro
+Test Passed
+Testing.....test16.micro
+Test Passed
+Testing.....test18.micro
+Test Passed
+Testing.....test19.micro
+Test Passed
+Testing.....test1.micro
+Test Passed
+Testing.....test20.micro
+Test Passed
+Testing.....test21.micro
+Test Passed
+Testing.....test22.micro
+Test Passed
+Testing.....test5.micro
+Test Passed
+Testing.....test6.micro
+Test Passed
+Testing.....test7.micro
+Test Passed
+Testing.....test8.micro
+Test Passed
