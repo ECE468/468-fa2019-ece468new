@@ -2,16 +2,19 @@ import os
 #import numpy as np
 import subprocess as sub
 def main():
-    inputs = [1,5,6,7,8,11,13,14,16,18,19,20,21,22]
+    step_num = "4"
     #results = inputs
+    entries = os.listdir('input_test/Step'+step_num+'/')
+    inputs = []
+    #print(entries)
+    for element in entries:
+        if '.' in element and '~' not in element:
+            inputs.append(element)
+    #print(inputs)
     for input in inputs:
-        sub.call(['./runme', 'input_test/Step3/test'+str(input)+'.micro', 'outputtest'])
-        print("------------------test" + str(input)+".out-------------------")
-        sub.call(['diff', 'output_test/Step3/test'+str(input)+'.out', 'outputtest'])
-        #path = os.path.join()
-        #with open('outputtest') as file:
-        #    line = file.readline()
-        #    results.append(line)
-    #print(results)
+        sub.call(['./runme', 'input_test/Step'+step_num+'/'+input, 'outputtest'])
+        print("------------------" + input.split(".")[0]+".out-------------------")
+        sub.call(['diff', 'output_test/Step'+step_num+'/'+input.split('.')[0]+'.out', 'outputtest'])
+
 	
 if __name__ == "__main__": main()
