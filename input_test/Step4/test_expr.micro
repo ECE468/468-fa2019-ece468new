@@ -1,0 +1,54 @@
+prog expr
+begin
+
+	int a,b,c,d;
+	float x,y,z,t;
+	str newline = "\n";
+
+	func void main()
+	begin
+		a = 1;
+		b = 2;
+		c = 10;
+		d = 20;
+
+		write (a, newline);
+		write (b, newline);
+		write (c, newline);
+		write (d, newline);
+		a = a + b;
+		write (a, newline);
+		b = a * c;
+		write (b, newline);
+		c = 0 - a + b;
+		write (c, newline);
+		d = 0 - d;
+		write (d, newline);
+		a = (a+b)*(d+c)-(a+b+c+d)/a;
+		write (a, newline);
+		
+		a = a + 10;
+		write (a, newline);
+		b = b + a + 10;
+		write (b, newline);
+		c = 0 - 10;
+		write (c, newline);
+		x = 1.0;
+		y = 2.0;
+		z = 3.14159;
+		write (x, newline);
+		write (z, newline);
+		write (y, newline);
+		x = z/2.0;
+		y = z/y;
+		write (x, newline);
+		write (y, newline);
+		t = (x+y+z)/z;
+		write (t, newline);
+		t = t*t;
+		write (t, newline);
+		t = (t+z+t+t/2.0+z/4.0+z/5.0+z/6.0+z/7.0);
+		write (t, newline);
+	end	
+end
+

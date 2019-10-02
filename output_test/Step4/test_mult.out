@@ -1,0 +1,47 @@
+;IR code
+;LABEL FUNC_main  
+;LINK   
+;STOREI 1 !T0 
+;STOREI !T0 a 
+;STOREI 2 !T1 
+;STOREI !T1 b 
+;READI c  
+;READI d  
+;MULI a c !T2
+;MULI b d !T3
+;ADDI !T2 !T3 !T4
+;STOREI !T4 e 
+;WRITEI c  
+;WRITES newline  
+;WRITEI d  
+;WRITES newline  
+;WRITEI e  
+;WRITES newline  
+;RET   
+var a
+var b
+var c
+var d
+var e
+str newline "\n"
+move 1 r0
+move r0 a
+move 2 r1
+move r1 b
+sys readi c 
+sys readi d 
+move a r2
+muli c r2
+move b r3
+muli d r3
+move r2 r4
+addi r3 r4
+move r4 e
+sys writei c 
+sys writes newline 
+sys writei d 
+sys writes newline 
+sys writei e 
+sys writes newline 
+sys halt
+
