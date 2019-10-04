@@ -60,7 +60,7 @@ Stack * build_stack(Stack * head, Sym_node * table, char * name);
 void print_stack(Stack * head);
 Stack * head_stack(Stack * head, Sym_node * table, char * name);
 Stack * connect(Stack * head, Stack * temphead);
-//void * print_posttree(AST_node * tree);
+void * print_posttree(AST_node * tree);
 AST_node * AST_node_make(char * name, Sym_node * ptr, int type, AST_node * left, AST_node * right);
 
 Sym_node * duplicate_check(Sym_node * head, char * name) {
@@ -295,45 +295,15 @@ AST_node * AST_node_make(char * name, Sym_node * ptr, int type, AST_node * left,
 	node->right = right;
 	return(node);
 }
-/*
+
 void print_posttree(AST_node * tree) {
 	if (tree == NULL) {
 		return;
 	}
-	int expr_track = 0;
-	int var_track = 0;
 	print_posttree(tree->left);
 	print_posttree(tree->right);
-	switch(tree->nodetype == NODE_EXPR) {
-		case NODE_EXPR: expr_track = 1;
-		break;
-		case NODE_VAR: var_track = 1;
-		break;
-		default: printf("undefined\n");
-		break;
-	}
-	if (expr_track == 1) {
-		switch(tree->exprtype) {
-			case ADD: printf("+");
-			break;
-			case MULTI: printf("*");
-			break;
-			case SUB: printf("-");
-			break;
-			case DIVIDE: printf("/");
-			break;
-
-		}
-	}
-	if (var_track == 1) {
-		switch(tree->vartype) {
-			case INT_TYPE: printf("int");
-			break;
-			case FLOAT_TYPE: printf("float");
-			break;
-			case STRING_TYPE: printf("str");
-			break;
-		}
-	}
+	printf("%s", tree->name);
+	printf("%d", tree->asttype);
+	print_var_list(tree->pointer);
 }
-*/
+
