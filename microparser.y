@@ -140,27 +140,94 @@ func_body: decl stmt_list{
 	$$ = $1;
 };
 
-stmt_list: stmt stmt_list | ;
-stmt: base_stmt | if_stmt | loop_stmt;
-base_stmt: assign_stmt | read_stmt | write_stmt | control_stmt;
+stmt_list: stmt stmt_list| ;
+stmt: base_stmt {
+	print_post_tree($$);
+}| if_stmt | loop_stmt;
+base_stmt: assign_stmt {
+	$$ = $1;
+}| read_stmt {
+	$$ = $1;
+}| write_stmt{
+	$$ = $1;
+}| control_stmt{
+	$$ = $1;
+};
 
-assign_stmt: assign_expr SEMICOLON;
-assign_expr: id EQUAL expr;
+assign_stmt: assign_expr SEMICOLON {
+	$$ = $1;
+};
+assign_expr: id EQUAL expr {
+	Sym_node * ptr = duplicate_check(stack_head->node, $1);
+	AST_node * left = AST_node_make($1, ptr, ptr->type, NULL, NULL);
+	$$ = AST_node_make("unname", NULL, EQUAL_TYPE, left, $3);
+};
 read_stmt: _READ OPEN_BRACKET id_list CLOSED_BRACKET SEMICOLON;
 write_stmt: _WRITE OPEN_BRACKET id_list CLOSED_BRACKET SEMICOLON;
 return_stmt: _RETURN expr SEMICOLON;
 
-expr: expr_prefix factor;
-expr_prefix: expr_prefix factor addop | ;
+expr: expr_prefix factor {
+/* Will expr_prefix ever NULL?*/
+	AST_node * head = $1;
+	if (head == NULL) {
+		$$ = $2; //Not sure about this....
+	} else {
+		head->right = $2;
+		$$ = head;
+	}
+};
+expr_prefix: expr_prefix factor addop {
+	if ($1 == NULL) {
+		AST_node * head = $3
+		head->left = $2;
+		$$ = head;
+	}
+	else {
+		AST_node * head = $3
+		$1->right = $2
+		head->left = $1;
+		$$ = head;
+	}
+}| {
+	$$ = NULL
+};
 factor: factor_prefix postfix_expr;
 factor_prefix: factor_prefix postfix_expr mulop | ;
-postfix_expr: primary | call_expr;
+postfix_expr: primary {
+	$$ = $1
+}| call_expr;
 call_expr: id OPEN_BRACKET expr_list CLOSED_BRACKET;
 expr_list: expr expr_list_tail | ;
 expr_list_tail: COLON expr expr_list_tail | ;
-primary: OPEN_BRACKET expr CLOSED_BRACKET | id | INTLITERAL | FLOATLITERAL;
-addop: PLUS | MINUS;
-mulop: MULTIPLY | DIVIDE;
+primary: OPEN_BRACKET expr CLOSED_BRACKET {
+	/*What is primary?? */
+	$$ = $2;
+}| id {
+	Sym_node * ptr = duplicate_check(stack_head->node, $1);
+	if (ptr == NULL) {
+		printf("Undeclared variable\n");
+	}else {
+		$$ = AST_node_make($1, ptr, ptr->type, NULL, NULL);
+	}
+}| INTLITERAL {
+	Sym_node * ptr = new_var("LITERAL", INT_TYPE);
+	ptr->int_val = $1; /*Need to modify lexer for this*/
+	$$ = AST_node_make("LITERAL", ptr, INT_TYPE, NULL, NULL);
+}| FLOATLITERAL{
+	Sym_node * ptr = new_var("LITERAL", FLOAT_TYPE);
+	ptr->float_val = $1; /*Need to modify lexer for this */
+	$$ = AST_node_make("LITERAL", ptr, FLOAT_TYPE, NULL, NULL);
+};
+addop: PLUS {
+	$$ = PLUS_TYPE;
+}| MINUS {
+	$$ = MINUS_TYPE;
+};
+mulop: MULTIPLY {
+	$$ = MULTIPLY_TYPE
+}| DIVIDE {
+	$$ = DIVIDE_TYPE;
+};
 
 if_stmt: _IF OPEN_BRACKET cond CLOSED_BRACKET decl stmt_list else_part _ENDIF{
 	temp_head = head_stack(temp_head, $5, "GENERIC_BLOCK");
