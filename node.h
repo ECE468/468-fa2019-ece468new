@@ -7,10 +7,11 @@
 #define STRING_TYPE 3
 #define MAX_STRING_LENGTH 20
 #define MULTI 4
-#define ADD 5
-#define SUB 6
-#define DIVIDE 7
-#define EQUAL_TYPE 8
+#define ADD_TYPE 5
+#define SUB_TYPE 6
+#define DIVIDE_TYPE 7
+#define MULTIPLY_TYPE 8
+#define EQUAL_TYPE 9
 
 #define NODE_EXPR 1
 #define NODE_VAR 2

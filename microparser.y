@@ -13,6 +13,7 @@
 	float float_val;
 	struct Sym_node * sym_node;
 	struct Stack * stack;
+	struct AST_node * ast_node;
 }
 %token <int_val> INTLITERAL
 %token <float_val> FLOATLITERAL
@@ -24,7 +25,7 @@
 %token <strv> _ENDIF
 %token <strv> _STR
 %token <int_val> _FLOAT
-%token <float_val> _INT
+%token <int_val> _INT
 %token <strv> _VOID
 %token <strv> _FUNC
 %token <strv> _READ
@@ -42,15 +43,15 @@
 %token <strv> _IN
 %token <strv> _RANGE
 %token <strv> _ENDFOR
-%token <strv> EQUAL
+%token <int_val> EQUAL
 %token <strv> SEMICOLON
 %token <strv> COLON
 %token <strv> OPEN_BRACKET
 %token <strv> CLOSED_BRACKET
-%token <strv> PLUS
-%token <strv> MINUS
-%token <strv> MULTIPLY
-%token <strv> DIVIDE
+%token <int_val> PLUS
+%token <int_val> MINUS
+%token <int_val> MULTIPLY
+%token <int_val> DIVIDE
 %token <strv> LESS_THAN
 %token <strv> GREATER_THAN
 %token <strv> NOT_EQUAL
@@ -68,7 +69,23 @@
 %type <sym_node> param_decl_list
 %type <sym_node> param_decl
 %type <sym_node> param_decl_tail
+
+%type <ast_node> base_stmt
+%type <ast_node> assign_stmt
+%type <ast_node> read_stmt
+%type <ast_node> write_stmt
+%type <ast_node> control_stmt
+%type <ast_node> expr
+%type <ast_node> expr_prefix
+%type <ast_node> factor
+%type <ast_node> factor_prefix
+%type <ast_node> assign_expr
+%type <ast_node> postfix_expr
+%type <ast_node> primary
+
 %type <int_val> var_type
+%type <int_val> mulop
+%type <int_val> addop
 %type <strv> str_literal
 %type <strv> id
 %%
@@ -142,7 +159,7 @@ func_body: decl stmt_list{
 
 stmt_list: stmt stmt_list| ;
 stmt: base_stmt {
-	print_post_tree($$);
+	print_post_tree($1);
 }| if_stmt | loop_stmt;
 base_stmt: assign_stmt {
 	$$ = $1;
@@ -162,9 +179,13 @@ assign_expr: id EQUAL expr {
 	AST_node * left = AST_node_make($1, ptr, ptr->type, NULL, NULL);
 	$$ = AST_node_make("unname", NULL, EQUAL_TYPE, left, $3);
 };
-read_stmt: _READ OPEN_BRACKET id_list CLOSED_BRACKET SEMICOLON;
-write_stmt: _WRITE OPEN_BRACKET id_list CLOSED_BRACKET SEMICOLON;
-return_stmt: _RETURN expr SEMICOLON;
+read_stmt: _READ OPEN_BRACKET id_list CLOSED_BRACKET SEMICOLON{
+	$$ = NULL;
+};
+write_stmt: _WRITE OPEN_BRACKET id_list CLOSED_BRACKET SEMICOLON {
+	$$ = NULL;
+};
+return_stmt: _RETURN expr SEMICOLON {};
 
 expr: expr_prefix factor {
 /* Will expr_prefix ever NULL?*/
@@ -192,10 +213,16 @@ expr_prefix: expr_prefix factor addop {
 	$$ = NULL
 };
 factor: factor_prefix postfix_expr;
-factor_prefix: factor_prefix postfix_expr mulop | ;
+factor_prefix: factor_prefix postfix_expr mulop {
+	$$ = NULL; //Needs implementation
+}| {
+	$$ = NULL;
+};
 postfix_expr: primary {
 	$$ = $1
-}| call_expr;
+}| call_expr {
+	$$ = NULL
+};
 call_expr: id OPEN_BRACKET expr_list CLOSED_BRACKET;
 expr_list: expr expr_list_tail | ;
 expr_list_tail: COLON expr expr_list_tail | ;
@@ -241,7 +268,9 @@ while_stmt: _WHILE OPEN_BRACKET cond CLOSED_BRACKET decl stmt_list _ENDWHILE {
 	temp_head = head_stack(temp_head, $5, "GENERIC_BLOCK");
 };
 
-control_stmt: return_stmt;
+control_stmt: return_stmt {
+	$$ = NULL;
+};
 loop_stmt: while_stmt;
 
 %%
