@@ -74,25 +74,28 @@
 %%
 
 program: _PROG id _BEGIN pgm_body _END {
-	print_stack(stack_head);
+	//print_stack(stack_head);
 };
 id : IDENTIFIER {$$ = $1;}; 
 pgm_body: decl func_declarations {
 	/*Handles global declaration here */
 	stack_head = head_stack(stack_head, $1, "GLOBAL");
-	//print_stack(stack_head);
-	//print_var_list($1);
 };
 decl: string_decl decl {	
 	/*Append string_decl to the current symbol table pointer*/
 	$$ = append_list($1, $2);
+	curr_var_list = $$;
+	print_var_list(curr_var_list);
 }| var_decl decl {
 	/*Append var_decl to the current symbol table pointer*/
 	$$ = append_list($1, $2);
+	curr_var_list = $$;
+	print_var_list(curr_var_list);
 }
 | {
 	/*clear out the current symbol table */
 	$$ = NULL;
+	curr_var_list = NULL;
 };
 string_decl: _STR id EQUAL str_literal SEMICOLON {
 	/*Need rewriting, just return 1 Sym_table pointer that points to the Sym_table object populated with strings and type*/
