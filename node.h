@@ -7,8 +7,8 @@
 #define STRING_TYPE 3
 #define MAX_STRING_LENGTH 20
 #define MULTI 4
-#define ADD_TYPE 5
-#define SUB_TYPE 6
+#define PLUS_TYPE 5
+#define MINUS_TYPE 6
 #define DIVIDE_TYPE 7
 #define MULTIPLY_TYPE 8
 #define EQUAL_TYPE 9
@@ -60,7 +60,7 @@ Stack * build_stack(Stack * head, Sym_node * table, char * name);
 void print_stack(Stack * head);
 Stack * head_stack(Stack * head, Sym_node * table, char * name);
 Stack * connect(Stack * head, Stack * temphead);
-void * print_posttree(AST_node * tree);
+void print_post_tree(AST_node * tree);
 AST_node * AST_node_make(char * name, Sym_node * ptr, int type, AST_node * left, AST_node * right);
 
 Sym_node * duplicate_check(Sym_node * head, char * name) {
@@ -286,7 +286,7 @@ void print_stack(Stack * head) {
 }
 
 AST_node * AST_node_make(char * name, Sym_node * ptr, int type, AST_node * left, AST_node * right) {
-	node = (AST_node *) malloc(sizeof(AST_node));
+	AST_node * node = (AST_node *) malloc(sizeof(AST_node));
 	node->name = (char *) malloc(sizeof(name) + 1);
 	strcpy(ptr->name, name);
 	node->pointer = ptr;
@@ -296,12 +296,12 @@ AST_node * AST_node_make(char * name, Sym_node * ptr, int type, AST_node * left,
 	return(node);
 }
 
-void print_posttree(AST_node * tree) {
+void print_post_tree(AST_node * tree) {
 	if (tree == NULL) {
 		return;
 	}
-	print_posttree(tree->left);
-	print_posttree(tree->right);
+	print_post_tree(tree->left);
+	print_post_tree(tree->right);
 	printf("%s", tree->name);
 	printf("%d", tree->asttype);
 	print_var_list(tree->pointer);

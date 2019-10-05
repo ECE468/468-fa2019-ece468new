@@ -84,8 +84,8 @@
 %type <ast_node> primary
 
 %type <int_val> var_type
-%type <int_val> mulop
-%type <int_val> addop
+%type <ast_node> mulop
+%type <ast_node> addop
 %type <strv> str_literal
 %type <strv> id
 %%
@@ -199,18 +199,18 @@ expr: expr_prefix factor {
 };
 expr_prefix: expr_prefix factor addop {
 	if ($1 == NULL) {
-		AST_node * head = $3
+		AST_node * head = $3;
 		head->left = $2;
 		$$ = head;
 	}
 	else {
-		AST_node * head = $3
-		$1->right = $2
+		AST_node * head = $3;
+		$1->right = $2;
 		head->left = $1;
 		$$ = head;
 	}
 }| {
-	$$ = NULL
+	$$ = NULL;
 };
 factor: factor_prefix postfix_expr;
 factor_prefix: factor_prefix postfix_expr mulop {
@@ -219,9 +219,9 @@ factor_prefix: factor_prefix postfix_expr mulop {
 	$$ = NULL;
 };
 postfix_expr: primary {
-	$$ = $1
+	$$ = $1;
 }| call_expr {
-	$$ = NULL
+	$$ = NULL;
 };
 call_expr: id OPEN_BRACKET expr_list CLOSED_BRACKET;
 expr_list: expr expr_list_tail | ;
@@ -246,14 +246,14 @@ primary: OPEN_BRACKET expr CLOSED_BRACKET {
 	$$ = AST_node_make("LITERAL", ptr, FLOAT_TYPE, NULL, NULL);
 };
 addop: PLUS {
-	$$ = PLUS_TYPE;
+	$$ = AST_node_make("UNAMED", NULL, PLUS_TYPE, NULL, NULL);
 }| MINUS {
-	$$ = MINUS_TYPE;
+	$$ = AST_node_make("UNAMED", NULL, MINUS_TYPE, NULL, NULL);
 };
 mulop: MULTIPLY {
-	$$ = MULTIPLY_TYPE
+	$$ = AST_node_make("UNAMED", NULL, MULTIPLY_TYPE, NULL, NULL);
 }| DIVIDE {
-	$$ = DIVIDE_TYPE;
+	$$ = AST_node_make("UNAMED", NULL, DIVIDE_TYPE, NULL, NULL);
 };
 
 if_stmt: _IF OPEN_BRACKET cond CLOSED_BRACKET decl stmt_list else_part _ENDIF{
