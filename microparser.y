@@ -102,14 +102,17 @@ pgm_body: decl func_declarations {
 };
 decl: string_decl decl {	
 	/*Append string_decl to the current symbol table pointer*/
-	$$ = append_list($1, $2);
+	curr_sym_table = append_list(curr_sym_table,append_list($1, $2));
+	$$ = curr_sym_table;
 }| var_decl decl {
 	/*Append var_decl to the current symbol table pointer*/
-	$$ = append_list($1, $2);
+	curr_sym_table = append_list(curr_sym_table, append_list($1, $2));
+	$$ = curr_sym_table;
 }
 | {
 	/*clear out the current symbol table */
-	$$ = NULL;
+	curr_sym_table = NULL;
+	$$ = curr_sym_table;
 };
 string_decl: _STR id EQUAL str_literal SEMICOLON {
 	/*Need rewriting, just return 1 Sym_table pointer that points to the Sym_table object populated with strings and type*/
@@ -133,9 +136,11 @@ id_tail: COLON id id_tail {
 	$$ = NULL;
 };
 param_decl_list: param_decl param_decl_tail {
-	$$ = append_list($1, $2);
+	curr_sym_table = append_list(curr_sym_table, append_list($1, $2));
+	$$ = curr_sym_table;
 }| {
-	$$ = NULL;
+	curr_sym_table = NULL;
+	$$ = curr_sym_table;
 };
 param_decl: var_type id {
 	$$ = new_var($2, $1);
@@ -175,7 +180,7 @@ assign_stmt: assign_expr SEMICOLON {
 	$$ = $1;
 };
 assign_expr: id EQUAL expr {
-	Sym_node * ptr = duplicate_check(stack_head->node, $1);
+	Sym_node * ptr = duplicate_check(curr_sym_table, $1);
 	AST_node * left = AST_node_make($1, ptr, ptr->type, NULL, NULL);
 	$$ = AST_node_make("unname", NULL, EQUAL_TYPE, left, $3);
 };
@@ -212,7 +217,9 @@ expr_prefix: expr_prefix factor addop {
 }| {
 	$$ = NULL;
 };
-factor: factor_prefix postfix_expr;
+factor: factor_prefix postfix_expr {
+	$$ = NULL; //Needs implementation
+};
 factor_prefix: factor_prefix postfix_expr mulop {
 	$$ = NULL; //Needs implementation
 }| {
@@ -230,7 +237,7 @@ primary: OPEN_BRACKET expr CLOSED_BRACKET {
 	/*What is primary?? */
 	$$ = $2;
 }| id {
-	Sym_node * ptr = duplicate_check(stack_head->node, $1);
+	Sym_node * ptr = duplicate_check(curr_sym_table, $1);
 	if (ptr == NULL) {
 		printf("Undeclared variable\n");
 	}else {

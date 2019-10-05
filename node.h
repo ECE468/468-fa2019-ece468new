@@ -42,6 +42,7 @@ typedef struct AST_node {
 
 Stack * stack_head = NULL;
 Sym_node * sym_table = NULL;
+Sym_node * curr_sym_table = NULL;
 Stack * temp_head = NULL;
 int count = 0;
 char * err_var = NULL;
