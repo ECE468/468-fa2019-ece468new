@@ -175,7 +175,7 @@ assign_stmt: assign_expr SEMICOLON {
 	$$ = $1;
 };
 assign_expr: id EQUAL expr {
-	Sym_node * ptr = duplicate_check(curr_sym_table, $1);
+	Sym_node * ptr = check_stack(curr_stack, $1);
 	AST_node * left = AST_node_make($1, ptr, ptr->type, NULL, NULL);
 	$$ = AST_node_make("unname", NULL, EQUAL_TYPE, left, $3);
 };
@@ -232,7 +232,7 @@ primary: OPEN_BRACKET expr CLOSED_BRACKET {
 	/*What is primary?? */
 	$$ = $2;
 }| id {
-	Sym_node * ptr = duplicate_check(curr_sym_table, $1);
+	Sym_node * ptr = check_stack(curr_stack, $1);
 	if (ptr == NULL) {
 		printf("Undeclared variable\n");
 	}else {

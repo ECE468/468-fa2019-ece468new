@@ -66,13 +66,15 @@ Stack * connect(Stack * head, Stack * temphead);
 void print_post_tree(AST_node * tree);
 AST_node * AST_node_make(char * name, Sym_node * ptr, int type, AST_node * left, AST_node * right);
 Stack * pop_stack(Stack * head);
+Sym_node * check_stack(Stack * head, char * name);
 
 Sym_node * duplicate_check(Sym_node * head, char * name) {
 	Sym_node * ptr = head;
 	while (ptr != NULL) {
 		if (strcmp(ptr->name, name) == 0) {
 			err_var = malloc(strlen(name) + 1);
-			strcpy(err_var, name);	
+			strcpy(err_var, name);
+			return(ptr);	
 		}
 		ptr = ptr->next;
 	}
@@ -302,7 +304,9 @@ Stack * pop_stack(Stack * head) {
 AST_node * AST_node_make(char * name, Sym_node * ptr, int type, AST_node * left, AST_node * right) {
 	AST_node * node = (AST_node *) malloc(sizeof(AST_node));
 	node->name = (char *) malloc(sizeof(name) + 1);
-	strcpy(ptr->name, name);
+	if (ptr != NULL) {
+		strcpy(ptr->name, name);
+	}
 	node->pointer = ptr;
 	node->asttype = type;
 	node->left = left;
@@ -321,3 +325,13 @@ void print_post_tree(AST_node * tree) {
 	print_var_list(tree->pointer);
 }
 
+Sym_node * check_stack(Stack * head, char * name) {
+	Stack * ptr = head;
+	Sym_node * track = duplicate_check(head->node, name);
+	if (track != 0) {
+		return track;
+	}
+	else if (ptr->next != NULL) {
+		check_stack(ptr->next, name);
+	}
+}
