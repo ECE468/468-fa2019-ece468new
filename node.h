@@ -12,7 +12,8 @@
 #define DIVIDE_TYPE 7
 #define MULTIPLY_TYPE 8
 #define EQUAL_TYPE 9
-
+#define READ_TYPE 10
+#define WRITE_TYPE 11
 #define NODE_EXPR 1
 #define NODE_VAR 2
 #define NODE_LIT 3
@@ -319,6 +320,12 @@ void print_post_tree(AST_node * tree) {
 	case MULTIPLY_TYPE: printf("multiply type\n");
 	break;
 	case EQUAL_TYPE: printf("equal type\n");
+	break;
+	case READ_TYPE: printf("read type\n");
+	print_var_list(tree->pointer);
+	break;
+	case WRITE_TYPE: printf("write type\n");
+	print_var_list(tree->pointer);
 	break;
 	}
 	print_var_node(tree->pointer);
