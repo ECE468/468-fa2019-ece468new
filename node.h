@@ -23,7 +23,9 @@ typedef struct Stack {
 Stack * stack_head = NULL;
 Sym_node * sym_table = NULL;
 Sym_node * curr_var_list = NULL;
+Stack * curr_stack = NULL;
 Stack * temp_head = NULL;
+char * curr_name = NULL;
 int count = 0;
 char * err_var = NULL;
 Sym_node * put_int(Sym_node * head, char* var_name, int int_val);
@@ -41,6 +43,7 @@ Stack * build_stack(Stack * head, Sym_node * table, char * name);
 void print_stack(Stack * head);
 Stack * head_stack(Stack * head, Sym_node * table, char * name);
 Stack * connect(Stack * head, Stack * temphead);
+Stack * pop_stack(Stack * head);
 
 Sym_node * duplicate_check(Sym_node * head, char * name) {
 	Sym_node * ptr = head;
@@ -262,4 +265,14 @@ void print_stack(Stack * head) {
 		printf("\n");
 		ptr = ptr->next;
 	}
+	printf("-------------------------\n");
+}
+
+Stack * pop_stack(Stack * head) {
+	if (head == NULL) {
+		return(NULL);
+	}
+	Stack * ptr = head->next;
+	head->next = NULL;
+	return (ptr);
 }
