@@ -67,6 +67,7 @@ void print_post_tree(AST_node * tree);
 AST_node * AST_node_make(char * name, Sym_node * ptr, int type, AST_node * left, AST_node * right);
 Stack * pop_stack(Stack * head);
 Sym_node * check_stack(Stack * head, char * name);
+void print_var_node(Sym_node * head);
 
 Sym_node * duplicate_check(Sym_node * head, char * name) {
 	Sym_node * ptr = head;
@@ -164,26 +165,6 @@ void free_list(Sym_node * head) {
 	}
 }
 
-/*
- * vartype_decl takes in the main sym_table list, the incomplete id_list and the type of the variable
- *
- */
-/*
-Sym_node * vartype_decl(Sym_node * sym_table, int var_type, Sym_node * id_list) {
-	while (id_list != NULL) {
-		Sym_node * new_node = id_list;
-		id_list = id_list->next;
-		
-		Sym_node * check = duplicate_check(sym_table, new_node->name);
-		if (check == NULL) {
-			new_node->next = sym_table;
-			new_node->type = var_type;
-			sym_table = new_node;
-		}
-	}
-	return(sym_table);
-}
-*/
 Sym_node * vartype_decl(Sym_node * head, int var_type) {
 	Sym_node * ptr = head;	
 	while (ptr != NULL) {
@@ -321,8 +302,6 @@ void print_post_tree(AST_node * tree) {
 	print_post_tree(tree->left);
 	print_post_tree(tree->right);
 	printf("%s\n", tree->name);
-	//printf("%d\n", tree->asttype);
-	//int n = tree->asttype;
 	switch (tree->asttype)
 	{
 	case INT_TYPE: printf("int type, %d\n", tree->pointer->int_val);
@@ -342,8 +321,8 @@ void print_post_tree(AST_node * tree) {
 	case EQUAL_TYPE: printf("equal type\n");
 	break;
 	}
-	print_var_list(tree->pointer);
-
+	print_var_node(tree->pointer);
+	printf("----------------");
 }
 
 Sym_node * check_stack(Stack * head, char * name) {
@@ -354,5 +333,24 @@ Sym_node * check_stack(Stack * head, char * name) {
 	}
 	else if (ptr->next != NULL) {
 		check_stack(ptr->next, name);
+	}
+}
+
+void print_var_node(Sym_node * head) {
+	Sym_node * ptr = head;
+	if (ptr != NULL) {
+		if (ptr->type == INT_TYPE) {
+			printf("name %s type INT\n", ptr-> name);
+		}
+		else if (ptr->type == FLOAT_TYPE) {
+			printf("name %s type FLOAT\n", ptr->name);
+		}
+		else if (ptr->type == STRING_TYPE){
+			printf("name %s type STRING value %s\n", ptr-> name, ptr->string_val);
+		}
+		else {
+			printf("Undefined type no value \n");
+		}
+		ptr = ptr->next;
 	}
 }

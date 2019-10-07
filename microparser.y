@@ -94,7 +94,7 @@ program: _PROG id _BEGIN pgm_body _END {
 	//print_stack(stack_head);
 };
 id : IDENTIFIER {$$ = $1;}; 
-pgm_body: decl {curr_var_list = $1; curr_stack = head_stack(curr_stack, curr_var_list, "GLOBAL"); print_stack(curr_stack);}func_declarations {
+pgm_body: decl {curr_var_list = $1; curr_stack = head_stack(curr_stack, curr_var_list, "GLOBAL");}func_declarations {
 	/*Handles global declaration here */
 	curr_stack = pop_stack(curr_stack);
 	stack_head = head_stack(stack_head, $1, "GLOBAL");
@@ -152,7 +152,7 @@ func_decl: _FUNC any_type id OPEN_BRACKET param_decl_list {curr_var_list = $5; c
 	stack_head = connect(stack_head, temp_head);
 	temp_head = NULL;
 };
-func_body: decl {curr_var_list = append_list(curr_var_list, $1); curr_stack = head_stack(curr_stack, curr_var_list, curr_name); print_stack(curr_stack);} stmt_list{
+func_body: decl {curr_var_list = append_list(curr_var_list, $1); curr_stack = head_stack(curr_stack, curr_var_list, curr_name);} stmt_list{
 	$$ = $1;
 	curr_stack = pop_stack(curr_stack);
 };
@@ -180,7 +180,7 @@ assign_expr: id EQUAL expr {
 	$$ = AST_node_make("unname", NULL, EQUAL_TYPE, left, $3);
 };
 read_stmt: _READ OPEN_BRACKET id_list CLOSED_BRACKET SEMICOLON{
-	$$ = NULL;
+	$$ = NULL ;
 };
 write_stmt: _WRITE OPEN_BRACKET id_list CLOSED_BRACKET SEMICOLON {
 	$$ = NULL;
@@ -213,10 +213,18 @@ expr_prefix: expr_prefix factor addop {
 	$$ = NULL;
 };
 factor: factor_prefix postfix_expr {
-	$$ = NULL; //Needs implementation
+	AST_node * head = $1;
+	if (head != NULL) {
+		head->right = $2;
+		$$ = head; //Needs implementation
+	} else {
+		$$ = $2;
+	}
 };
 factor_prefix: factor_prefix postfix_expr mulop {
-	$$ = NULL; //Needs implementation
+	AST_node * head = $3;
+	head->left = $2;
+	$$ = head; //Needs implementation
 }| {
 	$$ = NULL;
 };
@@ -258,16 +266,16 @@ mulop: MULTIPLY {
 	$$ = AST_node_make("UNAMED", NULL, DIVIDE_TYPE, NULL, NULL);
 };
 
-if_stmt: _IF OPEN_BRACKET cond CLOSED_BRACKET decl {curr_stack = head_stack(curr_stack, $5, "GENERIC IF"); print_stack(curr_stack);}stmt_list {curr_stack = pop_stack(curr_stack);}else_part _ENDIF{
+if_stmt: _IF OPEN_BRACKET cond CLOSED_BRACKET decl {curr_stack = head_stack(curr_stack, $5, "GENERIC IF");}stmt_list {curr_stack = pop_stack(curr_stack);}else_part _ENDIF{
 	temp_head = head_stack(temp_head, $5, "GENERIC_BLOCK");
 };
-else_part: _ELSE decl {curr_stack = head_stack(curr_stack, $2, "GENERIC ELSE"); print_stack(curr_stack);} stmt_list {
+else_part: _ELSE decl {curr_stack = head_stack(curr_stack, $2, "GENERIC ELSE");} stmt_list {
 	curr_stack = pop_stack(curr_stack);
 	temp_head = head_stack(temp_head, $2, "GENERIC_BLOCK");
 }| ;
 cond: expr compop expr | _TRUE | _FALSE;
 compop: LESS_THAN | GREATER_THAN | EQUAL | NOT_EQUAL | LESS_THAN_EQUAL | GREATER_THAN_EQUAL;
-while_stmt: _WHILE OPEN_BRACKET cond CLOSED_BRACKET decl {curr_stack = head_stack(curr_stack, $5, "GENERIC WHILE"); print_stack(curr_stack);}stmt_list {curr_stack = pop_stack(curr_stack);} _ENDWHILE {
+while_stmt: _WHILE OPEN_BRACKET cond CLOSED_BRACKET decl {curr_stack = head_stack(curr_stack, $5, "GENERIC WHILE");}stmt_list {curr_stack = pop_stack(curr_stack);} _ENDWHILE {
 	temp_head = head_stack(temp_head, $5, "GENERIC_BLOCK");
 };
 
