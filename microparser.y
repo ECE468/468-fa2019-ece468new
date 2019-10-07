@@ -180,10 +180,10 @@ assign_expr: id EQUAL expr {
 	$$ = AST_node_make("unname", NULL, EQUAL_TYPE, left, $3);
 };
 read_stmt: _READ OPEN_BRACKET id_list CLOSED_BRACKET SEMICOLON{
-	$$ = NULL ;
+	$$ = AST_node_make("READ", $3, READ_TYPE, NULL, NULL);
 };
 write_stmt: _WRITE OPEN_BRACKET id_list CLOSED_BRACKET SEMICOLON {
-	$$ = NULL;
+	$$ = AST_node_make("WRITE", $3, WRITE_TYPE, NULL, NULL);
 };
 return_stmt: _RETURN expr SEMICOLON {};
 
