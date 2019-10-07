@@ -320,8 +320,26 @@ void print_post_tree(AST_node * tree) {
 	}
 	print_post_tree(tree->left);
 	print_post_tree(tree->right);
-	printf("%s", tree->name);
-	printf("%d", tree->asttype);
+	printf("%s\n", tree->name);
+	//printf("%d\n", tree->asttype);
+	switch(tree->asttype):
+	{
+	case INT_TYPE: printf("int type, %d\n", tree->pointer->int_val);
+	break;
+	case FLOAT_TYPE: printf("float type, %f\n", tree->pointer->float_val);
+	break;
+	case STRING_TYPE: printf("string type, %s\n", tree->pointer->string_val);
+	break;
+	case PLUS_TYPE: printf("plus type\n");
+	break;
+	case MINUS_TYPE: printf("minus type\n");
+	break;
+	case DIVIDE_TYPE: printf("divide type\n");
+	break;
+	case MULTIPLY_TYPE: printf("multiply type\n");
+	break;
+	case EQUAL_TYPE: printf("equal type\n");
+	break;
 	print_var_list(tree->pointer);
 }
 
