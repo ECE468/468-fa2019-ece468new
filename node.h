@@ -42,8 +42,10 @@ typedef struct AST_node {
 
 Stack * stack_head = NULL;
 Sym_node * sym_table = NULL;
-Sym_node * curr_sym_table = NULL;
+Sym_node * curr_var_list = NULL;
+Stack * curr_stack = NULL;
 Stack * temp_head = NULL;
+char * curr_name = NULL;
 int count = 0;
 char * err_var = NULL;
 Sym_node * put_int(Sym_node * head, char* var_name, int int_val);
@@ -63,6 +65,7 @@ Stack * head_stack(Stack * head, Sym_node * table, char * name);
 Stack * connect(Stack * head, Stack * temphead);
 void print_post_tree(AST_node * tree);
 AST_node * AST_node_make(char * name, Sym_node * ptr, int type, AST_node * left, AST_node * right);
+Stack * pop_stack(Stack * head);
 
 Sym_node * duplicate_check(Sym_node * head, char * name) {
 	Sym_node * ptr = head;
@@ -284,6 +287,16 @@ void print_stack(Stack * head) {
 		printf("\n");
 		ptr = ptr->next;
 	}
+	printf("-------------------------\n");
+}
+
+Stack * pop_stack(Stack * head) {
+	if (head == NULL) {
+		return(NULL);
+	}
+	Stack * ptr = head->next;
+	head->next = NULL;
+	return (ptr);
 }
 
 AST_node * AST_node_make(char * name, Sym_node * ptr, int type, AST_node * left, AST_node * right) {
