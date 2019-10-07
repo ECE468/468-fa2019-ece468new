@@ -322,7 +322,8 @@ void print_post_tree(AST_node * tree) {
 	print_post_tree(tree->right);
 	printf("%s\n", tree->name);
 	//printf("%d\n", tree->asttype);
-	switch(tree->asttype):
+	//int n = tree->asttype;
+	switch (tree->asttype)
 	{
 	case INT_TYPE: printf("int type, %d\n", tree->pointer->int_val);
 	break;
@@ -340,7 +341,9 @@ void print_post_tree(AST_node * tree) {
 	break;
 	case EQUAL_TYPE: printf("equal type\n");
 	break;
+	}
 	print_var_list(tree->pointer);
+
 }
 
 Sym_node * check_stack(Stack * head, char * name) {
