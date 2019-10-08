@@ -325,7 +325,7 @@ Sym_node * print_post_tree(AST_node * tree) {
 	case FLOAT_TYPE: 
 		//printf("float type, %f\n", tree->pointer->float_val);
 		//print_var_node(tree->pointer);
-		if (strcmp("LITERAL", ptr->name)){
+		if (!strcmp("LITERAL", ptr->name)){
 			sprintf(temp, "!T%d", var_count++);
 			temp_var = strdup(temp);
 			printf(";STOREF %f %s\n", ptr->float_val, temp_var);
@@ -408,9 +408,9 @@ Sym_node * print_post_tree(AST_node * tree) {
 		//printf("equal type\n");
 		//print_var_node(tree->pointer);
 		if (left->type == INT_TYPE) {
-			printf(";STOREI %s %s\n", left->name,right->name);
+			printf(";STOREI %s %s\n", right->name,left->name);
 		} else {
-			printf(";STOREF %s %s\n", left->name,right->name);
+			printf(";STOREF %s %s\n", right->name,left->name);
 		}
 		return(ptr);
 		break;
