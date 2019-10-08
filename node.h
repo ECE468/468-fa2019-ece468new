@@ -317,7 +317,7 @@ Sym_node * print_post_tree(AST_node * tree) {
 			sprintf(temp, "!T%d", var_count++);
 			temp_var = strdup(temp);
 			printf(";STOREI %d %s\n", ptr->int_val, temp_var);
-			ptr->name = temp;
+			ptr->name = temp_var;
 			return(ptr);
 		}
 		return(ptr);
@@ -329,7 +329,7 @@ Sym_node * print_post_tree(AST_node * tree) {
 			sprintf(temp, "!T%d", var_count++);
 			temp_var = strdup(temp);
 			printf(";STOREF %f %s\n", ptr->float_val, temp_var);
-			ptr->name = temp;	
+			ptr->name = temp_var;	
 		}
 		return(ptr);
 		break;
