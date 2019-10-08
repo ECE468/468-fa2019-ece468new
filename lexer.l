@@ -146,7 +146,7 @@ void {
 }
 
 {DIGIT}*"."{DIGIT}+ {
-	yylval.int_val = atof(yytext);
+	yylval.float_val = atof(yytext);
 	return (FLOATLITERAL);
 }
 
