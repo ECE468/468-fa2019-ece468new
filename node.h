@@ -49,6 +49,7 @@ Stack * temp_head = NULL;
 char * curr_name = NULL;
 int count = 0;
 char * err_var = NULL;
+int var_count = 0;
 Sym_node * put_int(Sym_node * head, char* var_name, int int_val);
 Sym_node * put_float(Sym_node * head, char * var_name, float float_val);
 //Sym_node * put_string(Sym_node * head, char * var_name, char * string_val);
@@ -64,7 +65,7 @@ Stack * build_stack(Stack * head, Sym_node * table, char * name);
 void print_stack(Stack * head);
 Stack * head_stack(Stack * head, Sym_node * table, char * name);
 Stack * connect(Stack * head, Stack * temphead);
-void print_post_tree(AST_node * tree);
+Sym_node * print_post_tree(AST_node * tree);
 AST_node * AST_node_make(char * name, Sym_node * ptr, int type, AST_node * left, AST_node * right);
 Stack * pop_stack(Stack * head);
 Sym_node * check_stack(Stack * head, char * name);
@@ -297,47 +298,154 @@ AST_node * AST_node_make(char * name, Sym_node * ptr, int type, AST_node * left,
 	return(node);
 }
 
-void print_post_tree(AST_node * tree) {
+Sym_node * print_post_tree(AST_node * tree) {
 	if (tree == NULL) {
-		return;
+		return (NULL);
 	}
-	print_post_tree(tree->left);
-	print_post_tree(tree->right);
-	printf("%s\n", tree->name);
+	Sym_node * left = print_post_tree(tree->left);
+	Sym_node * right = print_post_tree(tree->right);
+	char temp[MAX_STRING_LENGTH];
+	char * temp_var = NULL;
+	Sym_node * ptr = tree->pointer;
+	//printf("%s\n", tree->name);
 	switch (tree->asttype)
 	{
-	case INT_TYPE: printf("int type, %d\n", tree->pointer->int_val);
-	print_var_node(tree->pointer);
-	break;
-	case FLOAT_TYPE: printf("float type, %f\n", tree->pointer->float_val);
-	print_var_node(tree->pointer);
-	break;
-	case STRING_TYPE: printf("string type, %s\n", tree->pointer->string_val);
-	print_var_node(tree->pointer);
-	break;
-	case PLUS_TYPE: printf("plus type\n");
-	print_var_node(tree->pointer);
-	break;
-	case MINUS_TYPE: printf("minus type\n");
-	print_var_node(tree->pointer);
-	break;
-	case DIVIDE_TYPE: printf("divide type\n");
-	print_var_node(tree->pointer);
-	break;
-	case MULTIPLY_TYPE: printf("multiply type\n");
-	print_var_node(tree->pointer);
-	break;
-	case EQUAL_TYPE: printf("equal type\n");
-	print_var_node(tree->pointer);
-	break;
-	case READ_TYPE: printf("read type\n");
-	print_var_list(tree->pointer);
-	break;
-	case WRITE_TYPE: printf("write type\n");
-	print_var_list(tree->pointer);
-	break;
+	case INT_TYPE: 
+		//printf("int type, %d\n", tree->pointer->int_val);
+		//print_var_node(tree->pointer);
+		if (!strcmp("LITERAL", ptr->name)){
+			sprintf(temp, "!T%d", var_count++);
+			temp_var = strdup(temp);
+			printf(";STOREI %d %s\n", ptr->int_val, temp_var);
+			ptr->name = temp;
+			return(ptr);
+		}
+		return(ptr);
+		break;
+	case FLOAT_TYPE: 
+		//printf("float type, %f\n", tree->pointer->float_val);
+		//print_var_node(tree->pointer);
+		if (strcmp("LITERAL", ptr->name)){
+			sprintf(temp, "!T%d", var_count++);
+			temp_var = strdup(temp);
+			printf(";STOREF %f %s\n", ptr->float_val, temp_var);
+			ptr->name = temp;	
+		}
+		return(ptr);
+		break;
+	case STRING_TYPE: 
+		printf("string type, %s\n", tree->pointer->string_val);
+		print_var_node(tree->pointer);
+		return(ptr);
+		break;
+	case PLUS_TYPE: 
+		//printf("plus type\n");
+		//print_var_node(tree->pointer);
+
+		sprintf(temp, "!T%d", var_count++);
+		temp_var = strdup(temp);
+	
+		if (left->type == INT_TYPE) {
+			ptr = new_var(temp_var, INT_TYPE);
+			printf(";ADDI %s %s %s\n", left->name,right->name, temp_var);
+		} else {
+			ptr = new_var(temp_var, FLOAT_TYPE);
+			printf(";ADDF %s %s %s\n", left->name,right->name, temp_var);
+		}
+		ptr->name = temp_var;
+		return(ptr);
+		break;
+	case MINUS_TYPE: 
+		//printf("minus type\n");
+		//print_var_node(tree->pointer);
+
+		sprintf(temp, "!T%d", var_count++);
+		temp_var = strdup(temp);
+		if (left->type == INT_TYPE) {
+			ptr = new_var(temp_var, INT_TYPE);
+			printf(";SUBI %s %s %s\n", left->name,right->name, temp_var);
+		} else {
+			ptr = new_var(temp_var, FLOAT_TYPE);
+			printf(";SUBF %s %s %s\n", left->name,right->name, temp_var);
+		}
+		ptr->name = temp_var;
+		return(ptr);
+		break;
+	case DIVIDE_TYPE: 
+		//printf("divide type\n");
+		//print_var_node(tree->pointer);
+	
+		sprintf(temp, "!T%d", var_count++);
+		temp_var = strdup(temp);
+		if (left->type == INT_TYPE) {
+			ptr = new_var(temp_var, INT_TYPE);
+			printf(";DIVI %s %s %s\n", left->name,right->name, temp_var);
+		} else {
+			ptr = new_var(temp_var, FLOAT_TYPE);
+			printf(";DIVF %s %s %s\n", left->name,right->name, temp_var);
+		}
+		ptr->name = temp_var;
+		return(ptr);
+		break;
+	case MULTIPLY_TYPE: 
+		//printf("multiply type\n");
+		//print_var_node(tree->pointer);
+			
+		sprintf(temp, "!T%d", var_count++);
+		temp_var = strdup(temp);
+		if (left->type == INT_TYPE) {
+			ptr = new_var(temp_var, INT_TYPE);
+			printf(";MULI %s %s %s\n", left->name,right->name, temp_var);
+		} else {
+			ptr = new_var(temp_var, FLOAT_TYPE);	
+			printf(";MULF %s %s %s\n", left->name,right->name, temp_var);
+		}
+		ptr->name = temp_var;
+		return(ptr);
+		
+		break;
+	case EQUAL_TYPE: 
+		//printf("equal type\n");
+		//print_var_node(tree->pointer);
+		if (left->type == INT_TYPE) {
+			printf(";STOREI %s %s\n", left->name,right->name);
+		} else {
+			printf(";STOREF %s %s\n", left->name,right->name);
+		}
+		return(ptr);
+		break;
+	case READ_TYPE: 
+		//printf("read type\n");
+		//print_var_list(tree->pointer);
+		while (ptr!= NULL) {
+			Sym_node * node = check_stack(curr_stack, ptr->name);
+			if (node->type == INT_TYPE) {
+				printf(";READI %s\n", ptr->name);
+			} else if (node->type == FLOAT_TYPE){
+				printf(";READF %s\n", ptr->name);
+			} else {
+				printf(";READS %s\n", ptr->name);
+			}
+			ptr = ptr->next;
+		}
+		break;
+	case WRITE_TYPE: 
+		//printf("write type\n");
+		//print_var_list(tree->pointer);
+		while (ptr!= NULL) {
+			Sym_node * node = check_stack(curr_stack, ptr->name);
+			if (node->type == INT_TYPE) {
+				printf(";WRITEI %s\n", ptr->name);
+			} else if (node->type == FLOAT_TYPE) {
+				printf(";WRITEF %s\n", ptr->name);
+			} else {
+				printf(";WRITES %s\n", ptr->name);
+			}
+			ptr = ptr->next;
+		}
+		break;
 	}
-	printf("----------------\n");
+	return(NULL);
 }
 
 Sym_node * check_stack(Stack * head, char * name) {
