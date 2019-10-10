@@ -151,7 +151,7 @@ void print_var_list(Sym_node * head) {
 		}
 		else if (ptr->type == STRING_TYPE){
 			//printf("name %s type STRING value %s\n", ptr-> name, ptr->string_val);
-			printf("str %s value %s\n", ptr-> name, ptr->string_val);
+			printf("str %s %s\n", ptr-> name, ptr->string_val);
 		}
 		else {
 			printf("name %s, undefined type no value\n", ptr->name);
