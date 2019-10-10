@@ -142,13 +142,16 @@ void print_var_list(Sym_node * head) {
 	Sym_node * ptr = head;
 	while (ptr != NULL) {
 		if (ptr->type == INT_TYPE) {
-			printf("name %s type INT\n", ptr-> name);
+			//printf("name %s type INT\n", ptr-> name);
+			printf("var %s\n", ptr-> name);
 		}
 		else if (ptr->type == FLOAT_TYPE) {
-			printf("name %s type FLOAT\n", ptr->name);
+			//printf("name %s type FLOAT\n", ptr->name);
+			printf("var %s\n", ptr-> name);
 		}
 		else if (ptr->type == STRING_TYPE){
-			printf("name %s type STRING value %s\n", ptr-> name, ptr->string_val);
+			//printf("name %s type STRING value %s\n", ptr-> name, ptr->string_val);
+			printf("str %s value %s\n", ptr-> name, ptr->string_val);
 		}
 		else {
 			printf("name %s, undefined type no value\n", ptr->name);
@@ -262,17 +265,17 @@ void print_stack(Stack * head) {
 	int track = 1;
 	int count = 0;
 	while (ptr != NULL) {
-		if (strcmp(ptr->name, "GENERIC_BLOCK") == 0) {
+		/*if (strcmp(ptr->name, "GENERIC_BLOCK") == 0) {
 			char str[MAX_STRING_LENGTH];
 			sprintf(str, "BLOCK %d", ++count);
 			ptr->name = str;
 		}
 		printf("Symbol table %s\n", ptr->name);
 		print_var_list(ptr->node);
-		printf("\n");
+		printf("\n");*/
+		print_var_list(ptr->node);
 		ptr = ptr->next;
 	}
-	printf("-------------------------\n");
 }
 
 Stack * pop_stack(Stack * head) {
@@ -314,9 +317,9 @@ Sym_node * print_post_tree(AST_node * tree) {
 		//printf("int type, %d\n", tree->pointer->int_val);
 		//print_var_node(tree->pointer);
 		if (!strcmp("LITERAL", ptr->name)){
-			sprintf(temp, "!T%d", var_count++);
+			sprintf(temp, "r%d", var_count++);
 			temp_var = strdup(temp);
-			printf(";STOREI %d %s\n", ptr->int_val, temp_var);
+			//printf(";STOREI %d %s\n", ptr->int_val, temp_var);
 			//here is the assembly im making below---------------
 			printf("move %d %s\n", ptr->int_val, temp_var);
 			ptr->name = temp_var;
@@ -328,9 +331,9 @@ Sym_node * print_post_tree(AST_node * tree) {
 		//printf("float type, %f\n", tree->pointer->float_val);
 		//print_var_node(tree->pointer);
 		if (!strcmp("LITERAL", ptr->name)){
-			sprintf(temp, "!T%d", var_count++);
+			sprintf(temp, "r%d", var_count++);
 			temp_var = strdup(temp);
-			printf(";STOREF %f %s\n", ptr->float_val, temp_var);
+			//printf(";STOREF %f %s\n", ptr->float_val, temp_var);
 			//assembly--------------------------------
 			printf("move %f %s\n", ptr->float_val, temp_var);
 			ptr->name = temp_var;	
@@ -346,19 +349,19 @@ Sym_node * print_post_tree(AST_node * tree) {
 		//printf("plus type\n");
 		//print_var_node(tree->pointer);
 
-		sprintf(temp, "!T%d", var_count++);
+		sprintf(temp, "r%d", var_count++);
 		temp_var = strdup(temp);
 	
 		if (left->type == INT_TYPE) {
 			ptr = new_var(temp_var, INT_TYPE);
-			printf(";ADDI %s %s %s\n", left->name,right->name, temp_var);
+			//printf(";ADDI %s %s %s\n", left->name,right->name, temp_var);
 			//assembly------------------------------------------------
 			printf("move %s %s\n", left->name, temp_var);
 			printf("addi %s %s\n", right->name, temp_var);
 
 		} else {
 			ptr = new_var(temp_var, FLOAT_TYPE);
-			printf(";ADDF %s %s %s\n", left->name,right->name, temp_var);
+			//printf(";ADDF %s %s %s\n", left->name,right->name, temp_var);
 			//assembly------------------------------------------------
 			printf("move %s %s\n", left->name, temp_var);
 			printf("addr %s %s\n", right->name, temp_var);
@@ -370,17 +373,17 @@ Sym_node * print_post_tree(AST_node * tree) {
 		//printf("minus type\n");
 		//print_var_node(tree->pointer);
 
-		sprintf(temp, "!T%d", var_count++);
+		sprintf(temp, "r%d", var_count++);
 		temp_var = strdup(temp);
 		if (left->type == INT_TYPE) {
 			ptr = new_var(temp_var, INT_TYPE);
-			printf(";SUBI %s %s %s\n", left->name,right->name, temp_var);
+			//printf(";SUBI %s %s %s\n", left->name,right->name, temp_var);
 			//assembly------------------------------------------------
 			printf("move %s %s\n", left->name, temp_var);
 			printf("subi %s %s\n", right->name, temp_var);
 		} else {
 			ptr = new_var(temp_var, FLOAT_TYPE);
-			printf(";SUBF %s %s %s\n", left->name,right->name, temp_var);
+			//printf(";SUBF %s %s %s\n", left->name,right->name, temp_var);
 			//assembly------------------------------------------------
 			printf("move %s %s\n", left->name, temp_var);
 			printf("subr %s %s\n", right->name, temp_var);
@@ -392,17 +395,17 @@ Sym_node * print_post_tree(AST_node * tree) {
 		//printf("divide type\n");
 		//print_var_node(tree->pointer);
 	
-		sprintf(temp, "!T%d", var_count++);
+		sprintf(temp, "r%d", var_count++);
 		temp_var = strdup(temp);
 		if (left->type == INT_TYPE) {
 			ptr = new_var(temp_var, INT_TYPE);
-			printf(";DIVI %s %s %s\n", left->name,right->name, temp_var);
+			//printf(";DIVI %s %s %s\n", left->name,right->name, temp_var);
 			//assembly------------------------------------------------
 			printf("move %s %s\n", left->name, temp_var);
 			printf("divi %s %s\n", right->name, temp_var);
 		} else {
 			ptr = new_var(temp_var, FLOAT_TYPE);
-			printf(";DIVF %s %s %s\n", left->name,right->name, temp_var);
+			//printf(";DIVF %s %s %s\n", left->name,right->name, temp_var);
 			//assembly------------------------------------------------
 			printf("move %s %s\n", left->name, temp_var);
 			printf("divr %s %s\n", right->name, temp_var);
@@ -414,17 +417,17 @@ Sym_node * print_post_tree(AST_node * tree) {
 		//printf("multiply type\n");
 		//print_var_node(tree->pointer);
 			
-		sprintf(temp, "!T%d", var_count++);
+		sprintf(temp, "r%d", var_count++);
 		temp_var = strdup(temp);
 		if (left->type == INT_TYPE) {
 			ptr = new_var(temp_var, INT_TYPE);
-			printf(";MULI %s %s %s\n", left->name,right->name, temp_var);
+			//printf(";MULI %s %s %s\n", left->name,right->name, temp_var);
 			//assembly------------------------------------------------
 			printf("move %s %s\n", left->name, temp_var);
 			printf("muli %s %s\n", right->name, temp_var);
 		} else {
 			ptr = new_var(temp_var, FLOAT_TYPE);	
-			printf(";MULF %s %s %s\n", left->name,right->name, temp_var);
+			//printf(";MULF %s %s %s\n", left->name,right->name, temp_var);
 			//assembly------------------------------------------------
 			printf("move %s %s\n", left->name, temp_var);
 			printf("mulr %s %s\n", right->name, temp_var);
@@ -437,10 +440,10 @@ Sym_node * print_post_tree(AST_node * tree) {
 		//printf("equal type\n");
 		//print_var_node(tree->pointer);
 		if (left->type == INT_TYPE) {
-			printf(";STOREI %s %s\n", right->name,left->name);
+			//printf(";STOREI %s %s\n", right->name,left->name);
 			printf("move %s %s\n", right->name, left->name);
 		} else {
-			printf(";STOREF %s %s\n", right->name,left->name);
+			//printf(";STOREF %s %s\n", right->name,left->name);
 			printf("move %s %s\n", right->name, left->name);
 		}
 		return(ptr);
@@ -451,13 +454,13 @@ Sym_node * print_post_tree(AST_node * tree) {
 		while (ptr!= NULL) {
 			Sym_node * node = check_stack(curr_stack, ptr->name);
 			if (node->type == INT_TYPE) {
-				printf(";READI %s\n", ptr->name);
+				//printf(";READI %s\n", ptr->name);
 				printf("sys readi %s\n", ptr->name);
 			} else if (node->type == FLOAT_TYPE){
-				printf(";READF %s\n", ptr->name);
+				//printf(";READF %s\n", ptr->name);
 				printf("sys readr %s\n", ptr->name);
 			} else {
-				printf(";READS %s\n", ptr->name);
+				//printf(";READS %s\n", ptr->name);
 				printf("sys readr %s\n", ptr->name);
 			}
 			ptr = ptr->next;
@@ -469,13 +472,13 @@ Sym_node * print_post_tree(AST_node * tree) {
 		while (ptr!= NULL) {
 			Sym_node * node = check_stack(curr_stack, ptr->name);
 			if (node->type == INT_TYPE) {
-				printf(";WRITEI %s\n", ptr->name);
+				//printf(";WRITEI %s\n", ptr->name);
 				printf("sys writei %s\n", ptr->name);
 			} else if (node->type == FLOAT_TYPE) {
-				printf(";WRITEF %s\n", ptr->name);
+				//printf(";WRITEF %s\n", ptr->name);
 				printf("sys writer %s\n", ptr->name);
 			} else {
-				printf(";WRITES %s\n", ptr->name);
+				//printf(";WRITES %s\n", ptr->name);
 				printf("sys writes %s\n", ptr->name);
 			}
 			ptr = ptr->next;
@@ -500,13 +503,14 @@ void print_var_node(Sym_node * head) {
 	Sym_node * ptr = head;
 	if (ptr != NULL) {
 		if (ptr->type == INT_TYPE) {
-			printf("name %s type INT\n", ptr-> name);
+			//printf("name %s type INT\n", ptr-> name);
+			printf("var %s\n", ptr-> name);
 		}
 		else if (ptr->type == FLOAT_TYPE) {
-			printf("name %s type FLOAT\n", ptr->name);
+			printf("var %s\n", ptr->name);
 		}
 		else if (ptr->type == STRING_TYPE){
-			printf("name %s type STRING value %s\n", ptr-> name, ptr->string_val);
+			printf("str %s %s\n", ptr-> name, ptr->string_val);
 		}
 		else {
 			printf("name %s, Undefined type no value \n");
