@@ -1,0 +1,108 @@
+Commit ID tagged for submission: 12c41c1ba0945904bf37c823de5a2ee568447d9d
+Submission graded at: 2019-10-10 15:28:13
+
+rm microparser.tab.c
+rm: cannot remove 'microparser.tab.c': No such file or directory
+make: *** [Makefile:12: clean] Error 1
+flex lexer.l
+lexer.l:65: warning, rule cannot be matched
+bison -d microparser.y
+gcc -g -std=gnu99 lexer_driver.c microparser.tab.c lex.yy.c -o parser
+tinyNew.c: In member function ‘float operand::rval()’:
+tinyNew.c:262:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tinyNew.c: In member function ‘int operand::ival()’:
+tinyNew.c:255:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tinyNew.c: In member function ‘std::__cxx11::string operand::sval()’:
+tinyNew.c:266:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+Testing..... test_expr.micro
+Key output:
+ 1
+2
+10
+20
+3
+30
+27
+-20
+218
+228
+268
+-10
+1
+3.14159
+2
+1.5708
+1.5708
+2
+4
+15.5277
+
+
+InstLine: 330
+Student output:
+ 1
+2
+10
+20
+3
+30
+27
+-20
+218
+228
+268
+-10
+1
+3.14159
+2
+1.5708
+1.5708
+2
+4
+15.5277
+
+
+Testing..... test_mult.micro
+Key output:
+ 84
+84
+252
+
+
+InstLine: 32
+Student output:
+ 84
+84
+252
+
+
+Testing..... test_combination.micro
+Key output:
+ 692920920
+
+InstLine: 95
+Student output:
+ 692920920
+
+Testing..... test_complex.micro
+Key output:
+ 692
+920
+920
+3.55
+
+
+InstLine: 143
+Student output:
+ 692
+920
+920
+3.55
+
+
