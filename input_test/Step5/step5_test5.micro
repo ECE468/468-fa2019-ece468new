@@ -1,0 +1,25 @@
+prog test
+begin
+
+	int i,a,num;
+	
+	func void main()
+	begin
+		num = 7;
+		i = 2;	
+		a = 42;
+	
+		if (i<5)
+			num = num +a;
+			if ( i < 3)
+				num = num + a;
+			endif
+		else
+            if (i >= 5)
+                num = num - a;
+            endif
+        endif    
+
+		write(num);
+	end
+end

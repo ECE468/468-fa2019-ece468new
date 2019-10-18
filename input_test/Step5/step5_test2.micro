@@ -1,0 +1,35 @@
+prog p
+begin
+
+	int a,b,k,g,p,u;
+
+	func void main()
+	begin
+
+		b = 1;
+        a = 1;
+        while(a <= 120) 
+            if (b== 1)
+                g = 1*a;
+                write (g);
+            else
+                if (b== 2)
+                    p = 2*a;
+                    write (p);
+                else
+                    if (b== 3)
+                        k = 3*a;
+                        write (k);
+                    else
+                        if (b== 4)
+                            u = 4*a;
+                            write (u);
+                        endif
+                    endif    
+                endif        
+            endif
+            b = b + 1;
+            a = a + 20;
+        endwhile
+	end
+end
