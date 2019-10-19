@@ -23,6 +23,8 @@
 #define TRUE_TYPE 17
 #define FALSE_TYPE 18
 #define NE_TYPE 19
+#define IF_BLOCK 0
+#define WHILE_BLOCK 1
 
 #define NODE_EXPR 1
 #define NODE_VAR 2
