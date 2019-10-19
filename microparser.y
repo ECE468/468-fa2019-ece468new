@@ -267,7 +267,14 @@ mulop: MULTIPLY {
 	$$ = AST_node_make("UNAMED", NULL, DIVIDE_TYPE, NULL, NULL);
 };
 
-if_stmt: _IF OPEN_BRACKET cond CLOSED_BRACKET decl {curr_stack = head_stack(curr_stack, $5, "GENERIC IF");}stmt_list {curr_stack = pop_stack(curr_stack);}else_part _ENDIF{
+if_stmt: _IF OPEN_BRACKET cond CLOSED_BRACKET decl {curr_stack = head_stack(curr_stack, $5, "GENERIC IF");}stmt_list {
+	curr_stack = pop_stack(curr_stack);
+	char * label = malloc(sizeof(int));
+	*label = (char) max_label;
+	curr_label = head_stack(curr_label, NULL, label);
+	printf("jmp END_IF_ELSE%d\n", (int) *label + 1);
+	max_label += 2;
+} {printf("label ELSE_%d\n", (int) *(curr_label->name));} else_part {printf("label END_IF_ELSE%d\n", (int) *(curr_label->name) + 1); curr_label = pop_stack(curr_label);} _ENDIF{
 	temp_head = head_stack(temp_head, $5, "GENERIC_BLOCK");
 };
 else_part: _ELSE decl {curr_stack = head_stack(curr_stack, $2, "GENERIC ELSE");} stmt_list {
@@ -276,8 +283,17 @@ else_part: _ELSE decl {curr_stack = head_stack(curr_stack, $2, "GENERIC ELSE");}
 }| ;
 cond: expr compop expr | _TRUE | _FALSE;
 compop: LESS_THAN | GREATER_THAN | EQUAL | NOT_EQUAL | LESS_THAN_EQUAL | GREATER_THAN_EQUAL;
-while_stmt: _WHILE OPEN_BRACKET cond CLOSED_BRACKET decl {curr_stack = head_stack(curr_stack, $5, "GENERIC WHILE");}stmt_list {curr_stack = pop_stack(curr_stack);} _ENDWHILE {
-	temp_head = head_stack(temp_head, $5, "GENERIC_BLOCK");
+while_stmt: _WHILE OPEN_BRACKET {
+	char * label = malloc(sizeof(int));
+	*label = (char) max_label;
+	curr_label = head_stack(curr_label, NULL, label);
+	printf("label WHILE_START_%d\n", (int) *label);
+	max_label += 2;
+}cond CLOSED_BRACKET decl {curr_stack = head_stack(curr_stack, $6, "GENERIC WHILE");}stmt_list {curr_stack = pop_stack(curr_stack);} _ENDWHILE {
+	temp_head = head_stack(temp_head, $6, "GENERIC_BLOCK");
+	printf("jmp WHILE_START_%d\n", (int) *(curr_label->name));
+	printf("label WHILE_END_%d\n", (int) *(curr_label->name) + 1);
+	curr_label = pop_stack(curr_label);
 };
 
 control_stmt: return_stmt {
