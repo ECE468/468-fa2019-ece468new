@@ -84,7 +84,7 @@ AST_node * AST_node_make(char * name, Sym_node * ptr, int type, AST_node * left,
 Stack * pop_stack(Stack * head);
 Sym_node * check_stack(Stack * head, char * name);
 void print_var_node(Sym_node * head);
-Sym_node * print_cond(AST_node * tree, int type, int label_count);
+void print_cond(AST_node * tree, int type, int label_count);
 
 Sym_node * duplicate_check(Sym_node * head, char * name) {
 	Sym_node * ptr = head;
@@ -315,45 +315,33 @@ AST_node * AST_node_make(char * name, Sym_node * ptr, int type, AST_node * left,
 	node->right = right;
 	return(node);
 }
-Sym_node * print_cond(AST_node * tree, int type, int label_count) {
+void print_cond(AST_node * tree, int type, int label_count) {
 	if (tree == NULL) {
-		return (NULL);
+		return;
 	}
 	Sym_node * left = print_post_tree(tree->left);
 	Sym_node * right = print_post_tree(tree->right);
 	char temp[MAX_STRING_LENGTH];
 	char * temp_var = NULL;
-	Sym_node * ptr = tree->pointer;
-	
-	sprintf(temp, "r%d", var_count++);
-	temp_var = strdup(temp);
 	
 	if (tree->asttype == TRUE_TYPE) {
-		return(NULL);
+		return;
 	} else if (tree->asttype == FALSE_TYPE) {
 		if (type == WHILE_BLOCK){
 			printf("jmp WHILE_END_%d\n", label_count+1);
 		} else if (type == IF_BLOCK) {
 			printf("jmp ELSE_%d\n", label_count);
 		}
-		ptr->name = temp_var;
-		return(ptr);
+		return;
 	}
 	
 	if (left->type == INT_TYPE) {
-		ptr = new_var(temp_var, INT_TYPE);
-		//printf(";ADDI %s %s %s\n", left->name,right->name, temp_var);
-		//assembly------------------------------------------------
-		printf("move %s %s\n", left->name, temp_var);
-		printf("compi %s %s\n", right->name, temp_var);
+		printf("cmpi %s %s\n", left->name, right->name);
 
 	} else {
-		ptr = new_var(temp_var, FLOAT_TYPE);
-		//printf(";ADDF %s %s %s\n", left->name,right->name, temp_var);
-		//assembly------------------------------------------------
-		printf("move %s %s\n", left->name, temp_var);
-		printf("compr %s %s\n", right->name, temp_var);
+		printf("cmpr %s %s\n", left->name, right->name);
 	}
+	
 	switch(tree->asttype){
 		case GT_TYPE:
 			if (type == WHILE_BLOCK){
@@ -361,8 +349,6 @@ Sym_node * print_cond(AST_node * tree, int type, int label_count) {
 			} else if (type == IF_BLOCK) {
 				printf("jle ELSE_%d\n", label_count);
 			}
-			ptr->name = temp_var;
-			return(ptr);
 			break;
 		case LT_TYPE:
 			if (type == WHILE_BLOCK){
@@ -370,8 +356,6 @@ Sym_node * print_cond(AST_node * tree, int type, int label_count) {
 			} else if (type == IF_BLOCK) {
 				printf("jge ELSE_%d\n", label_count);
 			}
-			ptr->name = temp_var;
-			return(ptr);
 			break;
 		case GE_TYPE:
 			if (type == WHILE_BLOCK){
@@ -379,8 +363,6 @@ Sym_node * print_cond(AST_node * tree, int type, int label_count) {
 			} else if (type == IF_BLOCK) {
 				printf("jlt ELSE_%d\n", label_count);
 			}
-			ptr->name = temp_var;
-			return(ptr);
 			break;
 		case LE_TYPE:
 			if (type == WHILE_BLOCK){
@@ -388,8 +370,6 @@ Sym_node * print_cond(AST_node * tree, int type, int label_count) {
 			} else if (type == IF_BLOCK) {
 				printf("jgt ELSE_%d\n", label_count);
 			}
-			ptr->name = temp_var;
-			return(ptr);
 			break;
 		case EQ_TYPE:
 			if (type == WHILE_BLOCK){
@@ -397,8 +377,6 @@ Sym_node * print_cond(AST_node * tree, int type, int label_count) {
 			} else if (type == IF_BLOCK) {
 				printf("jne ELSE_%d\n", label_count);
 			}
-			ptr->name = temp_var;
-			return(ptr);
 			break;
 		case NE_TYPE:
 			if (type == WHILE_BLOCK){
@@ -406,8 +384,6 @@ Sym_node * print_cond(AST_node * tree, int type, int label_count) {
 			} else if (type == IF_BLOCK) {
 				printf("jeq ELSE_%d\n", label_count);
 			}
-			ptr->name = temp_var;
-			return(ptr);
 			break;
 	}
 }

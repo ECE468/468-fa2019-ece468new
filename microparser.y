@@ -94,7 +94,6 @@
 
 program: _PROG id _BEGIN pgm_body _END {
 	//print_stack(stack_head);
-	printf("sys halt");
 };
 id : IDENTIFIER {$$ = $1;}; 
 pgm_body: decl {curr_var_list = $1; curr_stack = head_stack(curr_stack, curr_var_list, "GLOBAL");}func_declarations {
@@ -155,9 +154,20 @@ func_decl: _FUNC any_type id OPEN_BRACKET param_decl_list {curr_var_list = $5; c
 	stack_head = connect(stack_head, temp_head);
 	temp_head = NULL;
 };
-func_body: decl {curr_var_list = append_list(curr_var_list, $1); curr_stack = head_stack(curr_stack, curr_var_list, curr_name); print_stack(curr_stack);} stmt_list{
+func_body: decl {
+	curr_var_list = append_list(curr_var_list, $1); 
+	curr_stack = head_stack(curr_stack, curr_var_list, curr_name); 
+	print_stack(curr_stack);
+	printf("push\n");
+	printf("jsr FUNC_main\n");
+	printf("sys halt\n");
+	printf("label FUNC_main\n");
+	printf("link 1\n"); 
+} stmt_list{
 	$$ = $1;
 	curr_stack = pop_stack(curr_stack);
+	printf("unlnk\n");
+	printf("ret\n");
 };
 
 stmt_list: stmt stmt_list| ;
