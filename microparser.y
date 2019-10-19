@@ -82,6 +82,8 @@
 %type <ast_node> assign_expr
 %type <ast_node> postfix_expr
 %type <ast_node> primary
+%type <ast_node> compop
+%type <ast_node> cond
 
 %type <int_val> var_type
 %type <ast_node> mulop
@@ -92,6 +94,7 @@
 
 program: _PROG id _BEGIN pgm_body _END {
 	//print_stack(stack_head);
+	printf("sys halt");
 };
 id : IDENTIFIER {$$ = $1;}; 
 pgm_body: decl {curr_var_list = $1; curr_stack = head_stack(curr_stack, curr_var_list, "GLOBAL");}func_declarations {
@@ -155,7 +158,6 @@ func_decl: _FUNC any_type id OPEN_BRACKET param_decl_list {curr_var_list = $5; c
 func_body: decl {curr_var_list = append_list(curr_var_list, $1); curr_stack = head_stack(curr_stack, curr_var_list, curr_name); print_stack(curr_stack);} stmt_list{
 	$$ = $1;
 	curr_stack = pop_stack(curr_stack);
-	printf("sys halt");
 };
 
 stmt_list: stmt stmt_list| ;
@@ -267,30 +269,53 @@ mulop: MULTIPLY {
 	$$ = AST_node_make("UNAMED", NULL, DIVIDE_TYPE, NULL, NULL);
 };
 
-if_stmt: _IF OPEN_BRACKET cond CLOSED_BRACKET decl {curr_stack = head_stack(curr_stack, $5, "GENERIC IF");}stmt_list {
-	curr_stack = pop_stack(curr_stack);
+if_stmt: _IF OPEN_BRACKET cond {
 	char * label = malloc(sizeof(int));
 	*label = (char) max_label;
 	curr_label = head_stack(curr_label, NULL, label);
-	printf("jmp END_IF_ELSE%d\n", (int) *label + 1);
+	print_cond($3, IF_BLOCK, (int) *label);
 	max_label += 2;
+}CLOSED_BRACKET decl {curr_stack = head_stack(curr_stack, $6, "GENERIC IF");}stmt_list {
+	curr_stack = pop_stack(curr_stack);
+	printf("jmp END_IF_ELSE%d\n", (int) *(curr_label->name) + 1);
 } {printf("label ELSE_%d\n", (int) *(curr_label->name));} else_part {printf("label END_IF_ELSE%d\n", (int) *(curr_label->name) + 1); curr_label = pop_stack(curr_label);} _ENDIF{
-	temp_head = head_stack(temp_head, $5, "GENERIC_BLOCK");
+	temp_head = head_stack(temp_head, $6, "GENERIC_BLOCK");
 };
 else_part: _ELSE decl {curr_stack = head_stack(curr_stack, $2, "GENERIC ELSE");} stmt_list {
 	curr_stack = pop_stack(curr_stack);
 	temp_head = head_stack(temp_head, $2, "GENERIC_BLOCK");
 }| ;
-cond: expr compop expr | _TRUE | _FALSE;
-compop: LESS_THAN | GREATER_THAN | EQUAL | NOT_EQUAL | LESS_THAN_EQUAL | GREATER_THAN_EQUAL;
+cond: expr compop expr {
+	AST_node * head = $2;
+	head->left = $1;
+	head->right = $3;
+	$$ = head;
+}| _TRUE {
+	$$ = AST_node_make("UNAMED", NULL, TRUE_TYPE, NULL, NULL);
+}| _FALSE{
+	$$ = AST_node_make("UNAMED", NULL, FALSE_TYPE, NULL, NULL);
+};
+compop: LESS_THAN {
+	$$ = AST_node_make("UNAMED", NULL, LT_TYPE, NULL, NULL);
+}| GREATER_THAN {
+	$$ = AST_node_make("UNAMED", NULL, GT_TYPE, NULL, NULL);
+}| EQUAL {
+	$$ = AST_node_make("UNAMED", NULL, EQ_TYPE, NULL, NULL);
+}| NOT_EQUAL {
+	$$ = AST_node_make("UNAMED", NULL, NE_TYPE, NULL, NULL);
+}| LESS_THAN_EQUAL {
+	$$ = AST_node_make("UNAMED", NULL, LE_TYPE, NULL, NULL);
+}| GREATER_THAN_EQUAL{
+	$$ = AST_node_make("UNAMED", NULL, GE_TYPE, NULL, NULL);
+};
 while_stmt: _WHILE OPEN_BRACKET {
 	char * label = malloc(sizeof(int));
 	*label = (char) max_label;
 	curr_label = head_stack(curr_label, NULL, label);
 	printf("label WHILE_START_%d\n", (int) *label);
 	max_label += 2;
-}cond CLOSED_BRACKET decl {curr_stack = head_stack(curr_stack, $6, "GENERIC WHILE");}stmt_list {curr_stack = pop_stack(curr_stack);} _ENDWHILE {
-	temp_head = head_stack(temp_head, $6, "GENERIC_BLOCK");
+}cond {print_cond($4, WHILE_BLOCK, (int) *(curr_label->name));} CLOSED_BRACKET decl {curr_stack = head_stack(curr_stack, $7, "GENERIC WHILE");}stmt_list {curr_stack = pop_stack(curr_stack);} _ENDWHILE {
+	temp_head = head_stack(temp_head, $7, "GENERIC_BLOCK");
 	printf("jmp WHILE_START_%d\n", (int) *(curr_label->name));
 	printf("label WHILE_END_%d\n", (int) *(curr_label->name) + 1);
 	curr_label = pop_stack(curr_label);
