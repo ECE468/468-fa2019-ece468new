@@ -526,12 +526,18 @@ Sym_node * print_post_tree(AST_node * tree) {
 	case EQUAL_TYPE: 
 		//printf("equal type\n");
 		//print_var_node(tree->pointer);
+		sprintf(temp, "r%d", var_count++);
+		temp_var = strdup(temp);
 		if (left->type == INT_TYPE) {
 			//printf(";STOREI %s %s\n", right->name,left->name);
-			printf("move %s %s\n", right->name, left->name);
+			ptr = new_var(temp_var, INT_TYPE);
+			printf("move %s %s\n", right->name, temp_var);
+			printf("move %s %s\n", temp_var, left->name);
 		} else {
 			//printf(";STOREF %s %s\n", right->name,left->name);
-			printf("move %s %s\n", right->name, left->name);
+			ptr = new_var(temp_var, FLOAT_TYPE);
+			printf("move %s %s\n", right->name, temp_var);
+			printf("move %s %s\n", temp_var, left->name);
 		}
 		return(ptr);
 		break;
