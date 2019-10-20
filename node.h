@@ -336,11 +336,13 @@ void print_cond(AST_node * tree, int type, int label_count) {
 	}
 	
 	if (left->type == INT_TYPE) {
-		printf("cmpi %s %s\n", left->name, right->name);
-
+		printf("move %s r%d\n", right->name, var_count);
+		printf("cmpi %s r%d\n", left->name, var_count);
 	} else {
-		printf("cmpr %s %s\n", left->name, right->name);
+		printf("move %s r%d\n", right->name, var_count);
+		printf("cmpr %s r%d\n", left->name, var_count);
 	}
+	var_count++;
 	
 	switch(tree->asttype){
 		case GT_TYPE:
