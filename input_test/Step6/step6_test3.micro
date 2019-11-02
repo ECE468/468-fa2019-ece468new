@@ -1,0 +1,41 @@
+prog factorial
+begin
+	str intro = "You will be asked for three float numbers\n";
+	str first = "Please enter the first float number: ";
+	str second = "Please enter the second float number: ";
+	str third = "Please enter the third float number: ";
+	str eol = "\n";
+    str star = "*";
+	str plus = "+";
+	str equal = "=";
+	
+	func float add (float a, float b)
+	begin
+	  float result;
+		result = a+b;
+		return result;
+	end
+
+	func float multiply (float a, float b)
+	begin
+	  float result;
+		result = a*b;
+		return result;
+	end
+	
+	func int main ()
+	begin
+		float a,b,c;
+		float addresult,multiplyresult;
+		write(intro,first);
+		read(a);
+		write(second);
+		read(b);
+		write(third);
+		read(c);
+		multiplyresult = multiply(a,b);
+		addresult = add(multiplyresult,c);
+		write(a,star,b,plus,c,equal,addresult,eol);
+		return 0;
+	end
+end
