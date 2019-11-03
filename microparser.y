@@ -96,7 +96,12 @@ program: _PROG id _BEGIN pgm_body _END {
 	//print_stack(stack_head);
 };
 id : IDENTIFIER {$$ = $1;}; 
-pgm_body: decl {curr_var_list = $1; curr_stack = head_stack(curr_stack, curr_var_list, "GLOBAL");}func_declarations {
+pgm_body: decl {
+	curr_var_list = $1; curr_stack = head_stack(curr_stack, curr_var_list, "GLOBAL"); print_stack(curr_stack);
+	printf("push\n");
+	printf("jsr FUNC_main\n");
+	printf("sys halt\n");
+}func_declarations {
 	/*Handles global declaration here */
 	curr_stack = pop_stack(curr_stack);
 	stack_head = head_stack(stack_head, $1, "GLOBAL");
@@ -148,7 +153,7 @@ param_decl_tail: COLON param_decl param_decl_tail {
 };
 
 func_declarations: func_decl func_declarations | ;
-func_decl: _FUNC any_type id OPEN_BRACKET param_decl_list {curr_var_list = $5; curr_name = strdup($3);} CLOSED_BRACKET _BEGIN func_body _END{
+func_decl: _FUNC any_type id OPEN_BRACKET param_decl_list {curr_var_list = $5; curr_name = strdup($3); printf("label FUNC_%s\n", $3); printf("link 1\n");} CLOSED_BRACKET _BEGIN func_body _END{
 	Sym_node * table = append_list($5, $9);
 	temp_head = head_stack(temp_head, table, $3);
 	stack_head = connect(stack_head, temp_head);
@@ -157,12 +162,6 @@ func_decl: _FUNC any_type id OPEN_BRACKET param_decl_list {curr_var_list = $5; c
 func_body: decl {
 	curr_var_list = append_list(curr_var_list, $1); 
 	curr_stack = head_stack(curr_stack, curr_var_list, curr_name); 
-	print_stack(curr_stack);
-	printf("push\n");
-	printf("jsr FUNC_main\n");
-	printf("sys halt\n");
-	printf("label FUNC_main\n");
-	printf("link 1\n"); 
 } stmt_list{
 	$$ = $1;
 	curr_stack = pop_stack(curr_stack);

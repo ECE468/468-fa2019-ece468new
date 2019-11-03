@@ -2,7 +2,7 @@ import os
 #import numpy as np
 import subprocess as sub
 def main():
-    step_num = "4"
+    step_num = "6"
     #results = inputs
     entries = os.listdir('input_test/Step'+step_num+'/')
     inputs = []
