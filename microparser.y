@@ -149,12 +149,15 @@ param_decl_list: param_decl param_decl_tail {
 	$$ = NULL;
 };
 param_decl: var_type id {
-	$$ = new_var($2, $1);
+	Sym_node * ptr = new_var($2, $1);
+	ptr->fp_offset = fp_offset++;
+	$$ = ptr;
 };
 param_decl_tail: COLON param_decl param_decl_tail { 
 	$$ = append_list($2, $3);
 }| {
 	$$ = NULL;
+	fp_offset = 2;
 };
 
 func_declarations: func_decl func_declarations | ;
@@ -202,7 +205,9 @@ read_stmt: _READ OPEN_BRACKET id_list CLOSED_BRACKET SEMICOLON{
 write_stmt: _WRITE OPEN_BRACKET id_list CLOSED_BRACKET SEMICOLON {
 	$$ = AST_node_make("WRITE", $3, WRITE_TYPE, NULL, NULL);
 };
-return_stmt: _RETURN expr SEMICOLON {};
+return_stmt: _RETURN expr SEMICOLON {
+	
+};
 
 expr: expr_prefix factor {
 /* Will expr_prefix ever NULL?*/

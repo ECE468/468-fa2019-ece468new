@@ -32,6 +32,7 @@
 
 typedef struct Sym_node {
 	char * name;
+	int fp_offset;
 	int int_val;
 	char * string_val;
 	float float_val;
@@ -64,6 +65,7 @@ int max_label = 1;
 int count = 0;
 char * err_var = NULL;
 int var_count = 0;
+int fp_offset = 2;
 Sym_node * put_string(char * var_name, char * string_val);
 Sym_node * duplicate_check(Sym_node * head, char * name);
 Sym_node * put_var(Sym_node * head, char* var_name, int type);
@@ -354,8 +356,14 @@ Sym_node * print_post_tree(AST_node * tree) {
 			printf("move %d %s\n", ptr->int_val, temp_var);
 			ptr->name = temp_var;
 			return(ptr);
+		} else if (ptr->fp_offset) {
+			sprintf(temp, "$%d", ptr->fp_offset);
+			temp_var = strdup(temp);
+			ptr->name = temp_var;	
+			return(ptr);
+		} else {
+			return(ptr);
 		}
-		return(ptr);
 		break;
 	case FLOAT_TYPE: 
 		//printf("float type, %f\n", tree->pointer->float_val);
@@ -367,8 +375,14 @@ Sym_node * print_post_tree(AST_node * tree) {
 			//assembly--------------------------------
 			printf("move %f %s\n", ptr->float_val, temp_var);
 			ptr->name = temp_var;	
+		} else if (ptr->fp_offset) {
+			sprintf(temp, "$%d", ptr->fp_offset);
+			temp_var = strdup(temp);
+			ptr->name = temp_var;	
+			return(ptr);
+		} else {
+			return(ptr);
 		}
-		return(ptr);
 		break;
 	case STRING_TYPE: 
 		printf("string type, %s\n", tree->pointer->string_val);
