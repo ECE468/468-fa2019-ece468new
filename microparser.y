@@ -100,6 +100,10 @@ id : IDENTIFIER {$$ = $1;};
 pgm_body: decl {
 	curr_var_list = $1; curr_stack = head_stack(curr_stack, curr_var_list, "GLOBAL"); print_stack(curr_stack);
 	printf("push\n");
+	printf("push r0\n");
+	printf("push r1\n");
+	printf("push r2\n");
+	printf("push r3\n");
 	printf("jsr FUNC_main\n");
 	printf("sys halt\n");
 }func_declarations {
@@ -250,6 +254,17 @@ call_expr: id OPEN_BRACKET expr_list CLOSED_BRACKET {
 	Sym_node * ptr = new_var("LITERAL", INT_TYPE);
 	ptr->int_val = 0;
 	$$ = AST_node_make($1, ptr, INT_TYPE, NULL, NULL);
+	printf("push\n");
+	printf("push r0\n");
+	printf("push r1\n");
+	printf("push r2\n");
+	printf("push r3\n");
+	printf("jsr FUNC_%s\n", $1);
+	printf("pop r3\n");
+	printf("pop r2\n");
+	printf("pop r1\n");
+	printf("pop r0\n");
+
 };
 expr_list: expr expr_list_tail | ;
 expr_list_tail: COLON expr expr_list_tail | ;
@@ -291,12 +306,14 @@ if_stmt: _IF OPEN_BRACKET cond {
 	max_label += 2;
 }CLOSED_BRACKET decl {curr_stack = head_stack(curr_stack, $6, "GENERIC IF");}stmt_list {
 	curr_stack = pop_stack(curr_stack);
+	//printf("pop\n");
 	printf("jmp END_IF_ELSE%d\n", (int) *(curr_label->name) + 1);
 } {printf("label ELSE_%d\n", (int) *(curr_label->name));} else_part {printf("label END_IF_ELSE%d\n", (int) *(curr_label->name) + 1); curr_label = pop_stack(curr_label);} _ENDIF{
 	temp_head = head_stack(temp_head, $6, "GENERIC_BLOCK");
 };
 else_part: _ELSE decl {curr_stack = head_stack(curr_stack, $2, "GENERIC ELSE");} stmt_list {
 	curr_stack = pop_stack(curr_stack);
+	//printf("pop\n");
 	temp_head = head_stack(temp_head, $2, "GENERIC_BLOCK");
 }| ;
 cond: expr compop expr {
