@@ -84,6 +84,7 @@
 %type <ast_node> primary
 %type <ast_node> compop
 %type <ast_node> cond
+%type <ast_node> call_expr
 
 %type <int_val> var_type
 %type <ast_node> mulop
@@ -243,9 +244,13 @@ factor_prefix: factor_prefix postfix_expr mulop {
 postfix_expr: primary {
 	$$ = $1;
 }| call_expr {
-	$$ = NULL;
+	$$ = $1;
 };
-call_expr: id OPEN_BRACKET expr_list CLOSED_BRACKET;
+call_expr: id OPEN_BRACKET expr_list CLOSED_BRACKET {
+	Sym_node * ptr = new_var("LITERAL", INT_TYPE);
+	ptr->int_val = 0;
+	$$ = AST_node_make($1, ptr, INT_TYPE, NULL, NULL);
+};
 expr_list: expr expr_list_tail | ;
 expr_list_tail: COLON expr expr_list_tail | ;
 primary: OPEN_BRACKET expr CLOSED_BRACKET {
