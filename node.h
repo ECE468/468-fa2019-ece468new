@@ -64,14 +64,10 @@ int max_label = 1;
 int count = 0;
 char * err_var = NULL;
 int var_count = 0;
-Sym_node * put_int(Sym_node * head, char* var_name, int int_val);
-Sym_node * put_float(Sym_node * head, char * var_name, float float_val);
-//Sym_node * put_string(Sym_node * head, char * var_name, char * string_val);
 Sym_node * put_string(char * var_name, char * string_val);
 Sym_node * duplicate_check(Sym_node * head, char * name);
 Sym_node * put_var(Sym_node * head, char* var_name, int type);
 void print_var_list(Sym_node * head);
-//Sym_node * vartype_decl(Sym_node * sym_table, int var_type, Sym_node * id_list);
 Sym_node * vartype_decl(Sym_node * head, int var_type);
 void free_list(Sym_node * head);
 Sym_node * new_var(char * var_name, int type);
@@ -99,50 +95,7 @@ Sym_node * duplicate_check(Sym_node * head, char * name) {
 	return (0);
 }
 
-Sym_node * put_int(Sym_node * head, char* var_name, int int_val) {
-	Sym_node * check = duplicate_check(head, var_name);
-	if (check != NULL) {
-		return(head);
-	}
-	Sym_node * ptr = malloc(sizeof(Sym_node));
-	ptr->name = malloc(strlen(var_name) + 1);
-	strcpy(ptr->name, var_name);
-	ptr->type = INT_TYPE;
-	ptr->int_val = int_val;
-	ptr->next = head;
-	return(ptr);
-}
-Sym_node * put_float(Sym_node * head, char* var_name, float float_val) {
 
-	Sym_node * check = duplicate_check(head, var_name);
-	if (check != NULL) {
-		return(head);
-	}
-	Sym_node * ptr = (Sym_node *) malloc(sizeof(Sym_node));
-	ptr->name = malloc(strlen(var_name) + 1);
-	strcpy(ptr->name, var_name);
-	ptr->type = FLOAT_TYPE;
-	ptr->int_val = float_val;
-	ptr->next = head;
-	return(ptr);
-}
-/*
-Sym_node * put_string(Sym_node * head, char* var_name, char* string_val) {
-	
-	Sym_node * check = duplicate_check(head, var_name);
-	if (check != NULL) {
-		return(head);
-	}
-	Sym_node * ptr = (Sym_node*) malloc(sizeof(Sym_node));
-	ptr->name = (char *) malloc(strlen(var_name) + 1);
-	strcpy(ptr->name, var_name);
-	ptr->type = STRING_TYPE;
-	ptr->string_val = (char *) malloc(sizeof(string_val) + 1);
-	strcpy(ptr->string_val, string_val);
-	ptr->next = head;
-	return(ptr);
-}
-*/
 Sym_node * put_string(char * var_name, char * string_val) {
 	Sym_node * ptr = (Sym_node *) malloc(sizeof(Sym_node));
 	ptr->name = (char *) malloc(strlen(var_name) + 1);
@@ -280,14 +233,6 @@ void print_stack(Stack * head) {
 	int track = 1;
 	int count = 0;
 	while (ptr != NULL) {
-		/*if (strcmp(ptr->name, "GENERIC_BLOCK") == 0) {
-			char str[MAX_STRING_LENGTH];
-			sprintf(str, "BLOCK %d", ++count);
-			ptr->name = str;
-		}
-		printf("Symbol table %s\n", ptr->name);
-		print_var_list(ptr->node);
-		printf("\n");*/
 		print_var_list(ptr->node);
 		ptr = ptr->next;
 	}
@@ -304,10 +249,6 @@ Stack * pop_stack(Stack * head) {
 
 AST_node * AST_node_make(char * name, Sym_node * ptr, int type, AST_node * left, AST_node * right) {
 	AST_node * node = (AST_node *) malloc(sizeof(AST_node));
-	//node->name = (char *) malloc(sizeof(name) + 1);
-	//if (ptr != NULL) {
-	//	strcpy(ptr->name, name);
-	//}
 	node->name = name;
 	node->pointer = ptr;
 	node->asttype = type;
