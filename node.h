@@ -77,7 +77,7 @@ Stack * build_stack(Stack * head, Sym_node * table, char * name);
 void print_stack(Stack * head);
 Stack * head_stack(Stack * head, Sym_node * table, char * name);
 Stack * connect(Stack * head, Stack * temphead);
-Sym_node * print_post_tree(AST_node * tree);
+AST_node * print_post_tree(AST_node * tree);
 AST_node * AST_node_make(char * name, Sym_node * ptr, int type, AST_node * left, AST_node * right);
 Stack * pop_stack(Stack * head);
 Sym_node * check_stack(Stack * head, char * name);
@@ -262,8 +262,8 @@ void print_cond(AST_node * tree, int type, int label_count) {
 	if (tree == NULL) {
 		return;
 	}
-	Sym_node * left = print_post_tree(tree->left);
-	Sym_node * right = print_post_tree(tree->right);
+	AST_node * left = print_post_tree(tree->left);
+	AST_node * right = print_post_tree(tree->right);
 	char temp[MAX_STRING_LENGTH];
 	char * temp_var = NULL;
 	
@@ -278,7 +278,7 @@ void print_cond(AST_node * tree, int type, int label_count) {
 		return;
 	}
 	
-	if (left->type == INT_TYPE) {
+	if (left->pointer->type == INT_TYPE) {
 		printf("move %s r%d\n", right->name, var_count);
 		printf("cmpi %s r%d\n", left->name, var_count);
 	} else {
@@ -333,12 +333,12 @@ void print_cond(AST_node * tree, int type, int label_count) {
 	}
 }
 
-Sym_node * print_post_tree(AST_node * tree) {
+AST_node * print_post_tree(AST_node * tree) {
 	if (tree == NULL) {
 		return (NULL);
 	}
-	Sym_node * left = print_post_tree(tree->left);
-	Sym_node * right = print_post_tree(tree->right);
+	AST_node * left = print_post_tree(tree->left);
+	AST_node * right = print_post_tree(tree->right);
 	char temp[MAX_STRING_LENGTH];
 	char * temp_var = NULL;
 	Sym_node * ptr = tree->pointer;
@@ -354,15 +354,17 @@ Sym_node * print_post_tree(AST_node * tree) {
 			//printf(";STOREI %d %s\n", ptr->int_val, temp_var);
 			//here is the assembly im making below---------------
 			printf("move %d %s\n", ptr->int_val, temp_var);
-			ptr->name = temp_var;
-			return(ptr);
+			//ptr->name = temp_var;
+			tree->name = temp_var;
+			return(tree);
 		} else if (ptr->fp_offset) {
 			sprintf(temp, "$%d", ptr->fp_offset);
 			temp_var = strdup(temp);
-			ptr->name = temp_var;	
-			return(ptr);
+			//ptr->name = temp_var;
+			tree->name = temp_var;	
+			return(tree);
 		} else {
-			return(ptr);
+			return(tree);
 		}
 		break;
 	case FLOAT_TYPE: 
@@ -374,20 +376,22 @@ Sym_node * print_post_tree(AST_node * tree) {
 			//printf(";STOREF %f %s\n", ptr->float_val, temp_var);
 			//assembly--------------------------------
 			printf("move %f %s\n", ptr->float_val, temp_var);
-			ptr->name = temp_var;	
+			//ptr->name = temp_var;	
+			tree->name = temp_var;
 		} else if (ptr->fp_offset) {
 			sprintf(temp, "$%d", ptr->fp_offset);
 			temp_var = strdup(temp);
-			ptr->name = temp_var;	
-			return(ptr);
+			//ptr->name = temp_var;	
+			tree->name = temp_var;
+			return(tree);
 		} else {
-			return(ptr);
+			return(tree);
 		}
 		break;
 	case STRING_TYPE: 
 		printf("string type, %s\n", tree->pointer->string_val);
 		print_var_node(tree->pointer);
-		return(ptr);
+		return(tree);
 		break;
 	case PLUS_TYPE: 
 		//printf("plus type\n");
@@ -396,7 +400,7 @@ Sym_node * print_post_tree(AST_node * tree) {
 		sprintf(temp, "r%d", var_count++);
 		temp_var = strdup(temp);
 	
-		if (left->type == INT_TYPE) {
+		if (left->pointer->type == INT_TYPE) {
 			ptr = new_var(temp_var, INT_TYPE);
 			//printf(";ADDI %s %s %s\n", left->name,right->name, temp_var);
 			//assembly------------------------------------------------
@@ -410,8 +414,10 @@ Sym_node * print_post_tree(AST_node * tree) {
 			printf("move %s %s\n", left->name, temp_var);
 			printf("addr %s %s\n", right->name, temp_var);
 		}
-		ptr->name = temp_var;
-		return(ptr);
+		//ptr->name = temp_var;
+		tree->pointer = ptr;
+		tree->name = temp_var;
+		return(tree);
 		break;
 	case MINUS_TYPE: 
 		//printf("minus type\n");
@@ -419,7 +425,7 @@ Sym_node * print_post_tree(AST_node * tree) {
 
 		sprintf(temp, "r%d", var_count++);
 		temp_var = strdup(temp);
-		if (left->type == INT_TYPE) {
+		if (left->pointer->type == INT_TYPE) {
 			ptr = new_var(temp_var, INT_TYPE);
 			//printf(";SUBI %s %s %s\n", left->name,right->name, temp_var);
 			//assembly------------------------------------------------
@@ -432,8 +438,10 @@ Sym_node * print_post_tree(AST_node * tree) {
 			printf("move %s %s\n", left->name, temp_var);
 			printf("subr %s %s\n", right->name, temp_var);
 		}
-		ptr->name = temp_var;
-		return(ptr);
+		//ptr->name = temp_var;
+		tree->pointer = ptr;
+		tree->name = temp_var;
+		return(tree);
 		break;
 	case DIVIDE_TYPE: 
 		//printf("divide type\n");
@@ -441,7 +449,7 @@ Sym_node * print_post_tree(AST_node * tree) {
 	
 		sprintf(temp, "r%d", var_count++);
 		temp_var = strdup(temp);
-		if (left->type == INT_TYPE) {
+		if (left->pointer->type == INT_TYPE) {
 			ptr = new_var(temp_var, INT_TYPE);
 			//printf(";DIVI %s %s %s\n", left->name,right->name, temp_var);
 			//assembly------------------------------------------------
@@ -454,8 +462,10 @@ Sym_node * print_post_tree(AST_node * tree) {
 			printf("move %s %s\n", left->name, temp_var);
 			printf("divr %s %s\n", right->name, temp_var);
 		}
-		ptr->name = temp_var;
-		return(ptr);
+		//ptr->name = temp_var;
+		tree->name = temp_var;
+		tree->pointer = ptr;
+		return(tree);
 		break;
 	case MULTIPLY_TYPE: 
 		//printf("multiply type\n");
@@ -463,7 +473,7 @@ Sym_node * print_post_tree(AST_node * tree) {
 			
 		sprintf(temp, "r%d", var_count++);
 		temp_var = strdup(temp);
-		if (left->type == INT_TYPE) {
+		if (left->pointer->type == INT_TYPE) {
 			ptr = new_var(temp_var, INT_TYPE);
 			//printf(";MULI %s %s %s\n", left->name,right->name, temp_var);
 			//assembly------------------------------------------------
@@ -476,8 +486,10 @@ Sym_node * print_post_tree(AST_node * tree) {
 			printf("move %s %s\n", left->name, temp_var);
 			printf("mulr %s %s\n", right->name, temp_var);
 		}
-		ptr->name = temp_var;
-		return(ptr);
+		//ptr->name = temp_var;
+		tree->name = temp_var;
+		tree->pointer = ptr;
+		return(tree);
 		
 		break;
 	case EQUAL_TYPE: 
@@ -485,7 +497,7 @@ Sym_node * print_post_tree(AST_node * tree) {
 		//print_var_node(tree->pointer);
 		sprintf(temp, "r%d", var_count++);
 		temp_var = strdup(temp);
-		if (left->type == INT_TYPE) {
+		if (left->pointer->type == INT_TYPE) {
 			//printf(";STOREI %s %s\n", right->name,left->name);
 			ptr = new_var(temp_var, INT_TYPE);
 			printf("move %s %s\n", right->name, temp_var);
@@ -496,7 +508,8 @@ Sym_node * print_post_tree(AST_node * tree) {
 			printf("move %s %s\n", right->name, temp_var);
 			printf("move %s %s\n", temp_var, left->name);
 		}
-		return(ptr);
+		tree->pointer = ptr;
+		return(tree);
 		break;
 	case READ_TYPE: 
 		//printf("read type\n");
