@@ -65,7 +65,9 @@ int max_label = 1;
 int count = 0;
 char * err_var = NULL;
 int var_count = 0;
-int fp_offset = 2;
+int fp_arg = 0;
+int fp_local = 0;
+
 Sym_node * put_string(char * var_name, char * string_val);
 Sym_node * duplicate_check(Sym_node * head, char * name);
 Sym_node * put_var(Sym_node * head, char* var_name, int type);
@@ -516,15 +518,23 @@ AST_node * print_post_tree(AST_node * tree) {
 		//print_var_list(tree->pointer);
 		while (ptr!= NULL) {
 			Sym_node * node = check_stack(curr_stack, ptr->name);
+			
+			if (node->fp_offset) {
+				sprintf(temp, "$%d", node->fp_offset);
+				temp_var = strdup(temp);
+			} else {
+				temp_var = ptr->name;
+			}
+
 			if (node->type == INT_TYPE) {
 				//printf(";READI %s\n", ptr->name);
-				printf("sys readi %s\n", ptr->name);
+				printf("sys readi %s\n", temp_var);
 			} else if (node->type == FLOAT_TYPE){
-				//printf(";READF %s\n", ptr->name);
-				printf("sys readr %s\n", ptr->name);
+				//printf(";READF %s\n", ptr_name);
+				printf("sys readr %s\n", temp_var);
 			} else {
 				//printf(";READS %s\n", ptr->name);
-				printf("sys readr %s\n", ptr->name);
+				printf("sys readr %s\n", temp_var);
 			}
 			ptr = ptr->next;
 		}
@@ -534,15 +544,23 @@ AST_node * print_post_tree(AST_node * tree) {
 		//print_var_list(tree->pointer);
 		while (ptr!= NULL) {
 			Sym_node * node = check_stack(curr_stack, ptr->name);
+			
+			if (node->fp_offset) {
+				sprintf(temp, "$%d", node->fp_offset);
+				temp_var = strdup(temp);
+			} else {
+				temp_var = ptr->name;
+			}
+			
 			if (node->type == INT_TYPE) {
 				//printf(";WRITEI %s\n", ptr->name);
-				printf("sys writei %s\n", ptr->name);
+				printf("sys writei %s\n", temp_var);
 			} else if (node->type == FLOAT_TYPE) {
 				//printf(";WRITEF %s\n", ptr->name);
-				printf("sys writer %s\n", ptr->name);
+				printf("sys writer %s\n", temp_var);
 			} else {
 				//printf(";WRITES %s\n", ptr->name);
-				printf("sys writes %s\n", ptr->name);
+				printf("sys writes %s\n", temp_var);
 			}
 			ptr = ptr->next;
 		}

@@ -135,10 +135,14 @@ var_decl: var_type id_list SEMICOLON {
 var_type: _FLOAT {$$ = FLOAT_TYPE;} | _INT {$$= INT_TYPE;};
 any_type: var_type | _VOID;
 id_list: id id_tail {
-	$$ = put_var($2, $1, 0);
+	Sym_node * ptr = put_var($2, $1, 0);
+	ptr->fp_offset = fp_local--;
+	$$ = ptr;
 };
 id_tail: COLON id id_tail {
-	$$ = put_var($3, $2, 0); 
+	Sym_node * ptr = put_var($3, $2, 0); 
+	ptr->fp_offset = fp_local--;
+	$$ = ptr;
 }
 | {
 	$$ = NULL;
@@ -150,20 +154,19 @@ param_decl_list: param_decl param_decl_tail {
 };
 param_decl: var_type id {
 	Sym_node * ptr = new_var($2, $1);
-	ptr->fp_offset = fp_offset++;
+	ptr->fp_offset = fp_arg++;
 	$$ = ptr;
 };
 param_decl_tail: COLON param_decl param_decl_tail { 
 	$$ = append_list($2, $3);
 }| {
 	$$ = NULL;
-	fp_offset = 2;
 };
 
 func_declarations: func_decl func_declarations | ;
-func_decl: _FUNC any_type id OPEN_BRACKET param_decl_list {curr_var_list = $5; curr_name = strdup($3); printf("label FUNC_%s\n", $3); printf("link 1\n");} CLOSED_BRACKET _BEGIN func_body _END{
-	Sym_node * table = append_list($5, $9);
-	temp_head = head_stack(temp_head, table, $3);
+func_decl: {fp_arg = 2; fp_local = -1;}_FUNC any_type id OPEN_BRACKET param_decl_list {curr_var_list = $6; curr_name = strdup($4); printf("label FUNC_%s\n", $4); printf("link 1\n");} CLOSED_BRACKET _BEGIN func_body _END{
+	Sym_node * table = append_list($6, $10);
+	temp_head = head_stack(temp_head, table, $4);
 	stack_head = connect(stack_head, temp_head);
 	temp_head = NULL;
 };
