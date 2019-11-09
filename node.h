@@ -14,21 +14,24 @@
 #define EQUAL_TYPE 9
 #define READ_TYPE 10
 #define WRITE_TYPE 11
+#define FUNC_TYPE 12
 
-#define EQ_TYPE 12
-#define GT_TYPE 13
-#define LT_TYPE 14
-#define GE_TYPE 15
-#define LE_TYPE 16
-#define TRUE_TYPE 17
-#define FALSE_TYPE 18
-#define NE_TYPE 19
+
+#define EQ_TYPE 13
+#define GT_TYPE 14
+#define LT_TYPE 15
+#define GE_TYPE 16
+#define LE_TYPE 17
+#define TRUE_TYPE 18
+#define FALSE_TYPE 19
+#define NE_TYPE 20
 #define IF_BLOCK 0
 #define WHILE_BLOCK 1
 
 #define NODE_EXPR 1
 #define NODE_VAR 2
 #define NODE_LIT 3
+
 
 typedef struct Sym_node {
 	char * name;
