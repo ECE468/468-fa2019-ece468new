@@ -69,6 +69,8 @@
 %type <sym_node> param_decl_list
 %type <sym_node> param_decl
 %type <sym_node> param_decl_tail
+%type <sym_node> expr_list
+%type <sym_node> expr_list_tail
 
 %type <ast_node> base_stmt
 %type <ast_node> assign_stmt
@@ -99,6 +101,7 @@ program: _PROG id _BEGIN pgm_body _END {
 id : IDENTIFIER {$$ = $1;}; 
 pgm_body: decl {
 	curr_var_list = $1; curr_stack = head_stack(curr_stack, curr_var_list, "GLOBAL"); print_stack(curr_stack);
+	stack_head = head_stack(stack_head, $1, "GLOBAL");
 	printf("push\n");
 	printf("push r0\n");
 	printf("push r1\n");
@@ -109,7 +112,6 @@ pgm_body: decl {
 }func_declarations {
 	/*Handles global declaration here */
 	curr_stack = pop_stack(curr_stack);
-	stack_head = head_stack(stack_head, $1, "GLOBAL");
 };
 decl: string_decl decl {	
 	/*Append string_decl to the current symbol table pointer*/
@@ -164,15 +166,13 @@ param_decl_tail: COLON param_decl param_decl_tail {
 };
 
 func_declarations: func_decl func_declarations | ;
-func_decl: {fp_arg = 2; fp_local = -1;}_FUNC any_type id OPEN_BRACKET param_decl_list {curr_var_list = $6; curr_name = strdup($4); printf("label FUNC_%s\n", $4); printf("link 1\n");} CLOSED_BRACKET _BEGIN func_body _END{
-	Sym_node * table = append_list($6, $10);
-	temp_head = head_stack(temp_head, table, $4);
-	stack_head = connect(stack_head, temp_head);
-	temp_head = NULL;
-};
+func_decl: {fp_arg = 2; fp_local = -1;} _FUNC any_type id OPEN_BRACKET param_decl_list {
+	curr_var_list = $6; curr_name = strdup($4); printf("label FUNC_%s\n", $4); printf("link 1\n");
+} CLOSED_BRACKET _BEGIN func_body _END{};
 func_body: decl {
 	curr_var_list = append_list(curr_var_list, $1); 
 	curr_stack = head_stack(curr_stack, curr_var_list, curr_name); 
+	stack_head = head_stack(stack_head, curr_var_list, curr_name); 
 } stmt_list{
 	$$ = $1;
 	curr_stack = pop_stack(curr_stack);
@@ -209,7 +209,10 @@ write_stmt: _WRITE OPEN_BRACKET id_list CLOSED_BRACKET SEMICOLON {
 	$$ = AST_node_make("WRITE", $3, WRITE_TYPE, NULL, NULL);
 };
 return_stmt: _RETURN expr SEMICOLON {
-	
+	print_post_tree($2);
+	AST_node * ptr = $2;
+	printf("move %s r%d\n", ptr->name,  var_count);
+	printf("move r%d $%d\n", var_count++, fp_arg + 4);
 };
 
 expr: expr_prefix factor {
@@ -259,23 +262,46 @@ postfix_expr: primary {
 	$$ = $1;
 };
 call_expr: id OPEN_BRACKET expr_list CLOSED_BRACKET {
-	Sym_node * ptr = new_var("LITERAL", INT_TYPE);
-	ptr->int_val = 0;
-	$$ = AST_node_make($1, ptr, INT_TYPE, NULL, NULL);
+	//int count = stack_local_count(stack_head, $1);
+	char * buffer = malloc(sizeof(*buffer) * 5);
+	sprintf(buffer, "r%d", var_count++);
+	Sym_node * ptr = new_var(buffer, INT_TYPE); //The type is dodgy
+	ptr->fp_offset = 0;
+	$$ = AST_node_make(buffer, ptr, INT_TYPE, NULL, NULL); //The type is also dodgy
 	printf("push\n");
 	printf("push r0\n");
 	printf("push r1\n");
 	printf("push r2\n");
 	printf("push r3\n");
+	ptr = $3;
+	while(ptr != NULL){
+		printf("push %s\n", ptr->name);
+		ptr = ptr->next;
+	}
 	printf("jsr FUNC_%s\n", $1);
+	ptr = $3;
+	while(ptr != NULL){
+		printf("pop\n");
+		ptr = ptr->next;
+	}
 	printf("pop r3\n");
 	printf("pop r2\n");
 	printf("pop r1\n");
 	printf("pop r0\n");
-
+	printf("pop %s\n", buffer);
 };
-expr_list: expr expr_list_tail | ;
-expr_list_tail: COLON expr expr_list_tail | ;
+expr_list: expr expr_list_tail {
+	print_post_tree($1);
+	AST_node * expr = $1;
+	Sym_node * ptr = put_var($2, expr->name, 0);
+	$$ = ptr;
+}| {$$ = NULL;};
+expr_list_tail: COLON expr expr_list_tail {
+	print_post_tree($2);
+	AST_node * expr = $2;
+	Sym_node * ptr = put_var($3, expr->name, 0);
+	$$ = ptr;
+}| {$$ = NULL;};
 primary: OPEN_BRACKET expr CLOSED_BRACKET {
 	/*What is primary?? */
 	$$ = $2;
@@ -312,17 +338,13 @@ if_stmt: _IF OPEN_BRACKET cond {
 	curr_label = head_stack(curr_label, NULL, label);
 	print_cond($3, IF_BLOCK, (int) *label);
 	max_label += 2;
-}CLOSED_BRACKET decl {curr_stack = head_stack(curr_stack, $6, "GENERIC IF");}stmt_list {
+}CLOSED_BRACKET decl {curr_stack = head_stack(curr_stack, $6, "GENERIC IF");stack_head = head_stack(stack_head, $6, "GENERIC IF");}stmt_list {
 	curr_stack = pop_stack(curr_stack);
-	//printf("pop\n");
 	printf("jmp END_IF_ELSE%d\n", (int) *(curr_label->name) + 1);
-} {printf("label ELSE_%d\n", (int) *(curr_label->name));} else_part {printf("label END_IF_ELSE%d\n", (int) *(curr_label->name) + 1); curr_label = pop_stack(curr_label);} _ENDIF{
-	temp_head = head_stack(temp_head, $6, "GENERIC_BLOCK");
-};
-else_part: _ELSE decl {curr_stack = head_stack(curr_stack, $2, "GENERIC ELSE");} stmt_list {
+	printf("label ELSE_%d\n", (int) *(curr_label->name));
+} else_part {printf("label END_IF_ELSE%d\n", (int) *(curr_label->name) + 1); curr_label = pop_stack(curr_label);} _ENDIF;
+else_part: _ELSE decl {curr_stack = head_stack(curr_stack, $2, "GENERIC ELSE");stack_head = head_stack(stack_head, $2, "GENERIC ELSE");} stmt_list {
 	curr_stack = pop_stack(curr_stack);
-	//printf("pop\n");
-	temp_head = head_stack(temp_head, $2, "GENERIC_BLOCK");
 }| ;
 cond: expr compop expr {
 	AST_node * head = $2;
@@ -353,8 +375,10 @@ while_stmt: _WHILE OPEN_BRACKET {
 	curr_label = head_stack(curr_label, NULL, label);
 	printf("label WHILE_START_%d\n", (int) *label);
 	max_label += 2;
-}cond {print_cond($4, WHILE_BLOCK, (int) *(curr_label->name));} CLOSED_BRACKET decl {curr_stack = head_stack(curr_stack, $7, "GENERIC WHILE");}stmt_list {curr_stack = pop_stack(curr_stack);} _ENDWHILE {
-	temp_head = head_stack(temp_head, $7, "GENERIC_BLOCK");
+}cond {print_cond($4, WHILE_BLOCK, (int) *(curr_label->name));} CLOSED_BRACKET decl {
+	curr_stack = head_stack(curr_stack, $7, "GENERIC WHILE");
+	stack_head = head_stack(stack_head, $7, "GENERIC WHILE");
+}stmt_list {curr_stack = pop_stack(curr_stack);} _ENDWHILE {
 	printf("jmp WHILE_START_%d\n", (int) *(curr_label->name));
 	printf("label WHILE_END_%d\n", (int) *(curr_label->name) + 1);
 	curr_label = pop_stack(curr_label);

@@ -233,10 +233,10 @@ Stack * connect(Stack * head, Stack * temphead) {
 	}
 }
 void print_stack(Stack * head) {
-	if (err_var != NULL) {
+	/*if (err_var != NULL) {
 		printf("DECLARATION ERROR %s\n", err_var);
 		return;		
-	}
+	}*/
 	Stack * ptr = head;
 	int track = 1;
 	int count = 0;
@@ -609,7 +609,7 @@ int stack_local_count(Stack * head, char * name) {
 	Stack * ptr = head;
 	while (ptr != NULL) {
 		Sym_node * sym_track = ptr->node;
-		if (ptr->name == name) {
+		if (!strcmp(ptr->name,name)) {
 			while (sym_track != NULL) {
 				if (sym_track->fp_offset > 0) {
 					output = output + 1;
