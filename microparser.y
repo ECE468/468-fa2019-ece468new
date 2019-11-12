@@ -216,6 +216,7 @@ return_stmt: _RETURN expr SEMICOLON {
 	AST_node * ptr = $2;
 	printf("move %s r%d\n", ptr->name,  var_count);
 	printf("move r%d $%d\n", var_count++, fp_arg + 4);
+	printf("unlink\nret\n");
 };
 
 expr: expr_prefix factor {
