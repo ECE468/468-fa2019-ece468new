@@ -611,7 +611,7 @@ int stack_local_count(Stack * head, char * name) {
 		Sym_node * sym_track = ptr->node;
 		if (!strcmp(ptr->name,name)) {
 			while (sym_track != NULL) {
-				if (sym_track->fp_offset > 0) {
+				if (sym_track->fp_offset < 0) {
 					output = output + 1;
 				}
 				sym_track = sym_track->next;

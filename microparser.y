@@ -167,12 +167,15 @@ param_decl_tail: COLON param_decl param_decl_tail {
 
 func_declarations: func_decl func_declarations | ;
 func_decl: {fp_arg = 2; fp_local = -1;} _FUNC any_type id OPEN_BRACKET param_decl_list {
-	curr_var_list = $6; curr_name = strdup($4); printf("label FUNC_%s\n", $4); printf("link 1\n");
+	curr_var_list = $6; curr_name = strdup($4);
 } CLOSED_BRACKET _BEGIN func_body _END{};
 func_body: decl {
 	curr_var_list = append_list(curr_var_list, $1); 
 	curr_stack = head_stack(curr_stack, curr_var_list, curr_name); 
 	stack_head = head_stack(stack_head, curr_var_list, curr_name); 
+	int num = stack_local_count(curr_stack, curr_name);
+	printf("label FUNC_%s\n", curr_name);
+	printf("link %d\n", num);
 } stmt_list{
 	$$ = $1;
 	curr_stack = pop_stack(curr_stack);
