@@ -1,0 +1,82 @@
+Commit ID tagged for submission: 021e049125fcb7591f6df9d68e12a862bef35e01
+Submission graded at: 2019-11-15 17:18:46
+
+rm microparser.tab.c
+rm: cannot remove 'microparser.tab.c': No such file or directory
+make: *** [Makefile:12: clean] Error 1
+flex lexer.l
+lexer.l:65: warning, rule cannot be matched
+bison -d microparser.y
+gcc -g -std=gnu99 lexer_driver.c microparser.tab.c lex.yy.c -o parser
+tinyNew.c: In member function ‘float operand::rval()’:
+tinyNew.c:262:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tinyNew.c: In member function ‘int operand::ival()’:
+tinyNew.c:255:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tinyNew.c: In member function ‘std::__cxx11::string operand::sval()’:
+tinyNew.c:266:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+Testing..... step6_test1.micro
+Key output:
+ Please enter an integer number: 479001600
+
+
+InstLine: 555
+Student output:
+ Please enter an integer number: 479001600
+
+
+Testing..... step6_test2.micro
+Key output:
+ Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+
+
+InstLine: 93046
+Student output:
+ Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+
+
+Testing..... step6_test3.micro
+Key output:
+ You will be asked for three float numbers
+Please enter the first float number: Please enter the second float number: Please enter the third float number: 2.435*4.897+0.654=12.5782
+
+
+InstLine: 97
+Student output:
+ You will be asked for three float numbers
+Please enter the first float number: Please enter the second float number: Please enter the third float number: 2.435*4.897+0.654=12.5782
+
+
