@@ -285,11 +285,11 @@ void print_cond(AST_node * tree, int type, int label_count) {
 	}
 	
 	if (left->pointer->type == INT_TYPE) {
-		printf("move %s r%d\n", right->name, var_count);
-		printf("cmpi %s r%d\n", left->name, var_count);
+		printf("move %s r%d\n", right->name, var_count % 4);
+		printf("cmpi %s r%d\n", left->name, var_count % 4);
 	} else {
-		printf("move %s r%d\n", right->name, var_count);
-		printf("cmpr %s r%d\n", left->name, var_count);
+		printf("move %s r%d\n", right->name, var_count % 4);
+		printf("cmpr %s r%d\n", left->name, var_count % 4);
 	}
 	var_count++;
 	
@@ -355,7 +355,7 @@ AST_node * print_post_tree(AST_node * tree) {
 		//printf("int type, %d\n", tree->pointer->int_val);
 		//print_var_node(tree->pointer);
 		if (!strcmp("LITERAL", ptr->name)){
-			sprintf(temp, "r%d", var_count++);
+			sprintf(temp, "r%d", var_count++ % 4);
 			temp_var = strdup(temp);
 			//printf(";STOREI %d %s\n", ptr->int_val, temp_var);
 			//here is the assembly im making below---------------
@@ -377,7 +377,7 @@ AST_node * print_post_tree(AST_node * tree) {
 		//printf("float type, %f\n", tree->pointer->float_val);
 		//print_var_node(tree->pointer);
 		if (!strcmp("LITERAL", ptr->name)){
-			sprintf(temp, "r%d", var_count++);
+			sprintf(temp, "r%d", var_count++ % 4);
 			temp_var = strdup(temp);
 			//printf(";STOREF %f %s\n", ptr->float_val, temp_var);
 			//assembly--------------------------------
@@ -403,7 +403,7 @@ AST_node * print_post_tree(AST_node * tree) {
 		//printf("plus type\n");
 		//print_var_node(tree->pointer);
 
-		sprintf(temp, "r%d", var_count++);
+		sprintf(temp, "r%d", var_count++ % 4);
 		temp_var = strdup(temp);
 	
 		if (left->pointer->type == INT_TYPE) {
@@ -429,7 +429,7 @@ AST_node * print_post_tree(AST_node * tree) {
 		//printf("minus type\n");
 		//print_var_node(tree->pointer);
 
-		sprintf(temp, "r%d", var_count++);
+		sprintf(temp, "r%d", var_count++ % 4);
 		temp_var = strdup(temp);
 		if (left->pointer->type == INT_TYPE) {
 			ptr = new_var(temp_var, INT_TYPE);
@@ -453,7 +453,7 @@ AST_node * print_post_tree(AST_node * tree) {
 		//printf("divide type\n");
 		//print_var_node(tree->pointer);
 	
-		sprintf(temp, "r%d", var_count++);
+		sprintf(temp, "r%d", var_count++ % 4);
 		temp_var = strdup(temp);
 		if (left->pointer->type == INT_TYPE) {
 			ptr = new_var(temp_var, INT_TYPE);
@@ -477,7 +477,7 @@ AST_node * print_post_tree(AST_node * tree) {
 		//printf("multiply type\n");
 		//print_var_node(tree->pointer);
 			
-		sprintf(temp, "r%d", var_count++);
+		sprintf(temp, "r%d", var_count++ % 4);
 		temp_var = strdup(temp);
 		if (left->pointer->type == INT_TYPE) {
 			ptr = new_var(temp_var, INT_TYPE);
@@ -501,7 +501,7 @@ AST_node * print_post_tree(AST_node * tree) {
 	case EQUAL_TYPE: 
 		//printf("equal type\n");
 		//print_var_node(tree->pointer);
-		sprintf(temp, "r%d", var_count++);
+		sprintf(temp, "r%d", var_count++ % 4);
 		temp_var = strdup(temp);
 		if (left->pointer->type == INT_TYPE) {
 			//printf(";STOREI %s %s\n", right->name,left->name);

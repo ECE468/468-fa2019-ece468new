@@ -185,6 +185,7 @@ func_body: decl {
 
 stmt_list: stmt stmt_list| ;
 stmt: base_stmt {
+	var_count = 0;
 	print_post_tree($1);
 }| if_stmt | loop_stmt;
 base_stmt: assign_stmt {
@@ -214,8 +215,8 @@ write_stmt: _WRITE OPEN_BRACKET id_list CLOSED_BRACKET SEMICOLON {
 return_stmt: _RETURN expr SEMICOLON {
 	print_post_tree($2);
 	AST_node * ptr = $2;
-	printf("move %s r%d\n", ptr->name,  var_count);
-	printf("move r%d $%d\n", var_count++, fp_arg + 4);
+	printf("move %s r%d\n", ptr->name,  var_count % 4);
+	printf("move r%d $%d\n", var_count++ % 4, fp_arg + 4);
 	printf("unlnk\nret\n");
 };
 
@@ -268,7 +269,7 @@ postfix_expr: primary {
 call_expr: id OPEN_BRACKET expr_list CLOSED_BRACKET {
 	//int count = stack_local_count(stack_head, $1);
 	char * buffer = malloc(sizeof(*buffer) * 5);
-	sprintf(buffer, "r%d", var_count++);
+	sprintf(buffer, "r%d", var_count++ % 4);
 	Sym_node * ptr = new_var(buffer, INT_TYPE); //The type is dodgy
 	ptr->fp_offset = 0;
 	$$ = AST_node_make(buffer, ptr, INT_TYPE, NULL, NULL); //The type is also dodgy
