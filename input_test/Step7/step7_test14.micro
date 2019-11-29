@@ -1,0 +1,25 @@
+prog test begin
+	int a,b,c;
+	float x,y,z;
+	int h,j,k;
+	
+	func int function1()
+	begin
+		return 35*45;
+	end
+	
+	func int function2()
+	begin
+		return function1();
+	end
+	
+	func int main()
+	begin
+		read (a);
+		write (a);
+		read (b);
+		a = function1();
+		c = function2();
+		c=a+b;
+	end
+end

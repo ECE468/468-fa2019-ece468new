@@ -1,0 +1,25 @@
+prog test
+begin
+
+	int i, j;
+	float newapprox,approx,num;
+	str eol = "\n";
+
+	func void main()
+	begin
+	
+#		num = 7.0;			
+        read(num);
+		j = 1;
+		approx = num;	
+		i = 100;
+
+		while(i != 0)
+			newapprox = 0.5*(approx + num/approx);
+			approx = newapprox;
+			i = i-1;
+		endwhile
+		        
+		write(approx, eol);
+	end
+end

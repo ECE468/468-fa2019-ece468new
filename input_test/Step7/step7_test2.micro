@@ -1,0 +1,46 @@
+prog fibonacci2
+begin
+
+	str input = "Please input an integer number: ";
+	str space = " ";
+	str eol = "\n";
+
+
+	func int F (int n)
+	begin
+		int ret1,ret2;
+		if (n > 2)
+			ret1 = F(n-1);
+			ret2 = F(n-2);
+			return ret1+ret2;
+		else
+            if (n == 0)   #This is a comment
+                return 0;
+            else
+                if (n == 1)
+                    return 1;
+                else
+                    return 1;
+                endif    
+            endif
+		endif
+	end
+	
+	
+	func int main ()
+	begin
+		int i, final, result;		
+		write(input);
+		read(final);
+		i = 0;
+		while (i != final)
+			result = F(i);
+			write (i,space);
+			write (result,eol);
+			i = i + 1;
+		endwhile
+
+		return 0;
+	end
+
+end	

@@ -1,0 +1,20 @@
+prog expr
+begin
+
+	int a,b,c,d,e;
+	str newline = "\n";
+
+	func void main()
+	begin
+		a = 1;
+		b = 2;
+
+          read(c, d);
+
+          e = a * c + b * d;
+          a = a * b * c * d;
+          
+          write(a, newline, c, newline, d, newline, e, newline);
+
+	end	
+end

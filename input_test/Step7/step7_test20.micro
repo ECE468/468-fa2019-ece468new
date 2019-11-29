@@ -1,0 +1,35 @@
+prog p
+begin
+
+	int a,b,c;
+	float p,s,t;
+	str newline = "\n";
+	
+	func void main()
+	begin
+		a = 20;
+		b = 30;
+		c = 40;
+
+		c = c + a*b + (a*b+c)/a + 20;
+		b = b*b + a;
+		a = (b*a)/a;
+
+		write (c);
+		write(newline);
+		write (b);
+		write(newline);
+		write (a);
+		write(newline);
+		
+		p = 2.5;
+		s = 1.2;
+		t = 0.7;
+		
+		t = t * p - s + p * s;
+		
+		write(t);
+		write(newline);
+	
+	end
+end

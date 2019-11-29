@@ -1,0 +1,40 @@
+prog test
+begin
+
+	int count,enough;
+	float newapprox,approx,num,tolerance,diff;
+	str eol = "\n";
+	str space = " ";
+	func void main()
+	begin	
+		tolerance = 0.0001;
+#		num	= 7.0;
+        read(num);
+	
+		approx	= num;
+		count 	= 0;	
+		diff 	= 0.0;
+		enough = 0;
+
+		while (enough != 1)		
+			count = count + 1;
+			newapprox = 0.5*(approx + num/approx);
+ 	
+			diff = approx - newapprox; 
+			if (diff > 0.0)
+				if (diff < tolerance)
+					enough = 1;
+				endif
+			else
+				if (diff > (0.0 - tolerance))
+					enough = 1;
+				endif
+			endif
+
+			approx 	= newapprox;
+		endwhile
+		
+		write(approx, space);
+		write(count, eol);
+	end
+end

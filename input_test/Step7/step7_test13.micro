@@ -1,0 +1,27 @@
+prog test
+begin
+	int a,b,c,x,y,z,h,j,k;
+	func int printout (int a,int b,int c)
+	begin
+		write (a);
+		write (b);
+		write (c);
+		return 0;
+	end
+  	
+  	func int main()
+	begin
+		read(a,b,c);
+		j = 0;
+		if (a == b)
+			h=0;
+		else
+			while ( j <= 10 )
+			     a = j;
+			     j = j + 1;
+		    endwhile
+		endif
+		c = printout(a,b,j);
+		return a+b;
+	end
+end

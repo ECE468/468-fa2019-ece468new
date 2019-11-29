@@ -1,0 +1,38 @@
+prog factorial2
+begin
+	str input = "Please enter an integer number: ";
+	str eol = "\n";
+	
+	func int factorial(int a)
+	begin
+		int ret;
+		int tret;
+		if (a == 1)
+			return 1;
+		else
+			tret = factorial(a-1);
+			ret = tret*a;
+		endif
+		return ret;
+	end
+
+	func int main ()
+	begin
+		int num;
+		int result;
+		write(input);
+		read(num);
+		
+		if(num == 1)
+			result = 1;
+		else
+            if(num >1)
+                result = factorial(num); 
+            else
+                result = 0;
+            endif
+		endif
+		write(result,eol);
+		return 0;
+	end
+end

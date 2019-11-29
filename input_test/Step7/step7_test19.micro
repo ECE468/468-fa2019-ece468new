@@ -1,0 +1,19 @@
+prog p
+begin
+
+	int a,b,c;
+	
+	func void main()
+	begin
+		read(a,b,c);
+
+		c = c + a*b + (a*b+c)/a + 20;
+		b = b*b + a;
+		a = (b*a)/a;
+
+		write (c);
+		write (b);
+		write (a);
+	
+	end
+end
