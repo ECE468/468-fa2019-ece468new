@@ -384,6 +384,7 @@ AST_node * print_post_tree(AST_node * tree) {
 			printf("move %f %s\n", ptr->float_val, temp_var);
 			//ptr->name = temp_var;	
 			tree->name = temp_var;
+			return(tree);
 		} else if (ptr->fp_offset) {
 			sprintf(temp, "$%d", ptr->fp_offset);
 			temp_var = strdup(temp);
@@ -520,6 +521,8 @@ AST_node * print_post_tree(AST_node * tree) {
 	case READ_TYPE: 
 		//printf("read type\n");
 		//print_var_list(tree->pointer);
+		
+		print_stack(curr_stack);
 		while (ptr!= NULL) {
 			Sym_node * node = check_stack(curr_stack, ptr->name);
 			
