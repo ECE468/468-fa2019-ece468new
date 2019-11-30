@@ -521,8 +521,6 @@ AST_node * print_post_tree(AST_node * tree) {
 	case READ_TYPE: 
 		//printf("read type\n");
 		//print_var_list(tree->pointer);
-		
-		print_stack(curr_stack);
 		while (ptr!= NULL) {
 			Sym_node * node = check_stack(curr_stack, ptr->name);
 			
