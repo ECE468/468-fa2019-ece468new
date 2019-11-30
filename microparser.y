@@ -102,15 +102,18 @@ id : IDENTIFIER {$$ = $1;};
 pgm_body: decl {
 	curr_var_list = $1; curr_stack = head_stack(curr_stack, curr_var_list, "GLOBAL"); print_stack(curr_stack);
 	stack_head = head_stack(stack_head, $1, "GLOBAL");
+}func_declarations {
 	printf("push\n");
 	printf("push r0\n");
 	printf("push r1\n");
 	printf("push r2\n");
 	printf("push r3\n");
+	while(main_arg != NULL){
+		printf("push\n");
+		main_arg = main_arg->next;
+	}
 	printf("jsr FUNC_main\n");
 	printf("sys halt\n");
-}func_declarations {
-	/*Handles global declaration here */
 	curr_stack = pop_stack(curr_stack);
 };
 decl: string_decl decl {	
@@ -168,12 +171,16 @@ param_decl_tail: COLON param_decl param_decl_tail {
 func_declarations: func_decl func_declarations | ;
 func_decl: {fp_arg = 2; fp_local = -1;} _FUNC any_type id OPEN_BRACKET param_decl_list {
 	curr_var_list = $6; curr_name = strdup($4);
+	if (!strcmp("main", $4)) {
+		main_arg = $6;
+	}
 } CLOSED_BRACKET _BEGIN func_body _END{};
 func_body: decl {
 	curr_var_list = append_list(curr_var_list, $1); 
 	curr_stack = head_stack(curr_stack, curr_var_list, curr_name); 
-	stack_head = head_stack(stack_head, curr_var_list, curr_name); 
+	stack_head = head_stack(stack_head, curr_var_list, curr_name);
 	int num = stack_local_count(curr_stack, curr_name);
+
 	printf("label FUNC_%s\n", curr_name);
 	printf("link %d\n", num);
 } stmt_list{

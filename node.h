@@ -70,6 +70,7 @@ char * err_var = NULL;
 int var_count = 0;
 int fp_arg = 0;
 int fp_local = 0;
+Sym_node * main_arg = NULL;
 
 Sym_node * put_string(char * var_name, char * string_val);
 Sym_node * duplicate_check(Sym_node * head, char * name);
