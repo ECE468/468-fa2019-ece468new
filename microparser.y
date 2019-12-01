@@ -102,7 +102,9 @@ id : IDENTIFIER {$$ = $1;};
 pgm_body: decl {
 	curr_var_list = $1; curr_stack = head_stack(curr_stack, curr_var_list, "GLOBAL"); print_stack(curr_stack);
 	stack_head = head_stack(stack_head, $1, "GLOBAL");
+	printf("jmp MAIN_CALL\n");
 }func_declarations {
+	printf("label MAIN_CALL\n");
 	printf("push\n");
 	printf("push r0\n");
 	printf("push r1\n");
