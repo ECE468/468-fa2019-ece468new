@@ -272,9 +272,16 @@ factor: factor_prefix postfix_expr {
 	}
 };
 factor_prefix: factor_prefix postfix_expr mulop {
-	AST_node * head = $3;
-	head->left = $2;
-	$$ = head; //Needs implementation
+	if ($1 == NULL) {
+		AST_node * head = $3;	
+		head->left = $2;
+		$$ = head; //Needs implementation
+	} else {
+		AST_node * head = $3;
+		$1->right = $2;
+		head->left = $1;
+		$$ = head;
+	}
 }| {
 	$$ = NULL;
 };
