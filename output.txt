@@ -1,0 +1,396 @@
+Commit ID tagged for submission: b0ec92ef6eab871d040139b31455bfededc8af20
+Submission graded at: 2019-12-04 18:09:13
+
+rm microparser.tab.c
+rm: cannot remove 'microparser.tab.c': No such file or directory
+make: *** [Makefile:12: clean] Error 1
+flex lexer.l
+lexer.l:65: warning, rule cannot be matched
+bison -d microparser.y
+gcc -g -std=gnu99 lexer_driver.c microparser.tab.c lex.yy.c -o parser
+tinyNew.c: In member function ‘float operand::rval()’:
+tinyNew.c:262:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tinyNew.c: In member function ‘int operand::ival()’:
+tinyNew.c:255:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tinyNew.c: In member function ‘std::__cxx11::string operand::sval()’:
+tinyNew.c:266:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tiny4Regs.c: In member function ‘float operand::rval()’:
+tiny4Regs.c:262:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tiny4Regs.c: In member function ‘int operand::ival()’:
+tiny4Regs.c:255:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tiny4Regs.c: In member function ‘std::__cxx11::string operand::sval()’:
+tiny4Regs.c:266:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+Testing..... step7_test12.micro
+Key output:
+ 3420
+57
+30
+117
+
+
+Student output:
+ 3420
+57
+30
+117
+
+
+Testing..... step7_test11.micro
+Key output:
+ 91
+
+Student output:
+ 91
+
+Testing..... step7_test6.micro
+Key output:
+ 9.51034
+
+Student output:
+ 9.51034
+
+Testing..... step7_test16.micro
+Key output:
+ 10
+
+Student output:
+ 10
+
+Testing..... step7_test15.micro
+Key output:
+ 
+
+Student output:
+ 
+
+Testing..... step7_test20.micro
+Key output:
+ 692
+920
+920
+3.55
+
+
+Student output:
+ 692
+920
+920
+3.55
+
+
+Testing..... step7_test3.micro
+Key output:
+ You will be asked for three float numbers
+Please enter the first float number: Please enter the second float number: Please enter the third float number: 92.2917*88.6402+34.8866=8215.64
+
+
+Student output:
+ You will be asked for three float numbers
+Please enter the first float number: Please enter the second float number: Please enter the third float number: 92.2917*88.6402+34.8866=8215.64
+
+
+Testing..... step7_test21.micro
+Key output:
+ 2
+19
+36
+90
+21
+756
+735
+-90
+501098
+501108
+501874
+-10
+8.67659
+12.7677
+47.1035
+6.38387
+0.271057
+1.52123
+2.31414
+28.2505
+
+
+Student output:
+ 2
+19
+36
+90
+21
+756
+735
+-90
+0
+10
+776
+-10
+8.67659
+12.7677
+47.1035
+6.38387
+0.271057
+1.52123
+2.31414
+28.2505
+
+
+Number of lines to be diffd from students output is different than solution
+Student simulation output:  2
+19
+36
+90
+21
+756
+735
+-90
+0
+10
+776
+-10
+8.67659
+12.7677
+47.1035
+6.38387
+0.271057
+1.52123
+2.31414
+28.2505
+
+STATISTICS _____________________________
+   #Instructions:166
+    (move-ops mem:30, reglit:48)
+    ( int-ops mem:48, reglit:11)
+    (  fp-ops mem:18, reglit:11)
+   Memory Usage (mem:96,reg:72862)
+      register-use[51,47,35,26]
+   Total Cycles = 348
+OTHER STATSvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+    (int-ops:37, fp-ops:29)
+    (branches:2)
+      peephole-ops:0
+
+Solution simulation output:  2
+19
+36
+90
+21
+756
+735
+-90
+501098
+501108
+501874
+-10
+8.67659
+12.7677
+47.1035
+6.38387
+0.271057
+1.52123
+2.31414
+28.2505
+
+STATISTICS _____________________________
+   #Instructions:165
+    (move-ops mem:30, reglit:48)
+    ( int-ops mem:48, reglit:10)
+    (  fp-ops mem:18, reglit:11)
+   Memory Usage (mem:96,reg:72862)
+      register-use[4,3,4,3,3,2,3,2,3,2,2,3,3,3,3,3,3,3,3,2,3,2,2,3,3,2,2,3,2,2,2,3,2,2,3,2,3,3,3,2,3,2,3,3,3,2,3,3,2,3,3,2,3,3,2,3,3,2,3,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+   Total Cycles = 345
+OTHER STATSvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+    (int-ops:37, fp-ops:29)
+    (branches:1)
+      peephole-ops:0
+
+Testing..... step7_test7.micro
+Key output:
+ 100
+
+Student output:
+ 100
+
+Testing..... step7_test9.micro
+Key output:
+ 9.82669 7
+
+
+Student output:
+ 9.82669 7
+
+
+Testing..... step7_test5.micro
+Key output:
+ 100
+
+Student output:
+ 100
+
+Testing..... step7_test10.micro
+Key output:
+ 7.69314
+
+
+Student output:
+ 7.69314
+
+
+Testing..... step7_test19.micro
+Key output:
+ 30626052605
+
+Student output:
+ 30626052605
+
+Testing..... step7_test8.micro
+Key output:
+ 121108
+
+Student output:
+ 121108
+
+Testing..... step7_test4.micro
+Key output:
+ Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Correct!
+It took you 7 guesses
+
+Student output:
+ Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Correct!
+It took you 7 guesses
+
+Testing..... step7_test18.micro
+Key output:
+ 0.000624802
+
+Student output:
+ 0.000624802
+
+Testing..... step7_test1.micro
+Key output:
+ Please enter an integer number: 5040
+
+
+Student output:
+ Please enter an integer number: 5040
+
+
+Testing..... step7_test14.micro
+Key output:
+ 94
+
+Student output:
+ 94
+
+Testing..... step7_test2.micro
+Key output:
+ Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+15 610
+16 987
+17 1597
+
+
+Student output:
+ Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+15 610
+16 987
+17 1597
+
+
+Testing..... step7_test17.micro
+Key output:
+ Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+
+
+Student output:
+ Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+
+
+Testing..... step7_test13.micro
+Key output:
+ 109411
+
+Student output:
+ 109411
+
