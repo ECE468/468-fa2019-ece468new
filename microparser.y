@@ -303,10 +303,12 @@ call_expr: id OPEN_BRACKET expr_list CLOSED_BRACKET {
 	printf("push r2\n");
 	printf("push r3\n");
 	ptr = $3;
+	/*
 	while(ptr != NULL){
 		printf("push %s\n", ptr->name);
 		ptr = ptr->next;
-	}
+	}*/
+	print_Sym_node_back(ptr);
 	printf("jsr FUNC_%s\n", $1);
 	ptr = $3;
 	while(ptr != NULL){

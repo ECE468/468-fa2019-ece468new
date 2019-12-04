@@ -90,6 +90,7 @@ Sym_node * check_stack(Stack * head, char * name);
 void print_var_node(Sym_node * head);
 void print_cond(AST_node * tree, int type, int label_count);
 int stack_local_count(Stack * head, char * name);
+void print_Sym_node_back(Sym_node * ptr);
 
 Sym_node * duplicate_check(Sym_node * head, char * name) {
 	Sym_node * ptr = head;
@@ -622,4 +623,12 @@ int stack_local_count(Stack * head, char * name) {
 		ptr = ptr->next;
 	}
 	return output;
+}
+
+void print_Sym_node_back(Sym_node * ptr){
+	if (ptr == NULL) {
+		return;
+	}
+	print_Sym_node_back(ptr->next);
+	printf("push %s\n", ptr->name);
 }
