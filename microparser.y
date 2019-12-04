@@ -143,12 +143,20 @@ var_type: _FLOAT {$$ = FLOAT_TYPE;} | _INT {$$= INT_TYPE;};
 any_type: var_type | _VOID;
 id_list: id id_tail {
 	Sym_node * ptr = put_var($2, $1, 0);
-	ptr->fp_offset = fp_local--;
+	if (fp_local < 0) {
+		ptr->fp_offset = fp_local--;
+	} else {
+		ptr->fp_offset = 0;
+	}
 	$$ = ptr;
 };
 id_tail: COLON id id_tail {
 	Sym_node * ptr = put_var($3, $2, 0); 
-	ptr->fp_offset = fp_local--;
+	if (fp_local < 0) {
+		ptr->fp_offset = fp_local--;
+	} else {
+		ptr->fp_offset = 0;
+	}
 	$$ = ptr;
 }
 | {
