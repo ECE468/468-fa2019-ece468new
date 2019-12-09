@@ -1,0 +1,712 @@
+Commit ID tagged for submission: b0ec92ef6eab871d040139b31455bfededc8af20
+Submission graded at: 2019-12-09 09:02:18
+
+rm microparser.tab.c
+rm: cannot remove 'microparser.tab.c': No such file or directory
+make: *** [Makefile:12: clean] Error 1
+flex lexer.l
+lexer.l:65: warning, rule cannot be matched
+bison -d microparser.y
+gcc -g -std=gnu99 lexer_driver.c microparser.tab.c lex.yy.c -o parser
+tiny4Regs.c: In member function ‘float operand::rval()’:
+tiny4Regs.c:262:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tiny4Regs.c: In member function ‘int operand::ival()’:
+tiny4Regs.c:255:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tiny4Regs.c: In member function ‘std::__cxx11::string operand::sval()’:
+tiny4Regs.c:266:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tiny200Regs.c: In member function ‘float operand::rval()’:
+tiny200Regs.c:262:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tiny200Regs.c: In member function ‘int operand::ival()’:
+tiny200Regs.c:255:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tiny200Regs.c: In member function ‘std::__cxx11::string operand::sval()’:
+tiny200Regs.c:266:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+make_failure:  None
+sim_failure:  0
+Testing..... step8_test19.micro
+Key output:
+ Start of tinyOutput
+1657373
+
+Student output:
+ Start of tinyOutput
+1657373
+
+Testing..... step8_test13.micro
+Key output:
+ Start of tinyOutput
+10911
+
+Student output:
+ Start of tinyOutput
+10911
+
+Testing..... step8_test2.micro
+Key output:
+ Start of tinyOutput
+Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+
+
+Student output:
+ Start of tinyOutput
+Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+
+
+Testing..... step8_test21.micro
+Key output:
+ Start of tinyOutput
+78
+1
+1
+21
+79
+79
+0
+-21
+-3319
+-3309
+-3220
+-10
+61.986
+27.8328
+47.2808
+13.9164
+0.588671
+1.52115
+2.3139
+54.7573
+
+
+Student output:
+ Start of tinyOutput
+78
+1
+1
+21
+79
+79
+0
+-21
+0
+10
+99
+-10
+61.986
+27.8328
+47.2808
+13.9164
+0.588671
+1.52115
+2.3139
+54.7573
+
+
+Number of lines to be diffd from students output is different than solution
+Testing..... step8_test3.micro
+Key output:
+ Start of tinyOutput
+You will be asked for three float numbers
+Please enter the first float number: Please enter the second float number: Please enter the third float number: 65.4354*29.6063+99.0376=2036.34
+
+
+Student output:
+ Start of tinyOutput
+You will be asked for three float numbers
+Please enter the first float number: Please enter the second float number: Please enter the third float number: 65.4354*29.6063+99.0376=2036.34
+
+
+Testing..... step8_test1.micro
+Key output:
+ Start of tinyOutput
+Please enter an integer number: 720
+
+
+Student output:
+ Start of tinyOutput
+Please enter an integer number: 720
+
+
+Testing..... step8_test12.micro
+Key output:
+ Start of tinyOutput
+3290
+35
+47
+129
+
+
+Student output:
+ Start of tinyOutput
+3290
+35
+47
+129
+
+
+Testing..... step8_test5.micro
+Key output:
+ Start of tinyOutput
+100
+
+Student output:
+ Start of tinyOutput
+100
+
+Testing..... step8_test16.micro
+Key output:
+ Start of tinyOutput
+10
+
+Student output:
+ Start of tinyOutput
+10
+
+Testing..... step8_test14.micro
+Key output:
+ Start of tinyOutput
+35
+
+Student output:
+ Start of tinyOutput
+35
+
+Testing..... step8_test10.micro
+Key output:
+ Start of tinyOutput
+7.7572
+
+
+Student output:
+ Start of tinyOutput
+7.7572
+
+
+Testing..... step8_test9.micro
+Key output:
+ Start of tinyOutput
+4.91835 6
+
+
+Student output:
+ Start of tinyOutput
+4.91835 6
+
+
+Testing..... step8_test11.micro
+Key output:
+ Start of tinyOutput
+91
+
+Student output:
+ Start of tinyOutput
+91
+
+Testing..... step8_test15.micro
+Key output:
+ Start of tinyOutput
+
+
+Student output:
+ Start of tinyOutput
+
+
+Testing..... step8_test4.micro
+Key output:
+ Start of tinyOutput
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Correct!
+It took you 12 guesses
+
+Student output:
+ Start of tinyOutput
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Correct!
+It took you 12 guesses
+
+Testing..... step8_test6.micro
+Key output:
+ Start of tinyOutput
+5.47332
+
+Student output:
+ Start of tinyOutput
+5.47332
+
+Testing..... step8_test7.micro
+Key output:
+ Start of tinyOutput
+100
+
+Student output:
+ Start of tinyOutput
+100
+
+Testing..... step8_test18.micro
+Key output:
+ Start of tinyOutput
+0.000866912
+
+Student output:
+ Start of tinyOutput
+0.000866912
+
+Testing..... step8_test8.micro
+Key output:
+ Start of tinyOutput
+122106
+
+Student output:
+ Start of tinyOutput
+122106
+
+Testing..... step8_test17.micro
+Key output:
+ Start of tinyOutput
+Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+
+
+Student output:
+ Start of tinyOutput
+Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+
+
+Testing..... step8_test20.micro
+Key output:
+ Start of tinyOutput
+692
+920
+920
+3.55
+
+
+Student output:
+ Start of tinyOutput
+692
+920
+920
+3.55
+
+
+Testing..... step8_test19.micro
+Key output:
+ Start of tinyOutput
+1657373
+
+Student output:
+ Start of tinyOutput
+1657373
+
+Testing..... step8_test13.micro
+Key output:
+ Start of tinyOutput
+10911
+
+Student output:
+ Start of tinyOutput
+10911
+
+Testing..... step8_test2.micro
+Key output:
+ Start of tinyOutput
+Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+
+
+Student output:
+ Start of tinyOutput
+Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+
+
+Testing..... step8_test21.micro
+Key output:
+ Start of tinyOutput
+78
+1
+1
+21
+79
+79
+0
+-21
+-3319
+-3309
+-3220
+-10
+61.986
+27.8328
+47.2808
+13.9164
+0.588671
+1.52115
+2.3139
+54.7573
+
+
+Student output:
+ Start of tinyOutput
+78
+1
+1
+21
+79
+79
+0
+-21
+0
+10
+99
+-10
+61.986
+27.8328
+47.2808
+13.9164
+0.588671
+1.52115
+2.3139
+54.7573
+
+
+Number of lines to be diffd from students output is different than solution
+Testing..... step8_test3.micro
+Key output:
+ Start of tinyOutput
+You will be asked for three float numbers
+Please enter the first float number: Please enter the second float number: Please enter the third float number: 65.4354*29.6063+99.0376=2036.34
+
+
+Student output:
+ Start of tinyOutput
+You will be asked for three float numbers
+Please enter the first float number: Please enter the second float number: Please enter the third float number: 65.4354*29.6063+99.0376=2036.34
+
+
+Testing..... step8_test1.micro
+Key output:
+ Start of tinyOutput
+Please enter an integer number: 720
+
+
+Student output:
+ Start of tinyOutput
+Please enter an integer number: 720
+
+
+Testing..... step8_test12.micro
+Key output:
+ Start of tinyOutput
+3290
+35
+47
+129
+
+
+Student output:
+ Start of tinyOutput
+3290
+35
+47
+129
+
+
+Testing..... step8_test5.micro
+Key output:
+ Start of tinyOutput
+100
+
+Student output:
+ Start of tinyOutput
+100
+
+Testing..... step8_test16.micro
+Key output:
+ Start of tinyOutput
+10
+
+Student output:
+ Start of tinyOutput
+10
+
+Testing..... step8_test14.micro
+Key output:
+ Start of tinyOutput
+35
+
+Student output:
+ Start of tinyOutput
+35
+
+Testing..... step8_test10.micro
+Key output:
+ Start of tinyOutput
+7.7572
+
+
+Student output:
+ Start of tinyOutput
+7.7572
+
+
+Testing..... step8_test9.micro
+Key output:
+ Start of tinyOutput
+4.91835 6
+
+
+Student output:
+ Start of tinyOutput
+4.91835 6
+
+
+Testing..... step8_test11.micro
+Key output:
+ Start of tinyOutput
+91
+
+Student output:
+ Start of tinyOutput
+91
+
+Testing..... step8_test15.micro
+Key output:
+ Start of tinyOutput
+
+
+Student output:
+ Start of tinyOutput
+
+
+Testing..... step8_test4.micro
+Key output:
+ Start of tinyOutput
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Correct!
+It took you 12 guesses
+
+Student output:
+ Start of tinyOutput
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Correct!
+It took you 12 guesses
+
+Testing..... step8_test6.micro
+Key output:
+ Start of tinyOutput
+5.47332
+
+Student output:
+ Start of tinyOutput
+5.47332
+
+Testing..... step8_test7.micro
+Key output:
+ Start of tinyOutput
+100
+
+Student output:
+ Start of tinyOutput
+100
+
+Testing..... step8_test18.micro
+Key output:
+ Start of tinyOutput
+0.000866912
+
+Student output:
+ Start of tinyOutput
+0.000866912
+
+Testing..... step8_test8.micro
+Key output:
+ Start of tinyOutput
+122106
+
+Student output:
+ Start of tinyOutput
+122106
+
+Testing..... step8_test17.micro
+Key output:
+ Start of tinyOutput
+Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+
+
+Student output:
+ Start of tinyOutput
+Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+
+
+Testing..... step8_test20.micro
+Key output:
+ Start of tinyOutput
+692
+920
+920
+3.55
+
+
+Student output:
+ Start of tinyOutput
+692
+920
+920
+3.55
+
+
