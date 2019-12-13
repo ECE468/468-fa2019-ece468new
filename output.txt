@@ -1,0 +1,1034 @@
+Commit ID tagged for submission: b0ec92ef6eab871d040139b31455bfededc8af20
+Submission graded at: 2019-12-13 17:58:32
+
+rm microparser.tab.c
+rm: cannot remove 'microparser.tab.c': No such file or directory
+make: *** [Makefile:12: clean] Error 1
+flex lexer.l
+lexer.l:65: warning, rule cannot be matched
+bison -d microparser.y
+gcc -g -std=gnu99 lexer_driver.c microparser.tab.c lex.yy.c -o parser
+tiny4Regs.c: In member function ‘float operand::rval()’:
+tiny4Regs.c:262:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tiny4Regs.c: In member function ‘int operand::ival()’:
+tiny4Regs.c:255:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tiny4Regs.c: In member function ‘std::__cxx11::string operand::sval()’:
+tiny4Regs.c:266:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tiny200Regs.c: In member function ‘float operand::rval()’:
+tiny200Regs.c:262:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tiny200Regs.c: In member function ‘int operand::ival()’:
+tiny200Regs.c:255:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+tiny200Regs.c: In member function ‘std::__cxx11::string operand::sval()’:
+tiny200Regs.c:266:3: warning: control reaches end of non-void function [-Wreturn-type]
+   }
+   ^
+make_failure:  None
+sim_failure:  0
+Testing..... step8_test19.micro
+Key output:
+ Start of tinyOutput
+175523392339
+
+Student output:
+ Start of tinyOutput
+175523392339
+
+Testing..... step8_test13.micro
+Key output:
+ Start of tinyOutput
+109511
+
+Student output:
+ Start of tinyOutput
+109511
+
+Testing..... step8_test2.micro
+Key output:
+ Start of tinyOutput
+Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+15 610
+16 987
+17 1597
+
+
+Student output:
+ Start of tinyOutput
+Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+15 610
+16 987
+17 1597
+
+
+Testing..... step8_test21.micro
+Key output:
+ Start of tinyOutput
+66
+59
+63
+74
+125
+7875
+7750
+-74
+61407875
+61407885
+61415770
+-10
+32.1027
+90.0593
+10.4607
+45.0297
+8.60933
+1.5956
+2.54593
+164.826
+
+
+Student output:
+ Start of tinyOutput
+66
+59
+63
+74
+125
+7875
+7750
+-74
+0
+10
+7895
+-10
+32.1027
+90.0593
+10.4607
+45.0297
+8.60933
+1.5956
+2.54593
+164.826
+
+
+Number of lines to be diffd from students output is different than solution
+Testing..... step8_test3.micro
+Key output:
+ Start of tinyOutput
+You will be asked for three float numbers
+Please enter the first float number: Please enter the second float number: Please enter the third float number: 70.4621*52.6195+96.7038=3804.38
+
+
+Student output:
+ Start of tinyOutput
+You will be asked for three float numbers
+Please enter the first float number: Please enter the second float number: Please enter the third float number: 70.4621*52.6195+96.7038=3804.38
+
+
+Testing..... step8_test1.micro
+Key output:
+ Start of tinyOutput
+Please enter an integer number: 120
+
+
+Student output:
+ Start of tinyOutput
+Please enter an integer number: 120
+
+
+Testing..... step8_hidden3.micro
+Key output:
+ Start of tinyOutput
+240.71629684.753468.453468.410901.616406.42.47214e+061.2361e+061.2361e+06
+
+Student output:
+ Start of tinyOutput
+
+Number of lines to be diffd from students output is different than solution
+Testing..... step8_test12.micro
+Key output:
+ Start of tinyOutput
+6624
+72
+46
+164
+
+
+Student output:
+ Start of tinyOutput
+6624
+72
+46
+164
+
+
+Testing..... step8_hidden9.micro
+Key output:
+ Start of tinyOutput
+Please enter 6 integer numbers with whitespace between: 
+9586661
+
+
+Student output:
+ Start of tinyOutput
+Please enter 6 integer numbers with whitespace between: 
+9586661
+
+
+Testing..... step8_test5.micro
+Key output:
+ Start of tinyOutput
+100
+
+Student output:
+ Start of tinyOutput
+100
+
+Testing..... step8_test16.micro
+Key output:
+ Start of tinyOutput
+10
+
+Student output:
+ Start of tinyOutput
+10
+
+Testing..... step8_test14.micro
+Key output:
+ Start of tinyOutput
+61
+
+Student output:
+ Start of tinyOutput
+61
+
+Testing..... step8_test10.micro
+Key output:
+ Start of tinyOutput
+9.0527
+
+
+Student output:
+ Start of tinyOutput
+9.0527
+
+
+Testing..... step8_hidden7.micro
+Key output:
+ Start of tinyOutput
+526072722189
+213137776136
+999874775645
+407344858776
+407344858776
+407344858776
+407344858776
+
+
+Student output:
+ error on line 25 identifier eol not defined
+error on line 51 identifier eol not defined
+error on line 74 identifier eol not defined
+error on line 94 identifier eol not defined
+
+Number of lines to be diffd from students output is different than solution
+Testing..... step8_hidden10.micro
+Key output:
+ Start of tinyOutput
+Please enter 6 integer numbers with whitespace between: 
+1917098
+
+
+Student output:
+ Start of tinyOutput
+Please enter 6 integer numbers with whitespace between: 
+1917098
+
+
+Testing..... step8_test9.micro
+Key output:
+ Start of tinyOutput
+5.63811 7
+
+
+Student output:
+ Start of tinyOutput
+5.63811 7
+
+
+Testing..... step8_hidden8.micro
+Key output:
+ Start of tinyOutput
+858586663292
+61620288068
+214811366363
+6595961969
+6595961969
+6595961969
+6595961969
+
+
+Student output:
+ error on line 25 identifier eol not defined
+error on line 68 identifier eol not defined
+error on line 83 identifier eol not defined
+error on line 120 identifier eol not defined
+error on line 136 identifier eol not defined
+
+Number of lines to be diffd from students output is different than solution
+Testing..... step8_test11.micro
+Key output:
+ Start of tinyOutput
+91
+
+Student output:
+ Start of tinyOutput
+91
+
+Testing..... step8_test15.micro
+Key output:
+ Start of tinyOutput
+
+
+Student output:
+ Start of tinyOutput
+
+
+Testing..... step8_hidden2.micro
+Key output:
+ Start of tinyOutput
+You will be asked for three integer numbers
+Please enter the first integer number: Please enter the second integer number: Please enter the third integer number: 82 * 40 * 31 == 101680
+82 * 0 * 31 == 0
+82 * 40 * 1 == 3280
+1 * 1 * 1 == 1
+
+
+Student output:
+ Start of tinyOutput
+You will be asked for three integer numbers
+Please enter the first integer number: Please enter the second integer number: Please enter the third integer number: 82 * 40 * 31 == 101680
+82 * 0 * 31 == 0
+82 * 40 * 1 == 3280
+1 * 1 * 1 == 1
+
+
+Testing..... step8_hidden4.micro
+Key output:
+ Start of tinyOutput
+Please enter 6 integer numbers with whitespace between: 
+2188231
+
+
+Student output:
+ Start of tinyOutput
+Please enter 6 integer numbers with whitespace between: 
+2188231
+
+
+Testing..... step8_test4.micro
+Key output:
+ Start of tinyOutput
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Correct!
+It took you 13 guesses
+
+Student output:
+ Start of tinyOutput
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Correct!
+It took you 13 guesses
+
+Testing..... step8_hidden1.micro
+Key output:
+ Start of tinyOutput
+Please enter 10 floating point numbers: Average of 10 numbers that you entered is: 45.0687
+Maximum of the numbers is: 89.9517
+
+
+Student output:
+ Start of tinyOutput
+Please enter 10 floating point numbers: Average of 10 numbers that you entered is: 45.0687
+Maximum of the numbers is: 89.9517
+
+
+Testing..... step8_test6.micro
+Key output:
+ Start of tinyOutput
+9.53945
+
+Student output:
+ Start of tinyOutput
+9.53945
+
+Testing..... step8_test7.micro
+Key output:
+ Start of tinyOutput
+100
+
+Student output:
+ Start of tinyOutput
+100
+
+Testing..... step8_test18.micro
+Key output:
+ Start of tinyOutput
+0.000560609
+
+Student output:
+ Start of tinyOutput
+0.000560609
+
+Testing..... step8_test8.micro
+Key output:
+ Start of tinyOutput
+12143
+
+Student output:
+ Start of tinyOutput
+12143
+
+Testing..... step8_test17.micro
+Key output:
+ Start of tinyOutput
+Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+15 610
+16 987
+17 1597
+
+
+Student output:
+ Start of tinyOutput
+Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+15 610
+16 987
+17 1597
+
+
+Testing..... step8_hidden5.micro
+Key output:
+ Start of tinyOutput
+Please enter 10 integer numbers with whitespace between: 
+Sum of all 10 integers is: 502
+
+
+Student output:
+ error on line 12 identifier eol not defined
+error on line 44 identifier eol not defined
+
+Number of lines to be diffd from students output is different than solution
+Testing..... step8_test20.micro
+Key output:
+ Start of tinyOutput
+692
+920
+920
+3.55
+
+
+Student output:
+ Start of tinyOutput
+692
+920
+920
+3.55
+
+
+Testing..... step8_hidden6.micro
+Key output:
+ Start of tinyOutput
+99952552336
+99952552336
+
+
+Student output:
+ error on line 25 identifier eol not defined
+error on line 53 identifier eol not defined
+error on line 77 identifier eol not defined
+error on line 97 identifier eol not defined
+
+Number of lines to be diffd from students output is different than solution
+Testing..... step8_test19.micro
+Key output:
+ Start of tinyOutput
+175523392339
+
+Student output:
+ Start of tinyOutput
+175523392339
+
+Testing..... step8_test13.micro
+Key output:
+ Start of tinyOutput
+109511
+
+Student output:
+ Start of tinyOutput
+109511
+
+Testing..... step8_test2.micro
+Key output:
+ Start of tinyOutput
+Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+15 610
+16 987
+17 1597
+
+
+Student output:
+ Start of tinyOutput
+Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+15 610
+16 987
+17 1597
+
+
+Testing..... step8_test21.micro
+Key output:
+ Start of tinyOutput
+66
+59
+63
+74
+125
+7875
+7750
+-74
+61407875
+61407885
+61415770
+-10
+32.1027
+90.0593
+10.4607
+45.0297
+8.60933
+1.5956
+2.54593
+164.826
+
+
+Student output:
+ Start of tinyOutput
+66
+59
+63
+74
+125
+7875
+7750
+-74
+0
+10
+7895
+-10
+32.1027
+90.0593
+10.4607
+45.0297
+8.60933
+1.5956
+2.54593
+164.826
+
+
+Number of lines to be diffd from students output is different than solution
+Testing..... step8_test3.micro
+Key output:
+ Start of tinyOutput
+You will be asked for three float numbers
+Please enter the first float number: Please enter the second float number: Please enter the third float number: 70.4621*52.6195+96.7038=3804.38
+
+
+Student output:
+ Start of tinyOutput
+You will be asked for three float numbers
+Please enter the first float number: Please enter the second float number: Please enter the third float number: 70.4621*52.6195+96.7038=3804.38
+
+
+Testing..... step8_test1.micro
+Key output:
+ Start of tinyOutput
+Please enter an integer number: 120
+
+
+Student output:
+ Start of tinyOutput
+Please enter an integer number: 120
+
+
+Testing..... step8_hidden3.micro
+Key output:
+ Start of tinyOutput
+240.71629684.753468.453468.410901.616406.42.47214e+061.2361e+061.2361e+06
+
+Student output:
+ Start of tinyOutput
+
+Number of lines to be diffd from students output is different than solution
+Testing..... step8_test12.micro
+Key output:
+ Start of tinyOutput
+6624
+72
+46
+164
+
+
+Student output:
+ Start of tinyOutput
+6624
+72
+46
+164
+
+
+Testing..... step8_hidden9.micro
+Key output:
+ Start of tinyOutput
+Please enter 6 integer numbers with whitespace between: 
+9586661
+
+
+Student output:
+ Start of tinyOutput
+Please enter 6 integer numbers with whitespace between: 
+9586661
+
+
+Testing..... step8_test5.micro
+Key output:
+ Start of tinyOutput
+100
+
+Student output:
+ Start of tinyOutput
+100
+
+Testing..... step8_test16.micro
+Key output:
+ Start of tinyOutput
+10
+
+Student output:
+ Start of tinyOutput
+10
+
+Testing..... step8_test14.micro
+Key output:
+ Start of tinyOutput
+61
+
+Student output:
+ Start of tinyOutput
+61
+
+Testing..... step8_test10.micro
+Key output:
+ Start of tinyOutput
+9.0527
+
+
+Student output:
+ Start of tinyOutput
+9.0527
+
+
+Testing..... step8_hidden7.micro
+Key output:
+ Start of tinyOutput
+526072722189
+213137776136
+999874775645
+407344858776
+407344858776
+407344858776
+407344858776
+
+
+Student output:
+ error on line 25 identifier eol not defined
+error on line 51 identifier eol not defined
+error on line 74 identifier eol not defined
+error on line 94 identifier eol not defined
+
+Number of lines to be diffd from students output is different than solution
+Testing..... step8_hidden10.micro
+Key output:
+ Start of tinyOutput
+Please enter 6 integer numbers with whitespace between: 
+1917098
+
+
+Student output:
+ Start of tinyOutput
+Please enter 6 integer numbers with whitespace between: 
+1917098
+
+
+Testing..... step8_test9.micro
+Key output:
+ Start of tinyOutput
+5.63811 7
+
+
+Student output:
+ Start of tinyOutput
+5.63811 7
+
+
+Testing..... step8_hidden8.micro
+Key output:
+ Start of tinyOutput
+858586663292
+61620288068
+214811366363
+6595961969
+6595961969
+6595961969
+6595961969
+
+
+Student output:
+ error on line 25 identifier eol not defined
+error on line 68 identifier eol not defined
+error on line 83 identifier eol not defined
+error on line 120 identifier eol not defined
+error on line 136 identifier eol not defined
+
+Number of lines to be diffd from students output is different than solution
+Testing..... step8_test11.micro
+Key output:
+ Start of tinyOutput
+91
+
+Student output:
+ Start of tinyOutput
+91
+
+Testing..... step8_test15.micro
+Key output:
+ Start of tinyOutput
+
+
+Student output:
+ Start of tinyOutput
+
+
+Testing..... step8_hidden2.micro
+Key output:
+ Start of tinyOutput
+You will be asked for three integer numbers
+Please enter the first integer number: Please enter the second integer number: Please enter the third integer number: 82 * 40 * 31 == 101680
+82 * 0 * 31 == 0
+82 * 40 * 1 == 3280
+1 * 1 * 1 == 1
+
+
+Student output:
+ Start of tinyOutput
+You will be asked for three integer numbers
+Please enter the first integer number: Please enter the second integer number: Please enter the third integer number: 82 * 40 * 31 == 101680
+82 * 0 * 31 == 0
+82 * 40 * 1 == 3280
+1 * 1 * 1 == 1
+
+
+Testing..... step8_hidden4.micro
+Key output:
+ Start of tinyOutput
+Please enter 6 integer numbers with whitespace between: 
+2188231
+
+
+Student output:
+ Start of tinyOutput
+Please enter 6 integer numbers with whitespace between: 
+2188231
+
+
+Testing..... step8_test4.micro
+Key output:
+ Start of tinyOutput
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Correct!
+It took you 13 guesses
+
+Student output:
+ Start of tinyOutput
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Wrong!
+Guess a number: Correct!
+It took you 13 guesses
+
+Testing..... step8_hidden1.micro
+Key output:
+ Start of tinyOutput
+Please enter 10 floating point numbers: Average of 10 numbers that you entered is: 45.0687
+Maximum of the numbers is: 89.9517
+
+
+Student output:
+ Start of tinyOutput
+Please enter 10 floating point numbers: Average of 10 numbers that you entered is: 45.0687
+Maximum of the numbers is: 89.9517
+
+
+Testing..... step8_test6.micro
+Key output:
+ Start of tinyOutput
+9.53945
+
+Student output:
+ Start of tinyOutput
+9.53945
+
+Testing..... step8_test7.micro
+Key output:
+ Start of tinyOutput
+100
+
+Student output:
+ Start of tinyOutput
+100
+
+Testing..... step8_test18.micro
+Key output:
+ Start of tinyOutput
+0.000560609
+
+Student output:
+ Start of tinyOutput
+0.000560609
+
+Testing..... step8_test8.micro
+Key output:
+ Start of tinyOutput
+12143
+
+Student output:
+ Start of tinyOutput
+12143
+
+Testing..... step8_test17.micro
+Key output:
+ Start of tinyOutput
+Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+15 610
+16 987
+17 1597
+
+
+Student output:
+ Start of tinyOutput
+Please input an integer number: 0 0
+1 1
+2 1
+3 2
+4 3
+5 5
+6 8
+7 13
+8 21
+9 34
+10 55
+11 89
+12 144
+13 233
+14 377
+15 610
+16 987
+17 1597
+
+
+Testing..... step8_hidden5.micro
+Key output:
+ Start of tinyOutput
+Please enter 10 integer numbers with whitespace between: 
+Sum of all 10 integers is: 502
+
+
+Student output:
+ error on line 12 identifier eol not defined
+error on line 44 identifier eol not defined
+
+Number of lines to be diffd from students output is different than solution
+Testing..... step8_test20.micro
+Key output:
+ Start of tinyOutput
+692
+920
+920
+3.55
+
+
+Student output:
+ Start of tinyOutput
+692
+920
+920
+3.55
+
+
+Testing..... step8_hidden6.micro
+Key output:
+ Start of tinyOutput
+99952552336
+99952552336
+
+
+Student output:
+ error on line 25 identifier eol not defined
+error on line 53 identifier eol not defined
+error on line 77 identifier eol not defined
+error on line 97 identifier eol not defined
+
+Number of lines to be diffd from students output is different than solution
